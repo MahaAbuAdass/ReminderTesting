@@ -31,23 +31,31 @@
         />
 
 
-    <include
+    <FrameLayout
         android:id="@+id/et_phone"
+        android:layout_marginTop="20dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/img"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        layout="@layout/border"
- />
+        android:background="@drawable/round">
+        <include layout="@layout/phone_number"/>
+    </FrameLayout>
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign in"
-        app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/et_phone"
         android:layout_marginBottom="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
         android:textColor="@color/black"
         app:backgroundTint="@color/yellow"/>
 
@@ -59,7 +67,7 @@
         android:layout_marginStart="90dp"
         android:textColor="@color/white"
 
-        app:layout_constraintTop_toBottomOf="@id/btn_signin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_sign_up"
 

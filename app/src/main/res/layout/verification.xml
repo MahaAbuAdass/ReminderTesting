@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red"
+    android:padding="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="Verification"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="25sp"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify Your Account"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:layout_marginTop="60dp"
+        android:textSize="20sp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_sub_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A 6- Digit PIN has been sent to your mobile phone number, enter it below to continue"
+
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_sub_title"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:gravity="center"
+        />
+
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/tv_sub_title2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/verificationCodeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_sub_title2"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/et_digit1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_digit2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_digit3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_digit4"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_digit5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <EditText
+            android:id="@+id/et_digit6"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+<TextView
+    android:id="@+id/tv_code"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Didn't get code?"
+    app:layout_constraintTop_toBottomOf="@id/verificationCodeLayout"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginStart="80dp"
+    android:textSize="15sp"
+    android:layout_marginTop="25dp"
+/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_code"
+        app:layout_constraintTop_toTopOf="@id/tv_code"
+        app:layout_constraintBottom_toBottomOf="@id/tv_code"
+        android:text="Resend"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/yellow"
+        android:textStyle="italic"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        app:layout_constraintTop_toBottomOf="@id/tv_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        app:backgroundTint="@color/yellow"
+        android:textColor="@color/black"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
