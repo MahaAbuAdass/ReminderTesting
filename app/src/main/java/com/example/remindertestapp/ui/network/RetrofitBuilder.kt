@@ -18,7 +18,9 @@ class RetrofitBuilder {
         retrofit.create(ApiService::class.java)
     }
 
-    suspend fun loginUser(signinRequestModel: SigninRequestModel)=apiService.login(signinRequestModel)
+
+
+    suspend fun loginUser(signinRequestModel: SigninRequestModel?)=apiService.login(signinRequestModel)
 
     suspend fun signUpUser(signupRequestModel: SignupRequestModel)=apiService.signup(signupRequestModel)
 

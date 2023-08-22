@@ -17,32 +17,31 @@ class CreateAccountViewModel : ViewModel() {
 
 
     private val _signUpResponse = MutableLiveData<RegistrationResponseModel??>()
-    val signUpResponse : LiveData<RegistrationResponseModel?> = _signUpResponse
+    val signUpResponse: LiveData<RegistrationResponseModel?> = _signUpResponse
 
     private val _errorResponse = MutableLiveData<BaseError?>()
-    val errorResponse : LiveData<BaseError?> = _errorResponse
+    val errorResponse: LiveData<BaseError?> = _errorResponse
 
 
     private val _showProgress = MutableLiveData<Boolean>()
     val showProgress: LiveData<Boolean> = _showProgress
 
-    suspend fun callSignUp(signupRequestModel: SignupRequestModel){
-        viewModelScope.launch(Dispatchers.IO){
+    suspend fun callSignUp(signupRequestModel: SignupRequestModel) {
+        _showProgress.postValue(true)
+
+        viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.signUpUser(signupRequestModel)
             try {
                 _signUpResponse.postValue(response)
-            }catch (e: Exception)
-            {
+            } catch (e: Exception) {
                 _errorResponse.postValue(response.baseError)
-            }
-            finally { // finally execute after try and catch "always executed"
+            } finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
             }
 
         }
 
     }
-
 
 
 }

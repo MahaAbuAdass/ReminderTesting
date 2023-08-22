@@ -10,7 +10,7 @@ interface ApiService {
 
     @POST("/api/Auth/Login")
     fun login(
-        @Body signinRequestModel: SigninRequestModel
+        @Body signinRequestModel: SigninRequestModel?
     ): RegistrationResponseModel
 
 

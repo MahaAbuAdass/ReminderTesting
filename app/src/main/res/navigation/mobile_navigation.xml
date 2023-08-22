@@ -13,13 +13,27 @@
         <action
             android:id="@+id/action_signin_to_signUp"
             app:destination="@id/signUp" />
+        <action
+            android:id="@+id/action_signin_to_verification_screen"
+            app:destination="@id/verification_screen" />
     </fragment>
 
     <fragment
         android:id="@+id/signUp"
         android:name="com.example.remindertestapp.ui.account.createaccount.CreateAccountFragment"
-        tools:layout="@layout/create_account_fragment" />
+        tools:layout="@layout/create_account_fragment" >
+        <action
+            android:id="@+id/action_signUp_to_signin2"
+            app:destination="@id/signin" />
+        <action
+            android:id="@+id/action_signUp_to_verification_screen"
+            app:destination="@id/verification_screen" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/verification_screen"
+        android:name="com.example.remindertestapp.ui.account.VerificationFragment"
+        tools:layout="@layout/verification" />
 
 
     <fragment

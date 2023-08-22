@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SigninRequestModel(
     @SerializedName
-        ("MobileNumber") val mobileNumber: String
+        ("MobileNumber") val mobileNumber: String?
 )
 
 
@@ -18,17 +18,17 @@ data class RegistrationResponseModel(
 
 
 data class BaseError(
-    @SerializedName("errors") val errors: String,
-    @SerializedName("message") val message: String,
-    @SerializedName("detail") val detail: String,
-    @SerializedName("innerException") val innerException: String
+    @SerializedName("errors") val errors: String?,
+    @SerializedName("message") val message: String?,
+    @SerializedName("detail") val detail: String?,
+    @SerializedName("innerException") val innerException: String?
 )
 
 data class SignupRequestModel(
-    @SerializedName("MobileNumber") val mobileNumber: String,
-    @SerializedName("UserName") val userName: String,
-    @SerializedName("Key") val key: String,
-    @SerializedName("NotificationToken") val notificationToken: String
+    @SerializedName("MobileNumber") val mobileNumber: String?,
+    @SerializedName("UserName") val userName: String?,
+    @SerializedName("Key") val key: String?,
+    @SerializedName("NotificationToken") val notificationToken: String?
 )
 
 

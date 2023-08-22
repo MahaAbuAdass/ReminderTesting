@@ -15,11 +15,12 @@ import com.example.remindertestapp.databinding.LoginFragmentBinding
 import com.example.remindertestapp.ui.ProgressBarLoader
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.createaccount.CreateAccountViewModel
+import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginFragment :Fragment() , OnClickListener{
+class LoginFragment : BaseFragment() , OnClickListener{
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
@@ -56,7 +57,10 @@ class LoginFragment :Fragment() , OnClickListener{
                 editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
                 editor.apply()
             }
+         //   findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen())
             findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
+            Toast.makeText(activity, "hjhdjhasjdhasd", Toast.LENGTH_SHORT).show()
+
 
         }
         loginViewModel?.errorResponse?.observe(viewLifecycleOwner){
@@ -83,7 +87,8 @@ class LoginFragment :Fragment() , OnClickListener{
 
     private suspend fun callSigninApi() {
         loginViewModel?.callLoginApi(SigninRequestModel(
-            binding?.etPhone.toString()))
+            binding?.etPhone.toString())
+        )
     }
 
 
@@ -92,6 +97,7 @@ class LoginFragment :Fragment() , OnClickListener{
         when (v?.id) {
             binding?.btnSignin?.id ->
                 CoroutineScope(Dispatchers.IO).launch {  callSigninApi() }
+
             binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
         }
 

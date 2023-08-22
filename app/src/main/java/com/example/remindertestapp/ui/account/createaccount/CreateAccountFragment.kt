@@ -1,5 +1,7 @@
 package com.example.remindertestapp.ui.account.createaccount
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,18 +10,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.CreateAccountFragmentBinding
 import com.example.remindertestapp.ui.ProgressBarLoader
 import com.example.remindertestapp.ui.account.SignupRequestModel
+import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreateAccountFragment : Fragment() , OnClickListener {
+class CreateAccountFragment : BaseFragment() , OnClickListener {
     private var binding : CreateAccountFragmentBinding ?=null
     private var createAccountViewModel : CreateAccountViewModel?=null
     private var progressBarLoader: ProgressBarLoader? = null
 
+    private val PREFS_NAME = "MyPrefsFile"
+    private val KEY_NAME = "name"
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,15 +41,27 @@ class CreateAccountFragment : Fragment() , OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         progressBarLoader = ProgressBarLoader(requireContext())
 
-
-
         initiate()
+        initSharedPreferences()
         observeViewModel()
+    }
+
+    private fun initSharedPreferences() {
+        sharedPreferences = activity?.getSharedPreferences(
+            PREFS_NAME,
+            Context.MODE_PRIVATE
+        );
     }
 
     private fun observeViewModel() {
         createAccountViewModel = ViewModelProvider(this)[CreateAccountViewModel::class.java]
+
       createAccountViewModel?.signUpResponse?.observe(viewLifecycleOwner){
+          sharedPreferences?.edit()?.let { editor ->
+              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
+              editor.apply()
+          }
+          findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen())
 
       }
 
@@ -76,9 +95,10 @@ class CreateAccountFragment : Fragment() , OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding?.tvSignUp?.id ->
+            binding?.btnSignin?.id ->
                 CoroutineScope(Dispatchers.IO).launch { callSignUpAPI() }
-          //  binding?.btnSignin?.id ->
+
+            binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin2())
 
         }
     }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
+    private var loginResponsess: RegistrationResponseModel? = null
 
 
     private val _loginResponse = MutableLiveData<RegistrationResponseModel?>()
@@ -26,13 +27,15 @@ class LoginViewModel : ViewModel() {
     val showProgress: LiveData<Boolean> = _showProgress
 
     suspend fun callLoginApi(signinRequestModel: SigninRequestModel){
+        _showProgress.postValue(true)
+
         viewModelScope.launch(Dispatchers.IO){
-            val response = retrofitBuilder.loginUser(signinRequestModel)
             try {
-                _loginResponse.postValue(response)
+                loginResponsess = retrofitBuilder.loginUser(signinRequestModel)
+                _loginResponse.postValue(loginResponsess)
             }catch (e: Exception)
             {
-                _errorResponse.postValue(response.baseError)
+                _errorResponse.postValue(loginResponsess?.baseError)
             }
             finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
