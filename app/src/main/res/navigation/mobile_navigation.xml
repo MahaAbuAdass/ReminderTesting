@@ -3,7 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/signin">
+
+
+    <fragment
+        android:id="@+id/signin"
+        android:name="com.example.remindertestapp.ui.account.login.LoginFragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_signin_to_signUp"
+            app:destination="@id/signUp" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.example.remindertestapp.ui.account.createaccount.CreateAccountFragment"
+        tools:layout="@layout/create_account_fragment" />
+
+
 
     <fragment
         android:id="@+id/navigation_home"

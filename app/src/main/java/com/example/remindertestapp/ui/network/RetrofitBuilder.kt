@@ -1,5 +1,10 @@
 package com.example.remindertestapp.ui.network
 
+import com.example.remindertestapp.ui.account.SigninRequestModel
+import com.example.remindertestapp.ui.account.SignupRequestModel
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class RetrofitBuilder {
 
@@ -7,11 +12,16 @@ class RetrofitBuilder {
 
     private val apiService : ApiService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://40.115.6.93:4525/")   // Replace with the actual API base URL  // base URL
+            .baseUrl("http://newaeon.westeurope.cloudapp.azure.com:8020")   // Replace with the actual API base URL  // base URL
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofit.create(ApiService::class.java)
     }
 
+    suspend fun loginUser(signinRequestModel: SigninRequestModel)=apiService.login(signinRequestModel)
+
+    suspend fun signUpUser(signupRequestModel: SignupRequestModel)=apiService.signup(signupRequestModel)
 
 }
+
+

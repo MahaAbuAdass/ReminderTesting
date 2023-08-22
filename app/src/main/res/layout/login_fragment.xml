@@ -7,6 +7,15 @@
     android:padding="20dp">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_error"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    
+    
+    <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +28,8 @@
         android:layout_margin="10dp"
         />
 
+    
+    
     <ImageView
         android:id="@+id/img"
         android:layout_width="100dp"
