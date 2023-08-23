@@ -18,7 +18,10 @@
             app:destination="@id/signUp" />
         <action
             android:id="@+id/action_signin_to_main"
-            app:destination="@id/main" />
+            app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_signin_to_menu"
+            app:destination="@id/menu" />
     </fragment>
 
     <fragment
@@ -33,7 +36,7 @@
             app:destination="@id/signin" />
         <action
             android:id="@+id/action_signUp_to_main"
-            app:destination="@id/main" />
+            app:destination="@id/menu" />
     </fragment>
 
     <fragment
@@ -48,13 +51,18 @@
             app:destination="@id/navigation_home" />
         <action
             android:id="@+id/action_verification_screen_to_main"
-            app:destination="@id/main" />
+            app:destination="@id/menu" />
     </fragment>
 
+
     <fragment
-        android:id="@+id/main"
-        android:name="com.example.remindertestapp.ui.home.HomeFragment"
-        tools:layout="@layout/home" />
+        android:id="@+id/menu"
+        android:name="com.example.remindertestapp.ui.menu.MenuFragment"
+        tools:layout="@layout/menu" >
+        <action
+            android:id="@+id/action_menu_to_signin"
+            app:destination="@id/signin" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_home"

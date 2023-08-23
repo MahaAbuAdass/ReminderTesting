@@ -37,3 +37,5 @@ data class BooleanDataResponse(
     @SerializedName("data") val data: Boolean?,
     @SerializedName("error") val error: BaseError?
 )
+
+

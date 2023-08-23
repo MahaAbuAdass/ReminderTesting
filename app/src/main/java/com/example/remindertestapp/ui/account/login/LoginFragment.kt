@@ -8,13 +8,11 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.LoginFragmentBinding
 import com.example.remindertestapp.ui.ProgressBarLoader
 import com.example.remindertestapp.ui.account.SigninRequestModel
-import com.example.remindertestapp.ui.account.createaccount.CreateAccountViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +57,10 @@ class LoginFragment : BaseFragment() , OnClickListener{
             }
 
             val phone = binding?.etPhone.toString()
-          findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
+
+        //    findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
+
+          findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
 
         }
         loginViewModel?.errorResponse?.observe(viewLifecycleOwner){
