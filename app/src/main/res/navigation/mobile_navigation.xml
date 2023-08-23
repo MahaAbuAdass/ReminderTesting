@@ -11,11 +11,14 @@
         android:name="com.example.remindertestapp.ui.account.login.LoginFragment"
         tools:layout="@layout/login_fragment" >
         <action
+            android:id="@+id/action_signin_to_verification_screen"
+            app:destination="@id/verification_screen" />
+        <action
             android:id="@+id/action_signin_to_signUp"
             app:destination="@id/signUp" />
         <action
-            android:id="@+id/action_signin_to_verification_screen"
-            app:destination="@id/verification_screen" />
+            android:id="@+id/action_signin_to_main"
+            app:destination="@id/main" />
     </fragment>
 
     <fragment
@@ -23,18 +26,35 @@
         android:name="com.example.remindertestapp.ui.account.createaccount.CreateAccountFragment"
         tools:layout="@layout/create_account_fragment" >
         <action
-            android:id="@+id/action_signUp_to_signin2"
-            app:destination="@id/signin" />
-        <action
             android:id="@+id/action_signUp_to_verification_screen"
             app:destination="@id/verification_screen" />
+        <action
+            android:id="@+id/action_signUp_to_signin"
+            app:destination="@id/signin" />
+        <action
+            android:id="@+id/action_signUp_to_main"
+            app:destination="@id/main" />
     </fragment>
 
     <fragment
         android:id="@+id/verification_screen"
         android:name="com.example.remindertestapp.ui.account.VerificationFragment"
-        tools:layout="@layout/verification" />
+        tools:layout="@layout/verification" >
+        <argument
+            android:name="phone_number"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_verification_screen_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_verification_screen_to_main"
+            app:destination="@id/main" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/main"
+        android:name="com.example.remindertestapp.ui.home.HomeFragment"
+        tools:layout="@layout/home" />
 
     <fragment
         android:id="@+id/navigation_home"

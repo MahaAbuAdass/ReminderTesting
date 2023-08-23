@@ -31,4 +31,9 @@ data class SignupRequestModel(
     @SerializedName("NotificationToken") val notificationToken: String?
 )
 
+data class BooleanDataResponse(
 
+    @SerializedName("code") val code: Int?,
+    @SerializedName("data") val data: Boolean?,
+    @SerializedName("error") val error: BaseError?
+)

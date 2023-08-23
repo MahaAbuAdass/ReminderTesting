@@ -24,6 +24,7 @@ class RetrofitBuilder {
 
     suspend fun signUpUser(signupRequestModel: SignupRequestModel)=apiService.signup(signupRequestModel)
 
+    suspend fun logoutUser(auth: String?)=apiService.logout(auth)
 }
 
 

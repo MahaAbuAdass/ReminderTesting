@@ -7,6 +7,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/error"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -141,6 +152,7 @@
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify"

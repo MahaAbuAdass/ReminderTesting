@@ -45,7 +45,7 @@ class LoginFragment : BaseFragment() , OnClickListener{
         initiate()
         initSharedPreferences()
         observeViewModel()
-        checkLoggedinUser()
+    //    checkLoggedinUser()
     }
 
     private fun observeViewModel() {
@@ -57,10 +57,9 @@ class LoginFragment : BaseFragment() , OnClickListener{
                 editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
                 editor.apply()
             }
-         //   findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen())
-            findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
-            Toast.makeText(activity, "hjhdjhasjdhasd", Toast.LENGTH_SHORT).show()
 
+            val phone = binding?.etPhone.toString()
+          findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
 
         }
         loginViewModel?.errorResponse?.observe(viewLifecycleOwner){
@@ -87,25 +86,23 @@ class LoginFragment : BaseFragment() , OnClickListener{
 
     private suspend fun callSigninApi() {
         loginViewModel?.callLoginApi(SigninRequestModel(
-            binding?.etPhone.toString())
+            binding?.number?.etNumber?.text.toString()
+        )
         )
     }
-
-
 
     override fun onClick(v: View?) {
         when (v?.id) {
             binding?.btnSignin?.id ->
                 CoroutineScope(Dispatchers.IO).launch {  callSigninApi() }
 
-            binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
-        }
-
-    }
-
-    fun checkLoggedinUser() {
-        if (sharedPreferences?.getString(KEY_NAME, "")?.isNotEmpty() == true) {
-            findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
+     binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
         }
     }
+
+//    fun checkLoggedinUser() {
+//        if (sharedPreferences?.getString(KEY_NAME, "")?.isNotEmpty() == true) {
+//        findNavController().navigate(LoginFragmentDirections.actionSigninToMain())
+//        }
+//    }
 }

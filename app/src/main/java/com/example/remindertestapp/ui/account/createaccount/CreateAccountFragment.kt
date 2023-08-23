@@ -1,5 +1,4 @@
 package com.example.remindertestapp.ui.account.createaccount
-
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -61,7 +60,9 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
               editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
               editor.apply()
           }
-          findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen())
+          val phone = binding?.etPhone.toString()
+      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+
 
       }
 
@@ -69,11 +70,11 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
 
         }
-        createAccountViewModel?.showProgress?.observe(viewLifecycleOwner) {
-            if (it == true)
-                progressBarLoader?.show()
-            else progressBarLoader?.dismiss()
-        }
+//        createAccountViewModel?.showProgress?.observe(viewLifecycleOwner) {
+//            if (it == true)
+//                progressBarLoader?.show()
+//            else progressBarLoader?.dismiss()
+//        }
 
     }
 
@@ -98,7 +99,7 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
             binding?.btnSignin?.id ->
                 CoroutineScope(Dispatchers.IO).launch { callSignUpAPI() }
 
-            binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin2())
+            binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin())
 
         }
     }

@@ -52,7 +52,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/round">
-        <include layout="@layout/phone_number"/>
+        <include layout="@layout/phone_number"
+            android:id="@+id/number"/>
     </FrameLayout>
 
 

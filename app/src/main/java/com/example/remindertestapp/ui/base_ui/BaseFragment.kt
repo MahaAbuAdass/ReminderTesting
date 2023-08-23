@@ -7,7 +7,7 @@ import com.example.remindertestapp.MainActivity
 import com.example.remindertestapp.ui.ProgressBarLoader
 
 open class BaseFragment : Fragment() {
-    val mainActivity: MainActivity get() = (activity as MainActivity)
+    open val mainActivity: MainActivity get() = (activity as MainActivity)
     private val progressBarLoading by lazy { ProgressBarLoader(requireContext()) }
 
 //    private val myToolbar get() = mainActivity.mainBinding?.toolbar
