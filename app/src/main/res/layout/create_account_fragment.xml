@@ -40,7 +40,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/round">
-        <include layout="@layout/fullname"/>
+        <include layout="@layout/fullname"
+            android:id="@+id/full_name"/>
     </FrameLayout>
 
     <FrameLayout
@@ -53,7 +54,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/round">
-        <include layout="@layout/phone_number"/>
+        <include layout="@layout/phone_number"
+            android:id="@+id/phone_number"/>
     </FrameLayout>
 
 

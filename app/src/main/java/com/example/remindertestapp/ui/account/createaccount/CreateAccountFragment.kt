@@ -1,4 +1,5 @@
 package com.example.remindertestapp.ui.account.createaccount
+
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,7 +8,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.CreateAccountFragmentBinding
 import com.example.remindertestapp.ui.ProgressBarLoader
@@ -17,9 +18,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreateAccountFragment : BaseFragment() , OnClickListener {
-    private var binding : CreateAccountFragmentBinding ?=null
-    private var createAccountViewModel : CreateAccountViewModel?=null
+class CreateAccountFragment : BaseFragment(), OnClickListener {
+    private var binding: CreateAccountFragmentBinding? = null
+    private val createAccountViewModel by viewModels<CreateAccountViewModel>()
     private var progressBarLoader: ProgressBarLoader? = null
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -31,7 +32,7 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=CreateAccountFragmentBinding.inflate(inflater,container,false)
+        binding = CreateAccountFragmentBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -52,22 +53,19 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
     }
 
     private fun observeViewModel() {
-        createAccountViewModel = ViewModelProvider(this)[CreateAccountViewModel::class.java]
 
-      createAccountViewModel?.signUpResponse?.observe(viewLifecycleOwner){
-          sharedPreferences?.edit()?.let { editor ->
-              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
-              editor.apply()
-          }
-          val phone = binding?.etPhone.toString()
-      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+        createAccountViewModel?.signUpResponse?.observe(viewLifecycleOwner) {
+//          sharedPreferences?.edit()?.let { editor ->
+//              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
+//              editor.apply()
+//          }
+//          val phone = binding?.etPhone.toString()
+//      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
 
 
-      }
-
-        createAccountViewModel?.errorResponse?.observe(viewLifecycleOwner){
+        }
+        createAccountViewModel?.errorResponse?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-
         }
 //        createAccountViewModel?.showProgress?.observe(viewLifecycleOwner) {
 //            if (it == true)
@@ -82,21 +80,22 @@ class CreateAccountFragment : BaseFragment() , OnClickListener {
         binding?.tvSignUp?.setOnClickListener(this)
     }
 
- private suspend fun callSignUpAPI() {
-        createAccountViewModel?.callSignUp(SignupRequestModel(
-            binding?.etName.toString() ,
-            binding?.etPhone.toString() ,
-            "",
-            ""
-        ))
+    private suspend fun callSignUpAPI() {
+        createAccountViewModel?.callSignUp(
+            SignupRequestModel(
+                binding?.fullName?.fullNameEtx?.text.toString(),
+                binding?.phoneNumber?.phoneNumberEtx?.text.toString(),
+                "",
+                ""
+            )
+        )
     }
-
 
 
     override fun onClick(v: View?) {
         when (v?.id) {
             binding?.btnSignin?.id ->
-                CoroutineScope(Dispatchers.IO).launch { callSignUpAPI() }
+                CoroutineScope(Dispatchers.Default).launch { callSignUpAPI() }
 
             binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin())
 

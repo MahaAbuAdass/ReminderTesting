@@ -18,14 +18,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginFragment : BaseFragment() , OnClickListener{
+class LoginFragment : BaseFragment(), OnClickListener {
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-    private var binding : LoginFragmentBinding ?=null
-    private var loginViewModel : LoginViewModel ?=null
+    private var binding: LoginFragmentBinding? = null
+    private var loginViewModel: LoginViewModel? = null
     private var progressBarLoader: ProgressBarLoader? = null
 
 
@@ -34,7 +34,7 @@ class LoginFragment : BaseFragment() , OnClickListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = LoginFragmentBinding.inflate(inflater,container,false)
+        binding = LoginFragmentBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -43,13 +43,13 @@ class LoginFragment : BaseFragment() , OnClickListener{
         initiate()
         initSharedPreferences()
         observeViewModel()
-    //    checkLoggedinUser()
+        //    checkLoggedinUser()
     }
 
     private fun observeViewModel() {
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        loginViewModel?.loginResponse?.observe(viewLifecycleOwner){
+        loginViewModel?.loginResponse?.observe(viewLifecycleOwner) {
 
             sharedPreferences?.edit()?.let { editor ->
                 editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
@@ -58,12 +58,16 @@ class LoginFragment : BaseFragment() , OnClickListener{
 
             val phone = binding?.etPhone.toString()
 
-        //    findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
+            findNavController().navigate(
+                LoginFragmentDirections.actionSigninToVerificationScreen(
+                    phone
+                )
+            )
 
-          findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
+            //   findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
 
         }
-        loginViewModel?.errorResponse?.observe(viewLifecycleOwner){
+        loginViewModel?.errorResponse?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
 
@@ -73,6 +77,7 @@ class LoginFragment : BaseFragment() , OnClickListener{
             else progressBarLoader?.dismiss()
         }
     }
+
     private fun initSharedPreferences() {
         sharedPreferences = activity?.getSharedPreferences(
             PREFS_NAME,
@@ -86,18 +91,19 @@ class LoginFragment : BaseFragment() , OnClickListener{
     }
 
     private suspend fun callSigninApi() {
-        loginViewModel?.callLoginApi(SigninRequestModel(
-            binding?.number?.etNumber?.text.toString()
-        )
+        loginViewModel?.callLoginApi(
+            SigninRequestModel(
+                binding?.number?.phoneNumberEtx?.text.toString()
+            )
         )
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             binding?.btnSignin?.id ->
-                CoroutineScope(Dispatchers.IO).launch {  callSigninApi() }
+                CoroutineScope(Dispatchers.IO).launch { callSigninApi() }
 
-     binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
+            binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
         }
     }
 

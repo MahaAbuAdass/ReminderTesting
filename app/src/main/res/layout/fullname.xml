@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/img"
         android:hint="Full Name"
+        android:id="@+id/full_name_etx"
         android:textColorHint="@color/black"
 
         />

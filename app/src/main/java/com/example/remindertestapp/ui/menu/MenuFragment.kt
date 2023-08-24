@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.MenuBinding
-import com.example.remindertestapp.ui.MenuFragmentDirections
 import com.example.remindertestapp.ui.account.LogoutViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
@@ -90,8 +89,6 @@ class MenuFragment : BaseFragment() , OnClickListener {
         userInfoViewModel?.getInfoError?.observe(viewLifecycleOwner){
             binding?.error?.text=it.toString()
         }
-
-
     }
 
     private fun callLogout(){

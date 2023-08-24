@@ -54,6 +54,16 @@
             app:destination="@id/menu" />
     </fragment>
 
+    <fragment
+        android:id="@+id/contact"
+        android:name="com.example.remindertestapp.ui.menu.contacts.ContactFragment"
+        tools:layout="@layout/contacts" >
+        <action
+            android:id="@+id/action_contact_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/menu"

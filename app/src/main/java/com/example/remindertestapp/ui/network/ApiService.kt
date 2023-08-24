@@ -4,6 +4,8 @@ import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
+import com.example.remindertestapp.ui.menu.contacts.GetExistUsersDataResponse
+import com.example.remindertestapp.ui.menu.contacts.GetExistUsersRequestModel
 import com.example.remindertestapp.ui.menu.MyInfoResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -33,6 +35,12 @@ interface ApiService {
   suspend fun getUserProfile(
         @Header("Authorization") auth: String?
     ): MyInfoResponse
+
+    @POST("/api/User/GetExisitUsers")
+    suspend fun getExistUsers(
+        @Header("Authorization") auth: String?
+    ): GetExistUsersDataResponse
+
 
 
 }

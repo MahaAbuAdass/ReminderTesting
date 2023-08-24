@@ -39,16 +39,9 @@ class VerificationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
-
-
-
-     val phoneNumber = navArgs.phoneNumber
-    //    val phoneNumber = "213123123123"
             binding?.btnVerify?.setOnClickListener {
-
-
             val options = PhoneAuthOptions.newBuilder(auth)
-                .setPhoneNumber(phoneNumber)          // Phone number to verify
+                .setPhoneNumber(navArgs.phoneNumber)          // Phone number to verify
                 .setTimeout(60L, TimeUnit.SECONDS)     // Timeout duration
                 .setActivity(mainActivity)                     // Activity (for callback binding)
                 .setCallbacks(callbacks)               // OnVerificationStateChangedCallbacks

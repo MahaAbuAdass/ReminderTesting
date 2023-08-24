@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:941975046224:android:8fa96d61938d2ecdafe955",
+        "mobilesdk_app_id": "1:941975046224:android:8c32c1c64dcdc5f0afe955",
         "android_client_info": {
-          "package_name": "com.whatsapp"
+          "package_name": "com.example.remindertestapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "941975046224-tc6500h1isrcg4j2375c74u3gqkf7cfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.remindertestapp",
+            "certificate_hash": "f6884cc2cd95e83c2e79b6f8a30e27d44931d431"
+          }
+        },
         {
           "client_id": "941975046224-5nvjsb3261er3g6rnv9linpta81a91sv.apps.googleusercontent.com",
           "client_type": 3
