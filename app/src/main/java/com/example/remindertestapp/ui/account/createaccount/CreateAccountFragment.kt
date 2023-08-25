@@ -55,12 +55,12 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     private fun observeViewModel() {
 
         createAccountViewModel?.signUpResponse?.observe(viewLifecycleOwner) {
-//          sharedPreferences?.edit()?.let { editor ->
-//              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
-//              editor.apply()
-//          }
-//          val phone = binding?.etPhone.toString()
-//      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+          sharedPreferences?.edit()?.let { editor ->
+              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
+              editor.apply()
+          }
+          val phone = binding?.etPhone.toString()
+      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
 
 
         }

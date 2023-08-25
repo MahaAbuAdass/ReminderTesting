@@ -64,7 +64,7 @@ class MenuFragment : BaseFragment() , OnClickListener {
         logoutViewModel?.logoutResponse?.observe(viewLifecycleOwner){
             CoroutineScope(Dispatchers.Main).launch {
                 sharedPreferences?.edit()?.remove(KEY_NAME)?.apply()
-                findNavController().navigate(MenuFragmentDirections.actionMenuToSignin())
+                findNavController().navigate(MenuFragmentDirections.actionMenuToNavigationHome())
 
             }
         }
@@ -105,6 +105,7 @@ class MenuFragment : BaseFragment() , OnClickListener {
 
     private fun initiate() {
        binding?.tvLogout?.setOnClickListener(this)
+
     }
 
     override fun onClick(p0: View?) {

@@ -42,5 +42,10 @@ interface ApiService {
     ): GetExistUsersDataResponse
 
 
+    @GET("/api/User/GetNotExisitUsers")
+  suspend fun getNotExistUsers(
+        @Header("Authorization") auth: String?
+    ): GetExistUsersDataResponse
+
 
 }

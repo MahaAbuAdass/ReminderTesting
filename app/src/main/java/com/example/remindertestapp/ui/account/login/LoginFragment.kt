@@ -58,14 +58,10 @@ class LoginFragment : BaseFragment(), OnClickListener {
 
             val phone = binding?.etPhone.toString()
 
-            findNavController().navigate(
-                LoginFragmentDirections.actionSigninToVerificationScreen(
-                    phone
-                )
-            )
+        //    findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
 
-            //   findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
-
+        //   findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
+            findNavController().navigate(LoginFragmentDirections.actionSigninToViewPagerContact())
         }
         loginViewModel?.errorResponse?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()

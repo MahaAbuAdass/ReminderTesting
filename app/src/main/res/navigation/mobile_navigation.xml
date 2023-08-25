@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_signin_to_menu"
             app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_signin_to_view_pager_contact"
+            app:destination="@id/view_pager_contact" />
     </fragment>
 
     <fragment
@@ -57,11 +60,7 @@
     <fragment
         android:id="@+id/contact"
         android:name="com.example.remindertestapp.ui.menu.contacts.ContactFragment"
-        tools:layout="@layout/contacts" >
-        <action
-            android:id="@+id/action_contact_to_menu"
-            app:destination="@id/menu" />
-    </fragment>
+        tools:layout="@layout/contacts" />
 
 
 
@@ -72,7 +71,20 @@
         <action
             android:id="@+id/action_menu_to_signin"
             app:destination="@id/signin" />
+        <action
+            android:id="@+id/action_menu_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
+
+    <fragment
+        android:id="@+id/view_pager_contact"
+        android:name="com.example.remindertestapp.ui.menu.contacts.ContactViewPager"
+        tools:layout="@layout/contact_view_pager" >
+        <action
+            android:id="@+id/action_view_pager_contact_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/navigation_home"

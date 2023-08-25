@@ -29,7 +29,7 @@ class RetrofitBuilder {
 
     suspend fun getUserInfo(auth : String?) =apiService.getUserProfile(auth)
     suspend fun getContacts(auth: String?) =apiService.getExistUsers(auth)
-
+    suspend fun getNotExistingContact(auth: String?)=apiService.getNotExistUsers(auth)
 
 }
 
