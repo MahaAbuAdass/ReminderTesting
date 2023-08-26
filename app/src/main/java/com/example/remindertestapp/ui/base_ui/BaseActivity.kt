@@ -32,7 +32,7 @@ open class BaseActivity : AppCompatActivity() {
         supportFragmentManager.fragments[0].childFragmentManager.fragments[0]
 
     fun isMainFragments() =
-        getCurrentFragment() is NotificationsFragment || getCurrentFragment() is DashboardFragment || getCurrentFragment() is HomeFragment
+ getCurrentFragment() is NotificationsFragment || getCurrentFragment() is DashboardFragment || getCurrentFragment() is HomeFragment
 //
 //    override fun onBackPressed() {
 //        if (isMainFragments()) moveTaskToBack(true)

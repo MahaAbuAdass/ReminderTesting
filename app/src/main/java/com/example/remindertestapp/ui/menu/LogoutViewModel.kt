@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.account
+package com.example.remindertestapp.ui.menu
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

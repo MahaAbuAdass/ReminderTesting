@@ -8,14 +8,12 @@ data class SigninRequestModel(
         ("MobileNumber") val mobileNumber: String?
 )
 
-
 data class RegistrationResponseModel(
     @SerializedName("profileId") val profileId: String?,
     @SerializedName("phoneNumber") val phoneNumber: String?,
     @SerializedName("bearerToken") val bearerToken: String?,
     @SerializedName("error") val baseError: BaseError?
 )
-
 
 data class BaseError(
     @SerializedName("errors") val errors: String?,

@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 class UserInfoViewModel : ViewModel() {
     private var retrofitBuilder = RetrofitBuilder()
 
-    private val _getInfoResponse = MutableLiveData<MyInfoResponse?>()
-    val getInfoResponse: LiveData<MyInfoResponse?> = _getInfoResponse
+    private val _getInfoResponse = MutableLiveData<MyInfoData?>()
+    val getInfoResponse: LiveData<MyInfoData?> = _getInfoResponse
 
     private val _getInfoError = MutableLiveData<String?>()
     val getInfoError: LiveData<String?> = _getInfoError
@@ -24,7 +24,7 @@ class UserInfoViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.getUserInfo(auth)
             try {
-                _getInfoResponse.postValue(response)
+                _getInfoResponse.postValue(response.data)
             } catch (e: Exception) {
                 _getInfoError.postValue(e.message)
             }

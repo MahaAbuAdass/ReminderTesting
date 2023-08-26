@@ -61,7 +61,8 @@ class LoginFragment : BaseFragment(), OnClickListener {
         //    findNavController().navigate(LoginFragmentDirections.actionSigninToVerificationScreen(phone))
 
         //   findNavController().navigate(LoginFragmentDirections.actionSigninToMenu())
-            findNavController().navigate(LoginFragmentDirections.actionSigninToViewPagerContact())
+   //  findNavController().navigate(LoginFragmentDirections.actionSigninToViewPagerContact())
+            findNavController().navigate(LoginFragmentDirections.actionSigninToNavigationHome())
         }
         loginViewModel?.errorResponse?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()

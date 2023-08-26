@@ -48,6 +48,7 @@ open class BaseFragment : Fragment() {
    //     initToolbar()
         super.onResume()
       mainActivity.mainBinding?.navView?.isVisible = mainActivity.isMainFragments()
+
     }
 
 

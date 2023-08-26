@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_signin_to_view_pager_contact"
             app:destination="@id/view_pager_contact" />
+        <action
+            android:id="@+id/action_signin_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
     <fragment
@@ -74,6 +77,9 @@
         <action
             android:id="@+id/action_menu_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_menu_to_view_pager_contact"
+            app:destination="@id/view_pager_contact" />
     </fragment>
 
     <fragment

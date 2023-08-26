@@ -42,6 +42,4 @@ class CreateAccountViewModel : ViewModel() {
         }
 
     }
-
-
 }

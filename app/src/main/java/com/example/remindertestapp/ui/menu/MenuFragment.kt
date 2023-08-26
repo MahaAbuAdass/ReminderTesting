@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.MenuBinding
-import com.example.remindertestapp.ui.account.LogoutViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,12 +19,8 @@ import kotlinx.coroutines.launch
 class MenuFragment : BaseFragment() , OnClickListener {
 
     private var binding : MenuBinding?=null
-
-
-
-    private var logoutViewModel : LogoutViewModel ?=null
+    private var logoutViewModel : LogoutViewModel?=null
     private var userInfoViewModel : UserInfoViewModel?=null
-
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
@@ -45,16 +40,30 @@ class MenuFragment : BaseFragment() , OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         initiate()
         initiatSharedPreference()
-        observerViewModel()
         callGetUserApi()
 
-
-
+        observerViewModel()
     }
 
     private fun callGetUserApi() {
         CoroutineScope(Dispatchers.IO).launch {
             userInfoViewModel?.getUserInfoDate(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+        }
+
+        userInfoViewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
+
+        userInfoViewModel?.getInfoResponse?.observe(viewLifecycleOwner){
+            CoroutineScope(Dispatchers.Main).launch {
+
+                binding?.etName?.setText(it?.userName.toString())?: ""
+                binding?.etPhoneNumber?.setText(it?.phoneNumber.toString())?: ""
+                binding?.etEmail?.setText(it?.email.toString())?: ""
+                binding?.etBirthday?.setText(it?.birthday.toString())?: ""
+                binding?.etGender?.setText(it?.gender.toString())?: ""
+            }
+        }
+        userInfoViewModel?.getInfoError?.observe(viewLifecycleOwner){
+            binding?.error?.text=it.toString()
         }
     }
 
@@ -70,24 +79,9 @@ class MenuFragment : BaseFragment() , OnClickListener {
         }
         logoutViewModel?.logoutResponseError?.observe(viewLifecycleOwner){
             CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(activity,it.toString(), Toast.LENGTH_SHORT).show()
+             binding?.error?.text=it.toString()
+            //    Toast.makeText(activity,it.toString(), Toast.LENGTH_SHORT).show()
             }
-        }
-
-
-        userInfoViewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
-        userInfoViewModel?.getInfoResponse?.observe(viewLifecycleOwner){
-            CoroutineScope(Dispatchers.Main).launch {
-
-                binding?.etName?.setText(it?.data?.userName.toString())
-                binding?.etPhoneNumber?.setText(it?.data?.phoneNumber.toString())
-                binding?.etEmail?.setText(it?.data?.email.toString())
-                binding?.etBirthday?.setText(it?.data?.birthday.toString())
-                binding?.etGender?.setText(it?.data?.gender.toString())
-            }
-        }
-        userInfoViewModel?.getInfoError?.observe(viewLifecycleOwner){
-            binding?.error?.text=it.toString()
         }
     }
 
@@ -105,12 +99,14 @@ class MenuFragment : BaseFragment() , OnClickListener {
 
     private fun initiate() {
        binding?.tvLogout?.setOnClickListener(this)
+        binding?.back?.setOnClickListener(this)
 
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
             binding?.tvLogout?.id -> callLogout()
+            binding?.back?.id -> findNavController().navigate(MenuFragmentDirections.actionMenuToViewPagerContact())
         }
     }
 
