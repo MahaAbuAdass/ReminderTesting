@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="+962"
         android:textSize="15sp"
+        android:id="@+id/country_code"
         android:textStyle="bold"
         android:layout_marginStart="10dp"
         />

@@ -55,12 +55,16 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     private fun observeViewModel() {
 
         createAccountViewModel?.signUpResponse?.observe(viewLifecycleOwner) {
-          sharedPreferences?.edit()?.let { editor ->
-              editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
-              editor.apply()
-          }
-          val phone = binding?.etPhone.toString()
-      findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+            sharedPreferences?.edit()?.let { editor ->
+                editor.putString(KEY_NAME, "bearer ${it?.bearerToken}")
+                editor.apply()
+            }
+            val phone = binding?.etPhone.toString()
+            findNavController().navigate(
+                CreateAccountFragmentDirections.actionSignUpToVerificationScreen(
+                    phone
+                )
+            )
 
 
         }
@@ -81,12 +85,11 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     }
 
     private suspend fun callSignUpAPI() {
-        createAccountViewModel?.callSignUp(
+        createAccountViewModel.callSignUp(
             SignupRequestModel(
-                binding?.fullName?.fullNameEtx?.text.toString(),
-                binding?.phoneNumber?.phoneNumberEtx?.text.toString(),
-                "",
-                ""
+                mobileNumber = binding?.phoneNumber?.countryCode?.text.toString() + binding?.phoneNumber?.phoneNumberEtx?.text.toString(),
+                userName = binding?.fullName?.fullNameEtx?.text.toString(), "",
+                notificationToken = ""
             )
         )
     }
