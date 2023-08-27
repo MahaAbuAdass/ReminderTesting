@@ -18,10 +18,10 @@ class ContactViewModel : ViewModel() {
     val getContactsResponseError: LiveData<String?> = _getContactsResponseError
 
 
-    suspend fun getContacts(auth: String?) {
+    suspend fun getContacts(auth: String?, phoneNumbers: List<PhoneNumbers?>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = retrofitBuilder.getContacts(auth)
+                val response = retrofitBuilder.getContacts(auth, phoneNumbers)
                 _getContactsResponse.postValue(response.phoneNumbers)
             } catch (e: Exception) {
                 _getContactsResponseError.postValue(e.message.toString())

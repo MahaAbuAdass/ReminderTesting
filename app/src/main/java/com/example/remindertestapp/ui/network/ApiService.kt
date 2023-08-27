@@ -7,6 +7,7 @@ import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.menu.contacts.GetExistUsersDataResponse
 import com.example.remindertestapp.ui.menu.contacts.GetExistUsersRequestModel
 import com.example.remindertestapp.ui.menu.MyInfoResponse
+import com.example.remindertestapp.ui.menu.contacts.PhoneNumbers
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -38,7 +39,8 @@ interface ApiService {
 
     @POST("/api/User/GetExisitUsers")
     suspend fun getExistUsers(
-        @Header("Authorization") auth: String?
+        @Header("Authorization") auth: String? ,
+        @Body phoneNumbers: List<PhoneNumbers?>
     ): GetExistUsersDataResponse
 
 

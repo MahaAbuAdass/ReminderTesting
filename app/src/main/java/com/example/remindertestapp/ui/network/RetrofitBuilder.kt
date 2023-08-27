@@ -3,6 +3,7 @@ package com.example.remindertestapp.ui.network
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.menu.contacts.GetExistUsersRequestModel
+import com.example.remindertestapp.ui.menu.contacts.PhoneNumbers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -28,7 +29,7 @@ class RetrofitBuilder {
     suspend fun logoutUser(auth: String?)=apiService.logout(auth)
 
     suspend fun getUserInfo(auth : String?) =apiService.getUserProfile(auth)
-    suspend fun getContacts(auth: String?) =apiService.getExistUsers(auth)
+    suspend fun getContacts(auth: String?, phoneNumbers: List<PhoneNumbers?>) =apiService.getExistUsers(auth, phoneNumbers)
     suspend fun getNotExistingContact(auth: String?)=apiService.getNotExistUsers(auth)
 
 }

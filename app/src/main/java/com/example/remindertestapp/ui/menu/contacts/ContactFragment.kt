@@ -56,7 +56,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private fun callGetContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+            contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "", phoneNumbers = phone)
         }
     }
 
