@@ -43,7 +43,7 @@ class LoginFragment : BaseFragment(), OnClickListener {
         initiate()
         initSharedPreferences()
         observeViewModel()
-        //    checkLoggedinUser()
+        checkLoggedinUser()
     }
 
     private fun observeViewModel() {
@@ -104,9 +104,9 @@ class LoginFragment : BaseFragment(), OnClickListener {
         }
     }
 
-//    fun checkLoggedinUser() {
-//        if (sharedPreferences?.getString(KEY_NAME, "")?.isNotEmpty() == true) {
-//        findNavController().navigate(LoginFragmentDirections.actionSigninToMain())
-//        }
-//    }
+    fun checkLoggedinUser() {
+        if (sharedPreferences?.getString(KEY_NAME, "")?.isNotEmpty() == true) {
+        findNavController().navigate(LoginFragmentDirections.actionSigninToNavigationHome())
+        }
+    }
 }

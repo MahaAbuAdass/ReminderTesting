@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_signUp_to_main"
             app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_signUp_to_navigation_home2"
+            app:destination="@id/navigation_home" />
     </fragment>
 
     <fragment

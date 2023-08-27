@@ -83,11 +83,8 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-
         }
     }
-
-
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())

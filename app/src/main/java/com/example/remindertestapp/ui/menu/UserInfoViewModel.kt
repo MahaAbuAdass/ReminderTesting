@@ -18,8 +18,6 @@ class UserInfoViewModel : ViewModel() {
     val getInfoError: LiveData<String?> = _getInfoError
 
 
-
-
     suspend fun getUserInfoDate(auth: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.getUserInfo(auth)

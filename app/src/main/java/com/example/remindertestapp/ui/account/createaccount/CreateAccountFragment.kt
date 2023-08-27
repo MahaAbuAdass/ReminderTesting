@@ -60,11 +60,9 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
                 editor.apply()
             }
             val phone = binding?.etPhone.toString()
-            findNavController().navigate(
-                CreateAccountFragmentDirections.actionSignUpToVerificationScreen(
-                    phone
-                )
-            )
+           // findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+
+            findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToNavigationHome2())
 
 
         }
