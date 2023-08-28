@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+
 import androidx.navigation.fragment.findNavController
-import com.example.remindertestapp.Manifest
 import com.example.remindertestapp.databinding.ContactViewPagerBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.menu.contacts.ContactFragment
@@ -35,7 +33,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkContactPermission()
+     //   checkContactPermission()
         initiate()
 
         val adapter = activity?.let {
@@ -67,7 +65,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     }
 
 
-    fun checkContactPermission(){
+    /* fun checkContactPermission(){
         // Check if permission is granted
 
         val permission = Manifest.permission.READ_CONTACTS
@@ -94,5 +92,5 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         }
     }
     }
-
+*/
 }

@@ -17,11 +17,12 @@ class ContactViewModel : ViewModel() {
     private val _getContactsResponseError = MutableLiveData<String?>()
     val getContactsResponseError: LiveData<String?> = _getContactsResponseError
 
+    //, phoneNumbers: List<PhoneNumbers?>
 
     suspend fun getContacts(auth: String?, phoneNumbers: List<PhoneNumbers?>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = retrofitBuilder.getContacts(auth, phoneNumbers)
+                val response = retrofitBuilder.getContacts(auth,phoneNumbers)
                 _getContactsResponse.postValue(response.phoneNumbers)
             } catch (e: Exception) {
                 _getContactsResponseError.postValue(e.message.toString())

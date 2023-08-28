@@ -7,13 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.databinding.InviteFragmentBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.menu.MenuViewModel
 import com.example.remindertestapp.ui.menu.contacts.ContactAdapter
 import com.example.remindertestapp.ui.menu.contacts.ContactViewModel
 import com.example.remindertestapp.ui.menu.contacts.PhoneNumbersResponse

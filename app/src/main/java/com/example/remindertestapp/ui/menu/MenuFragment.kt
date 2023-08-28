@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.MenuBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
+import com.example.remindertestapp.ui.menu.contacts.PhoneNumbers
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +26,9 @@ class MenuFragment : BaseFragment(), OnClickListener {
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
+
+
+
 
 
     override fun onCreateView(
@@ -52,14 +57,13 @@ class MenuFragment : BaseFragment(), OnClickListener {
         userInfoViewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
         userInfoViewModel?.getInfoResponse?.observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.Main).launch {
 
                 binding?.etName?.setText(it?.userName.toString()) ?: ""
                 binding?.etPhoneNumber?.setText(it?.phoneNumber.toString()) ?: ""
                 binding?.etEmail?.setText(it?.email.toString()) ?: ""
                 binding?.etBirthday?.setText(it?.birthday.toString()) ?: ""
                 binding?.etGender?.setText(it?.gender.toString()) ?: ""
-            }
+
         }
         userInfoViewModel?.getInfoError?.observe(viewLifecycleOwner) {
             binding?.error?.text = it.toString()

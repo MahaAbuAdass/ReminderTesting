@@ -14,6 +14,8 @@ class UserInfoViewModel : ViewModel() {
     private val _getInfoResponse = MutableLiveData<MyInfoData?>()
     val getInfoResponse: LiveData<MyInfoData?> = _getInfoResponse
 
+
+
     private val _getInfoError = MutableLiveData<String?>()
     val getInfoError: LiveData<String?> = _getInfoError
 
