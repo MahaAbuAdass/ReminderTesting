@@ -60,7 +60,7 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
                 editor.apply()
             }
             val phone = binding?.etPhone.toString()
-           // findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
+            // findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToVerificationScreen(phone))
 
             findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToNavigationHome2())
 
@@ -78,7 +78,7 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     }
 
     private fun initiate() {
-        binding?.btnSignin?.setOnClickListener(this)
+        binding?.btnSignUp?.setOnClickListener(this)
         binding?.tvSignUp?.setOnClickListener(this)
     }
 
@@ -95,9 +95,19 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding?.btnSignin?.id ->
-                CoroutineScope(Dispatchers.Default).launch { callSignUpAPI() }
-
+            binding?.btnSignUp?.id ->{
+                if (binding?.fullName?.fullNameEtx.toString().isEmpty() || (binding?.phoneNumber?.phoneNumberEtx.toString().isEmpty()))
+                {
+                    Toast.makeText(
+                        context,
+                        "please fill you phone number and Name",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    CoroutineScope(Dispatchers.Default).launch {
+                       callSignUpAPI()
+                    }
+                }}
             binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin())
 
         }

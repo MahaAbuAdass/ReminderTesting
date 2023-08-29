@@ -1,5 +1,6 @@
 package com.example.remindertestapp.ui.home
 
+import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -25,8 +26,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     private lateinit var binding: ContactViewPagerBinding
 
 
-//    private lateinit var permissionLauncher : ActivityResultLauncher<Array<String>>
-//    private var isReadPermissionGranted = false
+    private lateinit var permissionLauncher : ActivityResultLauncher<Array<String>>
+    private var isReadPermissionGranted = false
 
 
     private val tabTitles by lazy {
@@ -38,11 +39,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     ): View? {
         binding = ContactViewPagerBinding.inflate(inflater, container, false)
 
-//        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
 
-     //       isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS]?: isReadPermissionGranted
-//        }
-//        requestContactPermission()
+            isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS]?: isReadPermissionGranted
+        }
 
         return binding.root
     }
@@ -50,10 +50,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-   //     requestContactPermission()
-
-
-
+        requestContactPermission()
         initiate()
 
         val adapter = activity?.let {
@@ -86,16 +83,16 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
 
 
 
-//    private fun requestContactPermission() {
-//// isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
-//
-//        val permissionRequest : MutableList<String> = ArrayList()
-//        if (! isReadPermissionGranted) {
-//     //       permissionRequest.add(Manifest.permission.READ_CONTACTS)
-//        }
-//        if (permissionRequest.isNotEmpty()){
-//            permissionLauncher.launch(permissionRequest.toTypedArray())
-//        }
-//
-//    }
+    private fun requestContactPermission() {
+ isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+
+        val permissionRequest : MutableList<String> = ArrayList()
+        if (! isReadPermissionGranted) {
+      permissionRequest.add(Manifest.permission.READ_CONTACTS)
+        }
+        if (permissionRequest.isNotEmpty()){
+            permissionLauncher.launch(permissionRequest.toTypedArray())
+        }
+
+    }
 }

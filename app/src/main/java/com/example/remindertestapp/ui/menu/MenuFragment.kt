@@ -106,7 +106,12 @@ class MenuFragment : BaseFragment(), OnClickListener {
         when (p0?.id) {
             binding?.tvLogout?.id -> callLogout()
             binding?.back?.id -> mainActivity.onBackPressed()
+            binding?.tvSave?.id -> saveUserInfo()
         }
+    }
+
+    private fun saveUserInfo() {
+
     }
 
 
