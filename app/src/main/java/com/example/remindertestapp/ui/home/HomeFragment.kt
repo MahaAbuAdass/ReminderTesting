@@ -6,8 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 import androidx.navigation.fragment.findNavController
+//import com.example.remindertestapp.Manifest
 import com.example.remindertestapp.databinding.ContactViewPagerBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.menu.contacts.ContactFragment
@@ -19,6 +25,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     private lateinit var binding: ContactViewPagerBinding
 
 
+//    private lateinit var permissionLauncher : ActivityResultLauncher<Array<String>>
+//    private var isReadPermissionGranted = false
+
 
     private val tabTitles by lazy {
         arrayOf("Contacts", "Invite")
@@ -28,12 +37,23 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = ContactViewPagerBinding.inflate(inflater, container, false)
+
+//        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+
+     //       isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS]?: isReadPermissionGranted
+//        }
+//        requestContactPermission()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-     //   checkContactPermission()
+
+   //     requestContactPermission()
+
+
+
         initiate()
 
         val adapter = activity?.let {
@@ -65,32 +85,17 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     }
 
 
-    /* fun checkContactPermission(){
-        // Check if permission is granted
 
-        val permission = Manifest.permission.READ_CONTACTS
-        val requestCode = 123 // You can use any code here
-
-        if (ContextCompat.checkSelfPermission(requireActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission if not granted
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
-        } else {
-            // Permission is already granted, proceed with accessing contacts
-            // Access and upload contacts here
-        }
-    }
-
-    // Handle permission request result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == 123) { // Make sure to match the request code
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with accessing contacts
-                // Access and upload contacts here
-            } else {
-                // Permission denied, handle accordingly
-            }
-        }
-    }
-    }
-*/
+//    private fun requestContactPermission() {
+//// isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+//
+//        val permissionRequest : MutableList<String> = ArrayList()
+//        if (! isReadPermissionGranted) {
+//     //       permissionRequest.add(Manifest.permission.READ_CONTACTS)
+//        }
+//        if (permissionRequest.isNotEmpty()){
+//            permissionLauncher.launch(permissionRequest.toTypedArray())
+//        }
+//
+//    }
 }

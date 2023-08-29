@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.menu.MenuViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,16 +22,16 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private var binding: ContactsBinding? = null
     private var contactViewModel: ContactViewModel? = null
 
-    private val viewModel: MenuViewModel by viewModels()
+ //  private val viewModel: MenuViewModel by viewModels()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
 
-    val contactsList = mutableListOf<List<PhoneNumbers?>?>()
-    val gson = Gson()
-    val contactsJson = gson.toJson(contactsList)
+    private  val contactsList : MutableList<PhoneNumbers?> ?=null
+//    val gson = Gson()
+//    val contactsJson = gson.toJson(contactsList)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +54,11 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private fun callGetContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "", contactsJson)
+            contactsList?.let {
+                contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                    it
+                )
+            }
         }
     }
 

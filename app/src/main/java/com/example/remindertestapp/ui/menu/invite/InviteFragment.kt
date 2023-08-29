@@ -53,7 +53,7 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
     private fun callGetNotExistingContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+         //   contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "")
         }
     }
 

@@ -27,10 +27,6 @@ class MenuFragment : BaseFragment(), OnClickListener {
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
