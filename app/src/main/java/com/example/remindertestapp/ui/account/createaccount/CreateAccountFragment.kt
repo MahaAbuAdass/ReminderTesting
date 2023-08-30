@@ -96,11 +96,11 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             binding?.btnSignUp?.id ->{
-                if (binding?.fullName?.fullNameEtx.toString().isEmpty() || (binding?.phoneNumber?.phoneNumberEtx.toString().isEmpty()))
+                if (binding?.fullName?.fullNameEtx?.text.toString().isEmpty() || (binding?.phoneNumber?.phoneNumberEtx?.text.toString().isEmpty()))
                 {
                     Toast.makeText(
                         context,
-                        "please fill you phone number and Name",
+                        "please fill your Name and phone number",
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
