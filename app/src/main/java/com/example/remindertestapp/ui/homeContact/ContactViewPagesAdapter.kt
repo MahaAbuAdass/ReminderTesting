@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.menu.contacts
+package com.example.remindertestapp.ui.homeContact
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

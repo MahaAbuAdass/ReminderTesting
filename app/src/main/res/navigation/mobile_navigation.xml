@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/contact"
-        android:name="com.example.remindertestapp.ui.menu.contacts.ContactFragment"
+        android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
         tools:layout="@layout/contacts" />
 
 
@@ -91,7 +91,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.remindertestapp.ui.home.HomeFragment"
+        android:name="com.example.remindertestapp.ui.homeContact.ContactViewPager"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
 
@@ -102,14 +102,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.remindertestapp.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/daily_calls"
+        android:name="com.example.remindertestapp.ui.dashboardDailyCalls.DailyCalls"
+        android:label="Daily Calls"
+        tools:layout="@layout/fragment_daily_calls" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.remindertestapp.ui.notifications.NotificationsFragment"
+        android:name="com.example.remindertestapp.ui.Schedule.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

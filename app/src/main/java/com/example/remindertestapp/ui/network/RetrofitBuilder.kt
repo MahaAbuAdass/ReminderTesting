@@ -2,8 +2,8 @@ package com.example.remindertestapp.ui.network
 
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
-import com.example.remindertestapp.ui.menu.contacts.GetExistUsersRequestModel
-import com.example.remindertestapp.ui.menu.contacts.PhoneNumbers
+import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
+import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

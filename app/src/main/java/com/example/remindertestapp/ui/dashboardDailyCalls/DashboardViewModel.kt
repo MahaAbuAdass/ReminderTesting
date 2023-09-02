@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.dashboard
+package com.example.remindertestapp.ui.dashboardDailyCalls
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

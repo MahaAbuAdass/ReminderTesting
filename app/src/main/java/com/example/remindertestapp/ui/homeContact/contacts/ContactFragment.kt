@@ -1,37 +1,44 @@
-package com.example.remindertestapp.ui.menu.invite
+package com.example.remindertestapp.ui.homeContact.contacts
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.remindertestapp.databinding.InviteFragmentBinding
+import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.menu.contacts.ContactAdapter
-import com.example.remindertestapp.ui.menu.contacts.ContactViewModel
-import com.example.remindertestapp.ui.menu.contacts.PhoneNumbersResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InviteFragment : BaseFragment() , View.OnClickListener {
-    private var binding: InviteFragmentBinding? = null
+class ContactFragment : BaseFragment(), OnClickListener {
+    private var binding: ContactsBinding? = null
     private var contactViewModel: ContactViewModel? = null
+
+ //  private val viewModel: MenuViewModel by viewModels()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
+
+
+    private  val contactsList : MutableList<PhoneNumbers?> ?=null
+//    val gson = Gson()
+//    val contactsJson = gson.toJson(contactsList)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = InviteFragmentBinding.inflate(inflater, container, false)
+        binding = ContactsBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -40,20 +47,18 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
         initiate()
         initiatSharedPreference()
         observeViewModel()
-        callGetNotExistingContactAPI()
-
-
-    }
-
+        callGetContactAPI() }
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
     }
-
-    private fun callGetNotExistingContactAPI() {
+    private fun callGetContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-         //   contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+            contactsList?.let {
+                contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                    it
+                )
+            }
         }
     }
 
@@ -63,7 +68,7 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
 
             contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
                 it?.let {
-                    NotExistingUserAdapter(it)
+                    contactAdapter(it)
                 }
 
             }
@@ -80,12 +85,9 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-
         }
     }
-
-
-    private fun NotExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
+    private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter

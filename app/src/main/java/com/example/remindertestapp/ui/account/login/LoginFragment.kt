@@ -143,49 +143,51 @@ class LoginFragment : BaseFragment(), OnClickListener {
 
     }
             private fun checkPhoneNumberRegistered(phoneNumber: String) {
-//            auth.fetchSignInMethodsForEmail(phoneNumber)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        val signInMethods = task.result?.signInMethods
-//                        if (signInMethods != null && signInMethods.contains(PhoneAuthProvider.PHONE_SIGN_IN_METHOD)) {
-//                            // Phone number is already registered
-//                            // Handle the case here
-//                   CoroutineScope(Dispatchers.IO).launch {
-//
-//                            callSigninApi()
-//                   }
-//                            println("Phone number is already registered.")
-//                        } else {
-//                            // Phone number is not registered
-//                            // Handle the case here
-//                            println("Phone number is not registered.")
-//                            binding?.tvError?.text = "errrrrror"
-//                        }
-//                    } else {
-//                        // Handle the error
-//                        val exception = task.exception
-//                        println("Error checking phone number: ${exception?.message}")
-//                        binding?.tvError?.text = "errrrrror222222222222222"
-//
-//                    }
-//                }
-
             auth.fetchSignInMethodsForEmail(phoneNumber)
-                .addOnCompleteListener{request->
-                    if(request.isSuccessful){
-                        CoroutineScope(Dispatchers.IO).launch {
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val signInMethods = task.result?.signInMethods
+                        if (signInMethods != null && signInMethods.contains(PhoneAuthProvider.PHONE_SIGN_IN_METHOD)) {
+                            // Phone number is already registered
+                            // Handle the case here
+                   CoroutineScope(Dispatchers.IO).launch {
 
                             callSigninApi()
+                   }
+                            println("Phone number is already registered.")
+                        } else {
+                            // Phone number is not registered
+                            // Handle the case here
+                            println("Phone number is not registered.")
+                            binding?.tvError?.text = "errrrrror"
                         }
+                    } else {
+                        // Handle the error
+                        val exception = task.exception
+                        println("Error checking phone number: ${exception?.message}")
+                        binding?.tvError?.text = "errrrrror222222222222222"
+
                     }
-                        // The user is successfully signed in
+                }
 
-                    else{
-                        // The user is not successfully signed in
-                     binding?.tvError?.text = "errrrrror222222222222222"
-
-            }
-        }}
+//            auth.fetchSignInMethodsForEmail(phoneNumber)
+//                .addOnCompleteListener{request->
+//                    if(request.isSuccessful){
+//                        CoroutineScope(Dispatchers.IO).launch {
+//
+//                            callSigninApi()
+//                        }
+//                    }
+//                        // The user is successfully signed in
+//
+//
+//
+//                    else{
+//                        // The user is not successfully signed in
+//                     binding?.tvError?.text = "errrrrror222222222222222"
+//
+//            }
+        }
 
         // Call the function to check if the phone number is registered
 //        private fun performPhoneNumberCheck() {

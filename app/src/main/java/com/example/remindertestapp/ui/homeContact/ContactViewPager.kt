@@ -1,28 +1,30 @@
-package com.example.remindertestapp.ui.home
+package com.example.remindertestapp.ui.homeContact
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 import androidx.navigation.fragment.findNavController
 //import com.example.remindertestapp.Manifest
 import com.example.remindertestapp.databinding.ContactViewPagerBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.menu.contacts.ContactFragment
-import com.example.remindertestapp.ui.menu.contacts.ContactViewPagesAdapter
-import com.example.remindertestapp.ui.menu.invite.InviteFragment
+import com.example.remindertestapp.ui.homeContact.contacts.ContactFragment
+import com.example.remindertestapp.ui.homeContact.invite.InviteFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeFragment : BaseFragment(), View.OnClickListener {
+class ContactViewPager : BaseFragment(), View.OnClickListener {
     private lateinit var binding: ContactViewPagerBinding
 
 
@@ -42,6 +44,22 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
 
             isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS]?: isReadPermissionGranted
+
+
+
+
+            if (isReadPermissionGranted) {
+                uploadContactsToServer()
+            } else {
+                // Handle permission denied
+                Log.e("Permission", "READ_CONTACTS permission denied")
+            }
+
+
+
+
+
+
         }
 
         return binding.root
@@ -72,7 +90,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.imgMenu?.id -> findNavController().navigate(HomeFragmentDirections.actionViewPagerContactToMenu())
+            binding?.imgMenu?.id -> findNavController().navigate(ContactViewPagerDirections.actionViewPagerContactToMenu())
         }
     }
 
@@ -95,4 +113,43 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         }
 
     }
+
+
+
+    @SuppressLint("Range")
+    private fun uploadContactsToServer() {
+        val contentResolver: ContentResolver = requireContext().contentResolver
+        val cursor: Cursor? = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val name =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                val phoneNumber =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                // Replace this with your server upload logic
+                ContactUploader.uploadContactToServer(name, phoneNumber)
+            }
+        }
+
+        cursor?.close()
+    }
+
+    // Hypothetical ContactUploader class for demonstration (replace with your implementation)
+    object ContactUploader {
+        fun uploadContactToServer(name: String?, phoneNumber: String?) {
+            // Implement your logic to upload contact to the server here
+            Log.d("ContactUploader", "Uploading contact: Name=$name, Phone=$phoneNumber")
+        }
+    }
+
+
+
 }

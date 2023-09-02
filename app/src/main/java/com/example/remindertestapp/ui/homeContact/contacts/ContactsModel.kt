@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.menu.contacts
+package com.example.remindertestapp.ui.homeContact.contacts
 
 import com.google.gson.annotations.SerializedName
 

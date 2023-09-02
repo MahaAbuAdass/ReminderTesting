@@ -4,10 +4,10 @@ import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
-import com.example.remindertestapp.ui.menu.contacts.GetExistUsersDataResponse
-import com.example.remindertestapp.ui.menu.contacts.GetExistUsersRequestModel
+import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersDataResponse
+import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
 import com.example.remindertestapp.ui.menu.MyInfoResponse
-import com.example.remindertestapp.ui.menu.contacts.PhoneNumbers
+import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbers
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -49,5 +49,8 @@ interface ApiService {
         @Header("Authorization") auth: String?
     ): GetExistUsersDataResponse
 
-
+//    @GET("/api/Reminder/getUserPhoneCalls")
+//    suspend fun getUserCalls(
+//        @Header("Authorization") auth: String?
+//    ):  GetUserCallsResponse
 }
