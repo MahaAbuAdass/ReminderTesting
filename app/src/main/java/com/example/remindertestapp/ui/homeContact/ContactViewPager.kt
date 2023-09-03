@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.ContactViewPagerBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.homeContact.contacts.ContactFragment
+import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbers
 import com.example.remindertestapp.ui.homeContact.invite.InviteFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -126,13 +127,20 @@ class ContactViewPager : BaseFragment(), View.OnClickListener {
             null,
             null
         )
+        val phoneNumbersList = mutableListOf<PhoneNumbers?>()
 
         cursor?.use {
+
             while (it.moveToNext()) {
                 val name =
                     it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+
+
+
                 val phoneNumber =
                     it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                phoneNumbersList.add(PhoneNumbers(firstName = name , telephone = phoneNumber)  )
 
                 // Replace this with your server upload logic
                 ContactUploader.uploadContactToServer(name, phoneNumber)
