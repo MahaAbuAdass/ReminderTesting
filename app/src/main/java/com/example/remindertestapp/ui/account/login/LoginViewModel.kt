@@ -17,34 +17,34 @@ class LoginViewModel : ViewModel() {
 
 
     private val _loginResponse = MutableLiveData<RegistrationResponseModel?>()
-    val loginResponse : LiveData<RegistrationResponseModel?> = _loginResponse
+    val loginResponse: LiveData<RegistrationResponseModel?> = _loginResponse
 
     private val _errorResponse = MutableLiveData<BaseError?>()
-    val errorResponse : LiveData<BaseError?> = _errorResponse
+    val errorResponse: LiveData<BaseError?> = _errorResponse
 
 
     private val _showProgress = MutableLiveData<Boolean>()
     val showProgress: LiveData<Boolean> = _showProgress
 
-    suspend fun callLoginApi(signinRequestModel: SigninRequestModel){
+    suspend fun callLoginApi(signinRequestModel: SigninRequestModel) {
         _showProgress.postValue(true)
 
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 loginResponsess = retrofitBuilder.loginUser(signinRequestModel)
-                _loginResponse.postValue(loginResponsess)
-            }catch (e: Exception)
-            {
+                loginResponsess?.bearerToken?.let {
+                    _loginResponse.postValue(loginResponsess)
+                } ?: _errorResponse.postValue(loginResponsess?.baseError)
+
+            } catch (e: Exception) {
                 _errorResponse.postValue(loginResponsess?.baseError)
-            }
-            finally { // finally execute after try and catch "always executed"
+            } finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
             }
 
         }
 
     }
-
 
 
 }

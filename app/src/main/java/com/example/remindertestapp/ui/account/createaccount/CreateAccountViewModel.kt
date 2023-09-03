@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remindertestapp.ui.account.BaseError
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
-import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +31,10 @@ class CreateAccountViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.signUpUser(signupRequestModel)
             try {
-                _signUpResponse.postValue(response)
+                response.bearerToken?.let {
+                    _signUpResponse.postValue(response)
+                } ?: _errorResponse.postValue(response.baseError)
+
             } catch (e: Exception) {
                 _errorResponse.postValue(response.baseError)
             } finally { // finally execute after try and catch "always executed"
