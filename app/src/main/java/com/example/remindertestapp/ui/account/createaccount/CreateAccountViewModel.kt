@@ -15,7 +15,7 @@ class CreateAccountViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
 
 
-    private val _signUpResponse = MutableLiveData<RegistrationResponseModel??>()
+    private val _signUpResponse = MutableLiveData<RegistrationResponseModel?>()
     val signUpResponse: LiveData<RegistrationResponseModel?> = _signUpResponse
 
     private val _errorResponse = MutableLiveData<BaseError?>()
@@ -31,12 +31,12 @@ class CreateAccountViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.signUpUser(signupRequestModel)
             try {
-                response.bearerToken?.let {
-                    _signUpResponse.postValue(response)
-                } ?: _errorResponse.postValue(response.baseError)
+                response.data?.bearerToken?.let {
+                    _signUpResponse.postValue(response.data)
+                } ?: _errorResponse.postValue(response.error)
 
             } catch (e: Exception) {
-                _errorResponse.postValue(response.baseError)
+                _errorResponse.postValue(response.error)
             } finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
             }

@@ -14,9 +14,9 @@ data class MyInfoResponse(
 data class MyInfoData(
 
     @SerializedName("profileId") val profileId: String?,
-    @SerializedName("phoneNumber") val phoneNumber: String?,
+    @SerializedName("mobileNumber") val phoneNumber: String?,
     @SerializedName("bearerToken") val bearerToken: String?,
-    @SerializedName("UserName") val userName: String?,
+    @SerializedName("userName") val userName: String?,
 
 
     @SerializedName("email") val email: String?,
