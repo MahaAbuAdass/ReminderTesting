@@ -8,7 +8,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.MenuBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 class MenuFragment : BaseFragment(), OnClickListener {
 
     private var binding: MenuBinding? = null
-    private var logoutViewModel: LogoutViewModel? = null
-    private var userInfoViewModel: UserInfoViewModel? = null
+    private val logoutViewModel by viewModels<LogoutViewModel>()
+    private val userInfoViewModel by viewModels<UserInfoViewModel>()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
@@ -37,27 +37,22 @@ class MenuFragment : BaseFragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
         initiate()
         initiatSharedPreference()
         callGetUserApi()
-
         observerViewModel()
     }
 
-    private fun callGetUserApi() {
-        CoroutineScope(Dispatchers.IO).launch {
-            userInfoViewModel?.getUserInfoDate(sharedPreferences?.getString(KEY_NAME, "") ?: "")
-        }
+    private fun observeViewModel() {
 
-        userInfoViewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
+        userInfoViewModel.getInfoResponse.observe(viewLifecycleOwner) {
 
-        userInfoViewModel?.getInfoResponse?.observe(viewLifecycleOwner) {
-
-                binding?.etName?.setText(it?.userName.toString()) ?: ""
-                binding?.etPhoneNumber?.setText(it?.phoneNumber.toString()) ?: ""
-                binding?.etEmail?.setText(it?.email.toString()) ?: ""
-                binding?.etBirthday?.setText(it?.birthday.toString()) ?: ""
-                binding?.etGender?.setText(it?.gender.toString()) ?: ""
+            binding?.etName?.setText(it?.userName.toString()) ?: ""
+            binding?.etPhoneNumber?.setText(it?.phoneNumber.toString()) ?: ""
+            binding?.etEmail?.setText(it?.email.toString()) ?: ""
+            binding?.etBirthday?.setText(it?.birthday.toString()) ?: ""
+            binding?.etGender?.setText(it?.gender.toString()) ?: ""
 
         }
         userInfoViewModel?.getInfoError?.observe(viewLifecycleOwner) {
@@ -66,9 +61,13 @@ class MenuFragment : BaseFragment(), OnClickListener {
         }
     }
 
-    private fun observerViewModel() {
-        logoutViewModel = ViewModelProvider(this)[LogoutViewModel::class.java]
+    private fun callGetUserApi() {
+        CoroutineScope(Dispatchers.IO).launch {
+            userInfoViewModel?.getUserInfoDate(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+        }
+    }
 
+    private fun observerViewModel() {
         logoutViewModel?.logoutResponse?.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
                 sharedPreferences?.edit()?.remove(KEY_NAME)?.apply()

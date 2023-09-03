@@ -22,7 +22,7 @@ class LogoutViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO){
             try {
                 val response = retrofitBuilder.logoutUser(auth)
-                if (response.data == true){
+                if (response.data?.isLogout == true){
                     _logoutResponse.postValue(true)
                 }else
                     _logoutResponseError.postValue("Error : $response")

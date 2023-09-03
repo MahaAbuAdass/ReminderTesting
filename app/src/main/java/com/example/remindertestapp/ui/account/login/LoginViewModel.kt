@@ -7,44 +7,45 @@ import androidx.lifecycle.viewModelScope
 import com.example.remindertestapp.ui.account.BaseError
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.example.remindertestapp.ui.account.SigninRequestModel
+import com.example.remindertestapp.ui.account.SigninResponseModel
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
-    private var loginResponsess: RegistrationResponseModel? = null
+    private lateinit var loginResponsess: SigninResponseModel
 
 
     private val _loginResponse = MutableLiveData<RegistrationResponseModel?>()
-    val loginResponse : LiveData<RegistrationResponseModel?> = _loginResponse
+    val loginResponse: LiveData<RegistrationResponseModel?> = _loginResponse
 
     private val _errorResponse = MutableLiveData<BaseError?>()
-    val errorResponse : LiveData<BaseError?> = _errorResponse
+    val errorResponse: LiveData<BaseError?> = _errorResponse
 
 
     private val _showProgress = MutableLiveData<Boolean>()
     val showProgress: LiveData<Boolean> = _showProgress
 
-    suspend fun callLoginApi(signinRequestModel: SigninRequestModel){
+    suspend fun callLoginApi(signinRequestModel: SigninRequestModel) {
         _showProgress.postValue(true)
 
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 loginResponsess = retrofitBuilder.loginUser(signinRequestModel)
-                _loginResponse.postValue(loginResponsess)
-            }catch (e: Exception)
-            {
-                _errorResponse.postValue(loginResponsess?.baseError)
-            }
-            finally { // finally execute after try and catch "always executed"
+                loginResponsess?.data?.bearerToken?.let {
+                    _loginResponse.postValue(loginResponsess?.data)
+                } ?: _errorResponse.postValue(loginResponsess?.error)
+
+            } catch (e: Exception) {
+                _errorResponse.postValue(loginResponsess?.error)
+            } finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
             }
 
         }
 
     }
-
 
 
 }

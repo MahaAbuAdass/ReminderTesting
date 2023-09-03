@@ -1,11 +1,17 @@
 package com.example.remindertestapp.ui.account
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class SigninRequestModel(
     @SerializedName
         ("MobileNumber") val mobileNumber: String?
+)
+
+data class SigninResponseModel(
+
+    @SerializedName("code") val code: Int?,
+    @SerializedName("data") val data: RegistrationResponseModel?,
+    @SerializedName("error") val error: BaseError?
 )
 
 data class RegistrationResponseModel(
@@ -32,8 +38,12 @@ data class SignupRequestModel(
 data class BooleanDataResponse(
 
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data: Boolean?,
+    @SerializedName("data") val data: LogoutData?,
     @SerializedName("error") val error: BaseError?
+)
+
+data class LogoutData(
+    val isLogout: Boolean?
 )
 
 

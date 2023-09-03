@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remindertestapp.ui.account.BaseError
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
-import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +15,7 @@ class CreateAccountViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
 
 
-    private val _signUpResponse = MutableLiveData<RegistrationResponseModel??>()
+    private val _signUpResponse = MutableLiveData<RegistrationResponseModel?>()
     val signUpResponse: LiveData<RegistrationResponseModel?> = _signUpResponse
 
     private val _errorResponse = MutableLiveData<BaseError?>()
@@ -32,9 +31,12 @@ class CreateAccountViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val response = retrofitBuilder.signUpUser(signupRequestModel)
             try {
-                _signUpResponse.postValue(response)
+                response.data?.bearerToken?.let {
+                    _signUpResponse.postValue(response.data)
+                } ?: _errorResponse.postValue(response.error)
+
             } catch (e: Exception) {
-                _errorResponse.postValue(response.baseError)
+                _errorResponse.postValue(response.error)
             } finally { // finally execute after try and catch "always executed"
                 _showProgress.postValue(false)
             }
