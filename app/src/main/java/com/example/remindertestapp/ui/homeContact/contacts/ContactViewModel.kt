@@ -19,11 +19,11 @@ class ContactViewModel : ViewModel() {
 
     //, phoneNumbers: List<PhoneNumbers?>
 
-    suspend fun getContacts(auth: String?, phoneNumbers: List<PhoneNumbers?>) {
+    suspend fun getContacts(auth: String?, getExistUsersRequestModel: GetExistUsersRequestModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = retrofitBuilder.getContacts(auth,phoneNumbers)
-                _getContactsResponse.postValue(response.phoneNumbers)
+                val response = retrofitBuilder.getContacts(auth,getExistUsersRequestModel)
+                _getContactsResponse.postValue(response.data)
             } catch (e: Exception) {
                 _getContactsResponseError.postValue(e.message.toString())
             }

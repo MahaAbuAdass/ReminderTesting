@@ -13,12 +13,12 @@ class ContactAdapter(
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val firstName: TextView = itemView.findViewById(R.id.tv_first_name)
-        private val lastName: TextView = itemView.findViewById(R.id.tv_second_name)
+        private val number: TextView = itemView.findViewById(R.id.mobile_number)
 
 
         fun setData(phoneNumbersResponse: PhoneNumbersResponse?) {
             firstName.text = phoneNumbersResponse?.firstName
-            lastName.text = phoneNumbersResponse?.lastName
+            number.text = phoneNumbersResponse?.lastName
 
         }
     }

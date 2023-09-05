@@ -1,19 +1,23 @@
 package com.example.remindertestapp.ui.homeContact.contacts
 
+import com.example.remindertestapp.ui.account.BaseError
+import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.google.gson.annotations.SerializedName
 
 
 data class GetExistUsersRequestModel(
-    @SerializedName("PhoneNumbers") val phoneNumbers: List<PhoneNumbers?>?
-)
-
-data class PhoneNumbers(
     @SerializedName("firstName") val firstName: String?,
     @SerializedName("telephone") val telephone: String?
 )
 
 data class GetExistUsersDataResponse(
-    @SerializedName("phoneNumbers") val phoneNumbers: List<PhoneNumbersResponse?>?
+    @SerializedName("code") val code: Int?,
+    @SerializedName("data") val data: List<PhoneNumbersResponse?>?,
+    @SerializedName("error") val error: BaseError?
+
+
+//
+//    @SerializedName("phoneNumbers") val phoneNumbers: List<PhoneNumbersResponse?>?
 )
 
 data class PhoneNumbersResponse(

@@ -1,13 +1,23 @@
 package com.example.remindertestapp.ui.homeContact.contacts
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,17 +29,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ContactFragment : BaseFragment(), OnClickListener {
-    private var binding: ContactsBinding? = null
+    private var binding: ContactsBinding?=null
     private var contactViewModel: ContactViewModel? = null
 
- //  private val viewModel: MenuViewModel by viewModels()
+    val phoneNumbersList = arrayListOf<GetExistUsersRequestModel?>()
+
+
+
+    //  private val viewModel: MenuViewModel by viewModels()
+
+    private lateinit var  getExistUsersRequestModel :GetExistUsersRequestModel
+
+    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    private var isReadPermissionGranted = false
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
 
-    private  val contactsList : MutableList<PhoneNumbers?> ?=null
+    //private val contactsList: MutableList<PhoneNumbers?>? = null
 //    val gson = Gson()
 //    val contactsJson = gson.toJson(contactsList)
 
@@ -39,28 +58,56 @@ class ContactFragment : BaseFragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
+
+
+
+
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+
+                isReadPermissionGranted =
+                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
+
+
+
+
+                if (isReadPermissionGranted) {
+                    uploadContactsToServer()
+                } else {
+                    // Handle permission denied
+                    Log.e("Permission", "READ_CONTACTS permission denied")
+                }
+            }
+
+
         initiate()
         initiatSharedPreference()
+        requestContactPermission()
         observeViewModel()
-        callGetContactAPI() }
+
+    }
+
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
+
     private fun callGetContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactsList?.let {
-                contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "",
-                    it
+                contactViewModel?.getContacts(
+                    sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                    getExistUsersRequestModel
                 )
             }
         }
-    }
+
 
     private fun observeViewModel() {
         val contactsViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
@@ -80,16 +127,80 @@ class ContactFragment : BaseFragment(), OnClickListener {
     }
 
     private fun initiate() {
-
+         binding?.btn?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            binding?.btn?.id -> callGetContactAPI()
         }
     }
+
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
+
+
+    private fun requestContactPermission() {
+        isReadPermissionGranted = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val permissionRequest: MutableList<String> = ArrayList()
+        if (!isReadPermissionGranted) {
+            permissionRequest.add(Manifest.permission.READ_CONTACTS)
+        }
+        if (permissionRequest.isNotEmpty()) {
+            permissionLauncher.launch(permissionRequest.toTypedArray())
+        }
+
+    }
+
+
+    @SuppressLint("Range")
+    private fun uploadContactsToServer() {
+        val contentResolver: ContentResolver = requireContext().contentResolver
+        val cursor: Cursor? = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val name =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+
+
+                val phoneNumber =
+                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                phoneNumbersList.add(GetExistUsersRequestModel(firstName = name, telephone = phoneNumber))
+
+                // Replace this with your server upload logic
+                ContactUploader.uploadContactToServer(name, phoneNumber)
+
+                callGetContactAPI()
+                phoneNumbersList
+
+            }
+        }
+
+        cursor?.close()
+    }
+
+    // Hypothetical ContactUploader class for demonstration (replace with your implementation)
+    object ContactUploader {
+        fun uploadContactToServer(name: String?, phoneNumber: String?) {
+            // Implement your logic to upload contact to the server here
+            Log.d("ContactUploader", "Uploading contact: Name=$name, Phone=$phoneNumber")
+        }
+    }
+
+
 }
