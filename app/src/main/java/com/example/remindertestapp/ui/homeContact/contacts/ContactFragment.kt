@@ -22,6 +22,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.ContactsBinding
+import com.example.remindertestapp.ui.account.createaccount.CreateAccountViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -29,16 +30,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ContactFragment : BaseFragment(), OnClickListener {
-    private var binding: ContactsBinding?=null
-    private var contactViewModel: ContactViewModel? = null
+    private var binding: ContactsBinding? = null
 
     val phoneNumbersList = arrayListOf<GetExistUsersRequestModel?>()
 
+    private val contactViewModel by viewModels<ContactViewModel>()
 
-
-    //  private val viewModel: MenuViewModel by viewModels()
-
-    private lateinit var  getExistUsersRequestModel :GetExistUsersRequestModel
+    private lateinit var getExistUsersRequestModel: GetExistUsersRequestModel
 
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
     private var isReadPermissionGranted = false
@@ -47,36 +45,23 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-
-    //private val contactsList: MutableList<PhoneNumbers?>? = null
-//    val gson = Gson()
-//    val contactsJson = gson.toJson(contactsList)
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
-
-
-
-
-
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        requestContactPermission()
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
 
                 isReadPermissionGranted =
                     it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
-
-
-
 
                 if (isReadPermissionGranted) {
                     uploadContactsToServer()
@@ -86,10 +71,8 @@ class ContactFragment : BaseFragment(), OnClickListener {
                 }
             }
 
-
         initiate()
         initiatSharedPreference()
-        requestContactPermission()
         observeViewModel()
 
     }
@@ -98,41 +81,44 @@ class ContactFragment : BaseFragment(), OnClickListener {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    private fun callGetContactAPI() {
+    private suspend fun callGetContactAPI() {
+
         CoroutineScope(Dispatchers.IO).launch {
 
-                contactViewModel?.getContacts(
-                    sharedPreferences?.getString(KEY_NAME, "") ?: "",
-                    getExistUsersRequestModel
-                )
-            }
-        }
-
-
-    private fun observeViewModel() {
-        val contactsViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
-        CoroutineScope(Dispatchers.IO).launch {
-
-            contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
-                it?.let {
-                    contactAdapter(it)
-                }
-
-            }
-
-            contactViewModel?.getContactsResponseError?.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-            }
+            contactViewModel?.getContacts(
+                sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                getExistUsersRequestModel
+            )
         }
     }
 
+
+
+
+    private fun observeViewModel() {
+
+        contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
+            it?.let {
+                contactAdapter(it)
+            }
+        }
+
+        contactViewModel?.getContactsResponseError?.observe(viewLifecycleOwner) {
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     private fun initiate() {
-         binding?.btn?.setOnClickListener(this)
+        binding?.btn?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.btn?.id -> callGetContactAPI()
+            binding?.btn?.id ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    callGetContactAPI()
+                }
         }
     }
 
@@ -176,22 +162,29 @@ class ContactFragment : BaseFragment(), OnClickListener {
                 val name =
                     it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
-
                 val phoneNumber =
                     it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                phoneNumbersList.add(GetExistUsersRequestModel(firstName = name, telephone = phoneNumber))
+                phoneNumbersList.add(
+                    GetExistUsersRequestModel(
+                        firstName = name,
+                        telephone = phoneNumber
+                    )
+                )
 
                 // Replace this with your server upload logic
                 ContactUploader.uploadContactToServer(name, phoneNumber)
-
-                callGetContactAPI()
-                phoneNumbersList
-
-            }
+                            }
         }
 
         cursor?.close()
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            callGetContactAPI()
+        }
+
+        phoneNumbersList
     }
 
     // Hypothetical ContactUploader class for demonstration (replace with your implementation)
