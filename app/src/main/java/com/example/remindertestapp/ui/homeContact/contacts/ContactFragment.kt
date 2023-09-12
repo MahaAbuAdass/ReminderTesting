@@ -36,9 +36,9 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     private val contactViewModel by viewModels<ContactViewModel>()
 
-    private lateinit var getExistUsersRequestModel: GetExistUsersRequestModel
+    private  var getExistUsersRequestModel: GetExistUsersRequestModel ?=null
 
-    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    private var permissionLauncher: ActivityResultLauncher<Array<String>> ?=null
     private var isReadPermissionGranted = false
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -85,15 +85,14 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactViewModel?.getContacts(
-                sharedPreferences?.getString(KEY_NAME, "") ?: "",
-                getExistUsersRequestModel
-            )
+            getExistUsersRequestModel?.let {
+                contactViewModel?.getContacts(
+                    sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                    it
+                )
+            }
         }
     }
-
-
-
 
     private fun observeViewModel() {
 
@@ -115,10 +114,12 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.btn?.id ->
+            binding?.btn?.id ->{
                 CoroutineScope(Dispatchers.IO).launch {
                     callGetContactAPI()
                 }
+            }
+
         }
     }
 
@@ -140,7 +141,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
             permissionRequest.add(Manifest.permission.READ_CONTACTS)
         }
         if (permissionRequest.isNotEmpty()) {
-            permissionLauncher.launch(permissionRequest.toTypedArray())
+            permissionLauncher?.launch(permissionRequest.toTypedArray())
         }
 
     }
@@ -180,12 +181,15 @@ class ContactFragment : BaseFragment(), OnClickListener {
         cursor?.close()
 
 
-        CoroutineScope(Dispatchers.IO).launch {
-            callGetContactAPI()
-        }
 
         phoneNumbersList
+
+        CoroutineScope(Dispatchers.IO).launch {
+           callGetContactAPI()
+        }
     }
+
+
 
     // Hypothetical ContactUploader class for demonstration (replace with your implementation)
     object ContactUploader {
