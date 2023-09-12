@@ -51,28 +51,40 @@ class ContactFragment : BaseFragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         requestContactPermission()
+
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+
 
                 isReadPermissionGranted =
                     it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
 
                 if (isReadPermissionGranted) {
                     uploadContactsToServer()
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        callGetContactAPI()
+                    }
                 } else {
+
+                    // uploadContactsToServer()
                     // Handle permission denied
                     Log.e("Permission", "READ_CONTACTS permission denied")
                 }
             }
 
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
         initiate()
         initiatSharedPreference()
+        CoroutineScope(Dispatchers.IO).launch {
+        callGetContactAPI() }
         observeViewModel()
 
     }
@@ -184,9 +196,6 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
         phoneNumbersList
 
-        CoroutineScope(Dispatchers.IO).launch {
-           callGetContactAPI()
-        }
     }
 
 

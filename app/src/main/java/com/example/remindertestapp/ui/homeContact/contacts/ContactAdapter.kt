@@ -18,7 +18,7 @@ class ContactAdapter(
 
         fun setData(phoneNumbersResponse: PhoneNumbersResponse?) {
             firstName.text = phoneNumbersResponse?.firstName
-            number.text = phoneNumbersResponse?.lastName
+            number.text = phoneNumbersResponse?.telephone
 
         }
     }
