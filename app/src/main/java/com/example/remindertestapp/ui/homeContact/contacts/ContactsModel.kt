@@ -12,7 +12,7 @@ data class GetExistUsersRequestModel(
 
 data class GetExistUsersDataResponse(
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data: List<PhoneNumbersResponse?>?,
+    @SerializedName("data") val data: ArrayList<PhoneNumbersResponse?>?,
     @SerializedName("error") val error: BaseError?
 
 

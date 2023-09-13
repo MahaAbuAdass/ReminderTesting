@@ -31,9 +31,7 @@ class MyTimeFragment : BaseFragment() {
         val adapter = activity?.let {
             ContactViewPagesAdapter(it, MyNameFragment(), MyTimeTimeFragment() , MyStatusFragment())
         }
-
         binding?.viewPager?.adapter = adapter
-
         TabLayoutMediator(binding!!.tabLayout, binding!!.viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
