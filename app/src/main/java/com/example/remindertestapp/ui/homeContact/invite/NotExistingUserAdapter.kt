@@ -13,13 +13,13 @@ class NotExistingUserAdapter(
 ) : RecyclerView.Adapter<NotExistingUserAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val firstName: TextView = itemView.findViewById(R.id.tv_first_name)
-        private val lastName: TextView = itemView.findViewById(R.id.tv_second_name)
+        private val firstName: TextView = itemView.findViewById(R.id.tv_i_first_name)
+        private val number: TextView = itemView.findViewById(R.id.tv_i_phone_number)
 
 
         fun setData(phoneNumbersResponse: PhoneNumbersResponse?) {
             firstName.text = phoneNumbersResponse?.firstName
-            lastName.text = phoneNumbersResponse?.lastName
+            number.text = phoneNumbersResponse?.telephone
 
         }
     }
@@ -29,7 +29,7 @@ class NotExistingUserAdapter(
         viewType: Int
     ): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.contact_cell, parent, false)
+            .inflate(R.layout.invite_cell, parent, false)
         return ItemViewHolder(view)
     }
 

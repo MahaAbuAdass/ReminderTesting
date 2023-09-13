@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.InviteFragmentBinding
@@ -18,9 +19,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InviteFragment : BaseFragment() , View.OnClickListener {
+class InviteFragment : BaseFragment(), View.OnClickListener {
     private var binding: InviteFragmentBinding? = null
-    private var contactViewModel: ContactViewModel? = null
+
+    private val inviteViewModel by viewModels<InviteViewModel>()
+
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
@@ -39,8 +42,8 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         initiate()
         initiatSharedPreference()
-        observeViewModel()
         callGetNotExistingContactAPI()
+        observeViewModel()
 
 
     }
@@ -53,22 +56,21 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
     private fun callGetNotExistingContactAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
-         //   contactViewModel?.getContacts(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+            inviteViewModel?.getNotExistingUser(sharedPreferences?.getString(KEY_NAME, "") ?: "")
         }
     }
 
     private fun observeViewModel() {
-        val contactsViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         CoroutineScope(Dispatchers.IO).launch {
 
-            contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
+            inviteViewModel?.getNotExistingContactResponse?.observe(viewLifecycleOwner) {
                 it?.let {
-                    NotExistingUserAdapter(it)
+                    notExistingUserAdapter(it)
                 }
 
             }
 
-            contactViewModel?.getContactsResponseError?.observe(viewLifecycleOwner) {
+            inviteViewModel?.getNotExistingContactResponseError?.observe(viewLifecycleOwner) {
                 Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
             }
         }
@@ -83,10 +85,8 @@ class InviteFragment : BaseFragment() , View.OnClickListener {
 
         }
     }
-
-
-    private fun NotExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = ContactAdapter(phoneNumbers)
+    private fun notExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
+        val adapter = NotExistingUserAdapter(phoneNumbers)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
