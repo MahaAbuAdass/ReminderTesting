@@ -1,7 +1,7 @@
 package com.example.remindertestapp.ui.network
 
-import com.example.remindertestapp.ui.Schedule.MyTime.ScheduleRequestModel
-import com.example.remindertestapp.ui.Schedule.MyTime.ScheduleResponse
+import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleRequestModel
+import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleResponse
 import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel

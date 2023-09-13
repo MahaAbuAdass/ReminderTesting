@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import com.example.remindertestapp.R
-import com.example.second.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 abstract class GeneralBottomSheetDialog<VBinding : ViewBinding>(activity: FragmentActivity) :

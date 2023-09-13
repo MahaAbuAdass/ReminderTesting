@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class InviteViewModel :ViewModel() {
     private var retrofitBuilder = RetrofitBuilder()
 
-    private val _getNotExistingContactResponse = MutableLiveData< ArrayList<PhoneNumbersResponse?>?>()
+    private val _getNotExistingContactResponse = MutableLiveData<ArrayList<PhoneNumbersResponse?>?>()
     val getNotExistingContactResponse: LiveData<ArrayList<PhoneNumbersResponse?>?> = _getNotExistingContactResponse
 
     private val _getNotExistingContactResponseError = MutableLiveData<String?>()

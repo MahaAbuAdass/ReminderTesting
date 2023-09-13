@@ -1,12 +1,11 @@
 package com.example.remindertestapp.ui.network
 
-import com.example.remindertestapp.ui.Schedule.MyTime.ScheduleRequestModel
+import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleRequestModel
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Header
 
 
 class RetrofitBuilder {
@@ -35,7 +34,7 @@ class RetrofitBuilder {
     suspend fun getNotExistingContact(auth: String?)=apiService.getNotExistUsers(auth)
 
 
-    suspend fun makeSchedule(scheduleRequestModel: ScheduleRequestModel,auth: String? )=apiService.schedule(scheduleRequestModel,auth)
+    suspend fun makeSchedule(scheduleRequestModel: ScheduleRequestModel, auth: String? )=apiService.schedule(scheduleRequestModel,auth)
 }
 
 

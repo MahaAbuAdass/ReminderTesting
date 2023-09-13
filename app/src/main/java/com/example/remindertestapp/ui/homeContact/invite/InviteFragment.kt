@@ -8,12 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.InviteFragmentBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.homeContact.contacts.ContactAdapter
-import com.example.remindertestapp.ui.homeContact.contacts.ContactViewModel
 import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -77,16 +74,29 @@ class InviteFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun initiate() {
+        binding?.btn?.setOnClickListener(this)
 
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            binding?.btn?.id -> {
+                val customPopup = CustomPopup(requireContext())
+                customPopup.show()
+
+            }
 
         }
     }
+
     private fun notExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = NotExistingUserAdapter(phoneNumbers)
+        val adapter = NotExistingUserAdapter(phoneNumbers, sendClicked = {
+
+            val customPopup = CustomPopup(requireContext())
+            customPopup.show()
+        }
+
+        )
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }

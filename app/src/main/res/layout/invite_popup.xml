@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+   android:orientation="vertical"
+    android:layout_gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="Invitation"
+        android:gravity="center"
+        android:id="@+id/title"/>
+
+    <Button
+        android:id="@+id/btn_share_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share via SMS" />
+
+    <Button
+        android:id="@+id/btn_share_whatsApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share via WhatsApp" />
+
+</LinearLayout>
