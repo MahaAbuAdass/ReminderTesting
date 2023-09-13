@@ -51,12 +51,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        requestContactPermission()
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
 
@@ -70,6 +65,13 @@ class ContactFragment : BaseFragment(), OnClickListener {
                     Log.e("Permission", "READ_CONTACTS permission denied")
                 }
             }
+        requestContactPermission()
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
         initiate()
         initiatSharedPreference()
@@ -183,6 +185,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
 
         phoneNumbersList
+
 
         CoroutineScope(Dispatchers.IO).launch {
            callGetContactAPI()
