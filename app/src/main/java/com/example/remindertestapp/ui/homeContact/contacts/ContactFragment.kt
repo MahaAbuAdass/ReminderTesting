@@ -2,6 +2,7 @@ package com.example.remindertestapp.ui.homeContact.contacts
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.SharedPreferences
@@ -14,16 +15,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.account.createaccount.CreateAccountViewModel
+import com.example.remindertestapp.ui.account.login.LoginFragmentDirections
+import com.example.remindertestapp.ui.account.login.LoginViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
+import com.example.remindertestapp.ui.homeContact.invite.CustomPopup
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,12 +43,9 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private var binding: ContactsBinding? = null
 
     val phoneNumbersList = arrayListOf<GetExistUsersRequestModel?>()
-
     private val contactViewModel by viewModels<ContactViewModel>()
-
-    private  var getExistUsersRequestModel: GetExistUsersRequestModel ?=null
-
-    private var permissionLauncher: ActivityResultLauncher<Array<String>> ?=null
+    private var getExistUsersRequestModel: GetExistUsersRequestModel? = null
+    private var permissionLauncher: ActivityResultLauncher<Array<String>>? = null
     private var isReadPermissionGranted = false
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -116,7 +123,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.btn?.id ->{
+            binding?.btn?.id -> {
                 CoroutineScope(Dispatchers.IO).launch {
                     callGetContactAPI()
                 }
@@ -126,7 +133,13 @@ class ContactFragment : BaseFragment(), OnClickListener {
     }
 
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = ContactAdapter(phoneNumbers)
+        val adapter = ContactAdapter(phoneNumbers, scheduleClicked = {
+
+            val customPopup = ScheduleCustomPopup(requireContext())
+            customPopup.show()
+        })
+
+
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
@@ -177,21 +190,14 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
                 // Replace this with your server upload logic
                 ContactUploader.uploadContactToServer(name, phoneNumber)
-                            }
+            }
         }
-
         cursor?.close()
-
-
-
         phoneNumbersList
-
-
         CoroutineScope(Dispatchers.IO).launch {
-           callGetContactAPI()
+            callGetContactAPI()
         }
     }
-
 
 
     // Hypothetical ContactUploader class for demonstration (replace with your implementation)
@@ -203,4 +209,51 @@ class ContactFragment : BaseFragment(), OnClickListener {
     }
 
 
+    inner class ScheduleCustomPopup(context: Context) : Dialog(context) {
+        private var contactViewModel: ContactViewModel? = null
+
+        private val popupView: View =
+            LayoutInflater.from(context).inflate(R.layout.schedule_popup, null)
+
+        private val topic: EditText = popupView.findViewById(R.id.et_topic)
+        private val time: EditText = popupView.findViewById(R.id.et_time)
+        private val send: Button = popupView.findViewById(R.id.btn_send)
+
+        init {
+            setContentView(popupView)
+            send.setOnClickListener {
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    contactViewModel?.makeSchedule(
+ScheduleRequestModel (
+    callTopic = topic.text.toString() ,
+    expectedCallTime = time.text.toString(),
+    callTime = "",
+    recievedUserphoneNumber =""
+
+)
+  ,sharedPreferences?.getString(KEY_NAME, "") ?: ""
+                    )
+
+                }
+            }
+            observeViewModel2()
+
+        }
+
+        private fun observeViewModel2() {
+            contactViewModel?.scheduleResponse?.observe(viewLifecycleOwner) {
+                //close popup
+                dismiss()
+
+
+            }
+            contactViewModel?.scheduleResponseError?.observe(viewLifecycleOwner) {
+                Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
+
+
+

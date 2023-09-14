@@ -1,9 +1,10 @@
 package com.example.remindertestapp.ui.network
 
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleRequestModel
+
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
+import com.example.remindertestapp.ui.homeContact.contacts.ScheduleRequestModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -35,6 +36,8 @@ class RetrofitBuilder {
 
 
     suspend fun makeSchedule(scheduleRequestModel: ScheduleRequestModel, auth: String? )=apiService.schedule(scheduleRequestModel,auth)
+    suspend fun getCallsToday(auth: String?)=apiService.getCallsToday(auth)
+
 }
 
 

@@ -21,7 +21,6 @@ class InviteFragment : BaseFragment(), View.OnClickListener {
 
     private val inviteViewModel by viewModels<InviteViewModel>()
 
-
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null

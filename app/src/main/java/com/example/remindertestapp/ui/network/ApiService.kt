@@ -1,13 +1,14 @@
 package com.example.remindertestapp.ui.network
 
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleRequestModel
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.ScheduleResponse
 import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
+import com.example.remindertestapp.ui.dashboardDailyCalls.CallsTodayResponseModel
 import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersDataResponse
 import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
+import com.example.remindertestapp.ui.homeContact.contacts.ScheduleRequestModel
+import com.example.remindertestapp.ui.homeContact.contacts.ScheduleResponse
 import com.example.remindertestapp.ui.menu.MyInfoResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -60,6 +61,14 @@ interface ApiService {
         @Body scheduleRequestModel: ScheduleRequestModel,
         @Header("Authorization") auth: String?
     ): ScheduleResponse
+
+
+    @GET("/api/Reminder/GetCallsToday")
+  suspend  fun getCallsToday(
+        @Header("Authorization") auth: String?
+
+    ): CallsTodayResponseModel
+
 
 
 }
