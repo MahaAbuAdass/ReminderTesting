@@ -28,7 +28,7 @@ class ContactViewModel : ViewModel() {
     private val _scheduleResponseError = MutableLiveData<String?>()
     val scheduleResponseError: LiveData<String?> = _scheduleResponseError
 
-    suspend fun getContacts(auth: String?, getExistUsersRequestModel: GetExistUsersRequestModel) {
+    suspend fun getContacts(auth: String?, getExistUsersRequestModel: ContactRequestModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = retrofitBuilder.getContacts(auth,getExistUsersRequestModel)

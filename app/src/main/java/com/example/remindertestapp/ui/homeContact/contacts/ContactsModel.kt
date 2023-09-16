@@ -4,6 +4,9 @@ import com.example.remindertestapp.ui.account.BaseError
 import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.google.gson.annotations.SerializedName
 
+data class ContactRequestModel(
+    @SerializedName("PhoneNumbers") val phoneNumbers: List<GetExistUsersRequestModel?>?
+)
 
 data class GetExistUsersRequestModel(
     @SerializedName("firstName") val firstName: String?,

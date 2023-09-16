@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/red"
     android:padding="10dp">
 
 
     <androidx.cardview.widget.CardView
 
-        android:background="@color/grey"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/card_view"
+        android:background="@color/grey"
         app:cardCornerRadius="15dp"
         app:cardElevation="4dp"
-        tools:ignore="MissingConstraints"
-        >    <!-- Set elevation as needed -->
+        tools:ignore="MissingConstraints">    <!-- Set elevation as needed -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,58 +26,54 @@
 
             <!-- Add your content inside the CardView here -->
             <ImageView
-                android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/baseline_phone_callback_24"
+                android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
-                />
+                android:src="@drawable/baseline_phone_callback_24" />
 
 
             <TextView
                 android:id="@+id/tv_name_d"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Name"
                 android:layout_marginEnd="40dp"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/tv_topic_d"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Topic"
                 android:layout_marginEnd="50dp"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:text="Topic" />
 
             <TextView
+                android:id="@+id/tv_time_d"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_time_d"
-                android:textStyle="bold"
-                tools:text="Today"
-                android:textSize="25sp"
                 android:layout_marginEnd="10dp"
-                />
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:text="Today" />
             <!-- Add more views as needed -->
             <ImageView
-                android:layout_gravity="center"
+                android:id="@+id/img_option"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/img_option"
-                android:src="@drawable/baseline_send_24"/>
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_send_24" />
 
         </LinearLayout>
-
 
 
     </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     <!-- Card Content -->

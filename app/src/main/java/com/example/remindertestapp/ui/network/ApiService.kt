@@ -10,8 +10,8 @@ import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.dashboardDailyCalls.CallsTodayResponseModel
+import com.example.remindertestapp.ui.homeContact.contacts.ContactRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersDataResponse
-import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.ScheduleRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.ScheduleResponse
 import com.example.remindertestapp.ui.menu.MyInfoResponse
@@ -48,7 +48,7 @@ interface ApiService {
     @POST("/api/User/GetExisitUsers")
     suspend fun getExistUsers(
         @Header("Authorization") auth: String?,
-        @Body getExistUsersRequestModel: GetExistUsersRequestModel
+        @Body getExistUsersRequestModel: ContactRequestModel
     ): GetExistUsersDataResponse
 
 
@@ -70,7 +70,7 @@ interface ApiService {
 
 
     @GET("/api/Reminder/GetCallsToday")
-  suspend  fun getCallsToday(
+    suspend fun getCallsToday(
         @Header("Authorization") auth: String?
 
     ): CallsTodayResponseModel

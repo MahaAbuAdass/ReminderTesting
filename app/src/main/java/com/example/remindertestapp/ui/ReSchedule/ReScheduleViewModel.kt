@@ -4,10 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.remindertestapp.ui.homeContact.contacts.GetExistUsersRequestModel
-import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
-import com.example.remindertestapp.ui.homeContact.contacts.ScheduleRequestModel
-import com.example.remindertestapp.ui.homeContact.contacts.SubmitScheduleResponse
 import com.example.remindertestapp.ui.menu.MyInfoData
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +17,6 @@ class ReScheduleViewModel : ViewModel() {
 
     private val _reScheduleResponseError = MutableLiveData<String?>()
     val reScheduleResponseError: LiveData<String?> = _reScheduleResponseError
-
 
 
     suspend fun reSchedule(auth: String?, reScheduleRequestModel: ReScheduleRequestModel) {

@@ -19,22 +19,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ContactsBinding
-import com.example.remindertestapp.ui.account.createaccount.CreateAccountViewModel
-import com.example.remindertestapp.ui.account.login.LoginFragmentDirections
-import com.example.remindertestapp.ui.account.login.LoginViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.homeContact.invite.CustomPopup
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +34,7 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     val phoneNumbersList = arrayListOf<GetExistUsersRequestModel?>()
     private val contactViewModel by viewModels<ContactViewModel>()
-    private var getExistUsersRequestModel: GetExistUsersRequestModel? = null
+
     private var permissionLauncher: ActivityResultLauncher<Array<String>>? = null
     private var isReadPermissionGranted = false
 
@@ -59,20 +49,20 @@ class ContactFragment : BaseFragment(), OnClickListener {
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
 
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-
-                isReadPermissionGranted =
-                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
-
-                if (isReadPermissionGranted) {
-                    uploadContactsToServer()
-                } else {
-                    // Handle permission denied
-                    Log.e("Permission", "READ_CONTACTS permission denied")
-                }
-            }
-        requestContactPermission()
+//        permissionLauncher =
+//            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+//
+//                isReadPermissionGranted =
+//                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
+//
+//                if (isReadPermissionGranted) {
+//                    uploadContactsToServer()
+//                } else {
+//                    // Handle permission denied
+//                    Log.e("Permission", "READ_CONTACTS permission denied")
+//                }
+//            }
+//        requestContactPermission()
         return binding?.root
     }
 
@@ -83,23 +73,23 @@ class ContactFragment : BaseFragment(), OnClickListener {
         initiate()
         initiatSharedPreference()
         observeViewModel()
-
+        uploadContactsToServer()
     }
 
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    private suspend fun callGetContactAPI() {
+    private fun callGetContactAPI() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            getExistUsersRequestModel?.let {
-                contactViewModel?.getContacts(
-                    sharedPreferences?.getString(KEY_NAME, "") ?: "",
-                    it
-                )
-            }
+
+            contactViewModel.getContacts(
+                sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                ContactRequestModel(phoneNumbersList)
+
+            )
         }
     }
 
@@ -124,9 +114,9 @@ class ContactFragment : BaseFragment(), OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             binding?.btn?.id -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    callGetContactAPI()
-                }
+
+                callGetContactAPI()
+
             }
 
         }
@@ -193,10 +183,8 @@ class ContactFragment : BaseFragment(), OnClickListener {
             }
         }
         cursor?.close()
-        phoneNumbersList
-        CoroutineScope(Dispatchers.IO).launch {
-            callGetContactAPI()
-        }
+        callGetContactAPI()
+
     }
 
 
@@ -225,14 +213,13 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     contactViewModel?.makeSchedule(
-ScheduleRequestModel (
-    callTopic = topic.text.toString() ,
-    expectedCallTime = time.text.toString(),
-    callTime = "",
-    recievedUserphoneNumber =""
+                        ScheduleRequestModel(
+                            callTopic = topic.text.toString(),
+                            expectedCallTime = time.text.toString(),
+                            callTime = "",
+                            recievedUserphoneNumber = ""
 
-)
-  ,sharedPreferences?.getString(KEY_NAME, "") ?: ""
+                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
                     )
 
                 }
