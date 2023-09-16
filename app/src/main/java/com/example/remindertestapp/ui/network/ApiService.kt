@@ -1,5 +1,10 @@
 package com.example.remindertestapp.ui.network
 
+import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
+import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
+import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
+import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleResponse
+import com.example.remindertestapp.ui.Status.Accept.CancelScheduleResponse
 import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel
@@ -14,6 +19,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -70,5 +76,22 @@ interface ApiService {
     ): CallsTodayResponseModel
 
 
+    @POST("/api/Reminder/ReScheduleCall")
+    suspend fun reschedule(
+        @Header("Authorization") auth: String?,
+        @Body reScheduleRequestModel: ReScheduleRequestModel
+    ): RescheduleResponseModel
+
+    @POST("/api/Reminder/AcceptSchedule")
+    fun acceptSchedule(
+        @Header("Authorization") auth: String?,
+        @Body acceptScheduleRequest: AcceptScheduleRequest
+    ): AcceptScheduleResponse
+
+    @GET("/api/Reminder/CancelScheduleCall")
+    fun cancelSchedule(
+        @Header("Authorization") auth: String?,
+        @Query("Id") id: String
+    ): CancelScheduleResponse
 
 }

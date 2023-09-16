@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/red"
+    android:padding="10dp">
+
+
+    <androidx.cardview.widget.CardView
+
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="4dp"
+        tools:ignore="MissingConstraints"
+        >    <!-- Set elevation as needed -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Add your content inside the CardView here -->
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_phone_callback_24"
+                android:layout_marginEnd="10dp"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_name_d"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Name"
+                android:layout_marginEnd="40dp"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/tv_topic_d"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Topic"
+                android:layout_marginEnd="50dp"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_time_d"
+                android:textStyle="bold"
+                tools:text="Today"
+                android:textSize="25sp"
+                android:layout_marginEnd="10dp"
+                />
+            <!-- Add more views as needed -->
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/img_option"
+                android:src="@drawable/baseline_send_24"/>
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <!-- Card Content -->
+
+
+
