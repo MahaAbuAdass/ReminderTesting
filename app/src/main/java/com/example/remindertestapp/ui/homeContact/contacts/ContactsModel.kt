@@ -1,7 +1,6 @@
 package com.example.remindertestapp.ui.homeContact.contacts
 
 import com.example.remindertestapp.ui.account.BaseError
-import com.example.remindertestapp.ui.account.RegistrationResponseModel
 import com.google.gson.annotations.SerializedName
 
 data class ContactRequestModel(
@@ -15,7 +14,7 @@ data class GetExistUsersRequestModel(
 
 data class GetExistUsersDataResponse(
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data: ArrayList<PhoneNumbersResponse?>?,
+    @SerializedName("data") val data:PhoneNumbers,
     @SerializedName("error") val error: BaseError?
 
 
@@ -23,6 +22,7 @@ data class GetExistUsersDataResponse(
 //    @SerializedName("phoneNumbers") val phoneNumbers: List<PhoneNumbersResponse?>?
 )
 
+data class PhoneNumbers(@SerializedName("phoneNumbers") val phoneNumbers:ArrayList<PhoneNumbersResponse?>?)
 data class PhoneNumbersResponse(
     @SerializedName("firstName") val firstName: String?,
     @SerializedName("lastName") val lastName: String?,
@@ -30,7 +30,6 @@ data class PhoneNumbersResponse(
     @SerializedName("isFavorite") val isFavorite: Boolean?,
     @SerializedName("isInMyCotacts") val isInMyCotacts: Boolean?
 )
-
 
 
 data class ScheduleRequestModel(
@@ -49,5 +48,5 @@ data class ScheduleResponse(
 
 data class SubmitScheduleResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean?,
-    @SerializedName("msg")  val message: String?
+    @SerializedName("msg") val message: String?
 )

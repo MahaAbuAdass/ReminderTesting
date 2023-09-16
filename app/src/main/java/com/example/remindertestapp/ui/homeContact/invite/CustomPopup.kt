@@ -10,9 +10,10 @@ import android.widget.Button
 import com.example.remindertestapp.R
 
 import android.app.Dialog
+import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 
 
-class CustomPopup(context: Context) : Dialog(context) {
+class CustomPopup(context: Context, phoneNumbers: PhoneNumbersResponse?) : Dialog(context) {
 
     private val popupView: View = LayoutInflater.from(context).inflate(R.layout.invite_popup, null)
     private val btnShareSMS: Button = popupView.findViewById(R.id.btn_share_sms)

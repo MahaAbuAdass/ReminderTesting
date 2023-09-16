@@ -102,8 +102,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/daily_calls"
-        android:name="com.example.remindertestapp.ui.dashboardDailyCalls.DailyCalls"
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.remindertestapp.ui.dashboardDailyCalls.DashboardFragment"
         android:label="Daily Calls"
         tools:layout="@layout/fragment_daily_calls" />
 

@@ -16,7 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InviteFragment : BaseFragment(), View.OnClickListener {
+class InviteFragment : BaseFragment(){
     private var binding: InviteFragmentBinding? = null
 
     private val inviteViewModel by viewModels<InviteViewModel>()
@@ -36,10 +36,10 @@ class InviteFragment : BaseFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initiate()
+        observeViewModel()
         initiatSharedPreference()
         callGetNotExistingContactAPI()
-        observeViewModel()
+
 
 
     }
@@ -57,41 +57,23 @@ class InviteFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun observeViewModel() {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            inviteViewModel?.getNotExistingContactResponse?.observe(viewLifecycleOwner) {
+            inviteViewModel.getNotExistingContactResponse.observe(viewLifecycleOwner) {
                 it?.let {
                     notExistingUserAdapter(it)
                 }
 
             }
 
-            inviteViewModel?.getNotExistingContactResponseError?.observe(viewLifecycleOwner) {
+            inviteViewModel.getNotExistingContactResponseError?.observe(viewLifecycleOwner) {
                 Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
             }
-        }
-    }
 
-    private fun initiate() {
-        binding?.btn?.setOnClickListener(this)
-
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            binding?.btn?.id -> {
-                val customPopup = CustomPopup(requireContext())
-                customPopup.show()
-
-            }
-
-        }
     }
 
     private fun notExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = NotExistingUserAdapter(phoneNumbers, sendClicked = {
+        val adapter = NotExistingUserAdapter(phoneNumbers, sendClicked = {phoneNumbers->
 
-            val customPopup = CustomPopup(requireContext())
+            val customPopup = CustomPopup(requireContext(),phoneNumbers)
             customPopup.show()
         }
 

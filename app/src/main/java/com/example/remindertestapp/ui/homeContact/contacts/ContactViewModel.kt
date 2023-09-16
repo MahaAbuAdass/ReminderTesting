@@ -32,7 +32,7 @@ class ContactViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = retrofitBuilder.getContacts(auth,getExistUsersRequestModel)
-                _getContactsResponse.postValue(response.data)
+                _getContactsResponse.postValue(response.data.phoneNumbers)
             } catch (e: Exception) {
                 _getContactsResponseError.postValue(e.message.toString())
             }

@@ -25,8 +25,9 @@ class InviteViewModel :ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = retrofitBuilder.getNotExistingContact(auth)
-                _getNotExistingContactResponse.postValue(response.data)
+                _getNotExistingContactResponse.postValue(response.data.phoneNumbers)
             } catch (e: Exception) {
+
                 _getNotExistingContactResponseError.postValue(e.message.toString())
             }
         }
