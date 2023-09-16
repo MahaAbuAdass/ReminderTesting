@@ -26,8 +26,12 @@ class CustomPopup(context: Context, phoneNumbers: PhoneNumbersResponse?) : Dialo
             // Handle the SMS sharing logic here
             // For example, you can open an SMS intent to compose a message
             // Intent to send SMS
-            val smsIntent = Intent(Intent.ACTION_VIEW)
-            smsIntent.data = Uri.parse("sms:")
+//            val smsIntent = Intent(Intent.ACTION_VIEW)
+//            smsIntent.data = Uri.parse("sms:")
+
+            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phoneNumbers?.telephone, null))
+
+
             smsIntent.putExtra("sms_body", "Hello, check out this cool app!")
             context.startActivity(smsIntent)
 

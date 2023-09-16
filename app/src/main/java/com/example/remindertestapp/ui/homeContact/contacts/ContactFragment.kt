@@ -19,6 +19,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,31 +50,31 @@ class ContactFragment : BaseFragment(), OnClickListener {
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
 
-//        permissionLauncher =
-//            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-//
-//                isReadPermissionGranted =
-//                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
-//
-//                if (isReadPermissionGranted) {
-//                    uploadContactsToServer()
-//                } else {
-//                    // Handle permission denied
-//                    Log.e("Permission", "READ_CONTACTS permission denied")
-//                }
-//            }
-//        requestContactPermission()
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+
+                isReadPermissionGranted =
+                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
+
+                if (isReadPermissionGranted) {
+                    uploadContactsToServer()
+                } else {
+                    // Handle permission denied
+                    Log.e("Permission", "READ_CONTACTS permission denied")
+                }
+            }
+        requestContactPermission()
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeViewModel()
 
         initiate()
         initiatSharedPreference()
-        observeViewModel()
-        uploadContactsToServer()
+//        uploadContactsToServer()
     }
 
     private fun initiatSharedPreference() {

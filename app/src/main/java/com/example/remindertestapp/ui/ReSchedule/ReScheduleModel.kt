@@ -5,8 +5,8 @@ import com.example.remindertestapp.ui.menu.MyInfoData
 import com.google.gson.annotations.SerializedName
 
 data class ReScheduleRequestModel(
-    @SerializedName("CallId") val callId: Int,
-    @SerializedName("NewCallTime") val newCallTime: String
+    @SerializedName("CallId") val callId: Int?,
+    @SerializedName("NewCallTime") val newCallTime: String?
 )
 
 

@@ -63,16 +63,15 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun dailyCallsAdapter(allCalls: List<DailyCalls>?) {
-        val adapter = DailyCallsAdapter(allCalls, optionClicked = {
+        val adapter = DailyCallsAdapter(allCalls, optionClicked = {DailyCalls->
 
-            val customPopup = OptionsPopup(requireContext())
+            val customPopup = OptionsPopup(requireContext(),DailyCalls)
             customPopup.show()
         }
         )
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
-
 
     private fun initSharedPreferences() {
         sharedPreferences = activity?.getSharedPreferences(
@@ -90,7 +89,7 @@ class DashboardFragment : BaseFragment() {
     }
 
 
-    inner class OptionsPopup(context: Context) : Dialog(context) {
+    inner class OptionsPopup(context: Context, DailyCalls: DailyCalls) : Dialog(context) {
 
         private val popupView: View =
             LayoutInflater.from(context).inflate(R.layout.daily_calls_popup, null)
@@ -104,7 +103,7 @@ class DashboardFragment : BaseFragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     reScheduleViewModel.reSchedule(
                         sharedPreferences?.getString(KEY_NAME, "") ?: "", ReScheduleRequestModel(
-                            callId = 1,
+                            callId = DailyCalls.callID,
                             newCallTime = ""
                         )
                     )
