@@ -16,12 +16,15 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.R
@@ -29,9 +32,10 @@ import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class ContactFragment : BaseFragment(), OnClickListener {
+class ContactFragment : BaseFragment() {
     private var binding: ContactsBinding? = null
 
     val phoneNumbersList = arrayListOf<GetExistUsersRequestModel?>()
@@ -44,27 +48,28 @@ class ContactFragment : BaseFragment(), OnClickListener {
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
+
+
+
+
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Permission granted, you can now read contacts
+                uploadContactsToServer()
+            } else {
+                // Permission denied, handle accordingly (e.g., show a message or exit the app)
+                // You may want to explain why you need this permission to the user
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = ContactsBinding.inflate(inflater, container, false)
-
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-
-                isReadPermissionGranted =
-                    it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
-
-                if (isReadPermissionGranted) {
-                    uploadContactsToServer()
-                } else {
-                    // Handle permission denied
-                    Log.e("Permission", "READ_CONTACTS permission denied")
-                }
-            }
-        requestContactPermission()
         return binding?.root
     }
 
@@ -72,12 +77,25 @@ class ContactFragment : BaseFragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
-
-        initiate()
         initiatSharedPreference()
-//        uploadContactsToServer()
+        requestContactsPermission()
+
     }
 
+    private fun requestContactsPermission(){
+        // Check if permission is already granted
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is already granted, you can now read contacts
+            uploadContactsToServer()
+        } else {
+            // Permission is not granted, request it
+            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        }
+    }
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
@@ -99,6 +117,9 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
         contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
             it?.let {
+
+                binding?.noContactsTxt?.visibility=View.INVISIBLE
+                binding?.noContactsTxt?.isVisible=false
                 contactAdapter(it)
             }
         }
@@ -106,21 +127,17 @@ class ContactFragment : BaseFragment(), OnClickListener {
         contactViewModel?.getContactsResponseError?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
-    }
+        contactViewModel?.scheduleResponse?.observe(viewLifecycleOwner) {
 
 
-    private fun initiate() {
-        binding?.btn?.setOnClickListener(this)
-    }
 
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            binding?.btn?.id -> {
-
-                callGetContactAPI()
-            }
+        }
+        contactViewModel?.scheduleResponseError?.observe(viewLifecycleOwner) {
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers, scheduleClicked = {
@@ -152,40 +169,43 @@ class ContactFragment : BaseFragment(), OnClickListener {
 
     }
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     @SuppressLint("Range")
     private fun uploadContactsToServer() {
-        val contentResolver: ContentResolver = requireContext().contentResolver
-        val cursor: Cursor? = contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            null,
-            null,
-            null
-        )
+        coroutineScope.launch {
+            val contentResolver: ContentResolver = requireContext().contentResolver
+            val cursor: Cursor? = contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+            )
 
-        cursor?.use {
-            while (it.moveToNext()) {
-                val name =
-                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+            cursor?.use {
+                while (it.moveToNext()) {
+                    val name =
+                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
-                val phoneNumber =
-                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    val phoneNumber =
+                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                phoneNumbersList.add(
-                    GetExistUsersRequestModel(
-                        firstName = name,
-                        telephone = phoneNumber
+                    phoneNumbersList.add(
+                        GetExistUsersRequestModel(
+                            firstName = name,
+                            telephone = phoneNumber
+                        )
                     )
-                )
 
-                // Replace this with your server upload logic
-                ContactUploader.uploadContactToServer(name, phoneNumber)
+                    // Replace this with your server upload logic
+                    ContactUploader.uploadContactToServer(name, phoneNumber)
+                }
             }
+            cursor?.close()
+            callGetContactAPI()
+            coroutineScope.cancel()
         }
-        cursor?.close()
-        callGetContactAPI()
-
     }
 
 
@@ -205,43 +225,34 @@ class ContactFragment : BaseFragment(), OnClickListener {
             LayoutInflater.from(context).inflate(R.layout.schedule_popup, null)
 
         private val topic: EditText = popupView.findViewById(R.id.et_topic)
-        private val selectedtime : TextView =popupView.findViewById(R.id.timePicker)
-        private val date : TextView = popupView.findViewById(R.id.tv_select_date)
+        private val selectedtime : TimePicker =popupView.findViewById(R.id.timePicker)
         private val expectedTime: EditText = popupView.findViewById(R.id.et_time)
         private val send: Button = popupView.findViewById(R.id.btn_send)
 
         init {
+            selectedtime.setIs24HourView(true)
             setContentView(popupView)
+
             send.setOnClickListener {
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    contactViewModel?.makeSchedule(
-                        ScheduleRequestModel(
-                            callTopic = topic.text.toString(),
-                            callTime = selectedtime.text.toString()   ,
-                            expectedCallTime = expectedTime.text.toString(),
-                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
 
-                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
-                    )
-
-                }
-            }
-            observeViewModel2()
-
-        }
-
-        private fun observeViewModel2() {
-            contactViewModel?.scheduleResponse?.observe(viewLifecycleOwner) {
-                //close popup
+                Toast.makeText(mainActivity, "${selectedtime.hour} ${selectedtime.minute}", Toast.LENGTH_SHORT).show()
                 dismiss()
-
-
-            }
-            contactViewModel?.scheduleResponseError?.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    contactViewModel?.makeSchedule(
+//                        ScheduleRequestModel(
+//                            callTopic = topic.text.toString(),
+//                            callTime = "${selectedtime.hour} ${selectedtime.minute}" ,
+//                            expectedCallTime = expectedTime.text.toString(),
+//                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
+//
+//                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
+//                    )
+//
+//                }
             }
         }
+
     }
 }
 
