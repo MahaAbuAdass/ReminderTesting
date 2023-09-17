@@ -52,6 +52,9 @@ class RetrofitBuilder {
         apiService.acceptSchedule(auth, acceptScheduleRequest)
 
     suspend fun cancelSchedule(auth: String?, id: String) = apiService.cancelSchedule(auth, id)
+
+    suspend fun getUserPendingCalls (auth: String?)=apiService.getUserPendingCalls(auth)
+
 }
 
 

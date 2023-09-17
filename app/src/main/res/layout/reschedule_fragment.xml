@@ -55,20 +55,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
-    <TextView
-        android:id="@+id/showDatePickerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="16dp"
-        android:text="Click to Show Date Picker"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-<com.google.android.material.textfield.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-app:layout_constraintBottom_toBottomOf="parent"
-    app:startIconDrawable="@drawable/baseline_doorbell_24"
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

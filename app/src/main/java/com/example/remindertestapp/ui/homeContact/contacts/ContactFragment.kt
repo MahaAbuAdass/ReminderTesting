@@ -17,6 +17,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -117,16 +118,15 @@ class ContactFragment : BaseFragment(), OnClickListener {
             binding?.btn?.id -> {
 
                 callGetContactAPI()
-
             }
-
         }
     }
 
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers, scheduleClicked = {
+          PhoneNumbersResponse->
 
-            val customPopup = ScheduleCustomPopup(requireContext())
+            val customPopup = ScheduleCustomPopup(requireContext(),PhoneNumbersResponse)
             customPopup.show()
         })
 
@@ -198,14 +198,16 @@ class ContactFragment : BaseFragment(), OnClickListener {
     }
 
 
-    inner class ScheduleCustomPopup(context: Context) : Dialog(context) {
+    inner class ScheduleCustomPopup(context: Context, PhoneNumbersResponse: PhoneNumbersResponse?) : Dialog(context) {
         private var contactViewModel: ContactViewModel? = null
 
         private val popupView: View =
             LayoutInflater.from(context).inflate(R.layout.schedule_popup, null)
 
         private val topic: EditText = popupView.findViewById(R.id.et_topic)
-        private val time: EditText = popupView.findViewById(R.id.et_time)
+        private val selectedtime : TextView =popupView.findViewById(R.id.timePicker)
+        private val date : TextView = popupView.findViewById(R.id.tv_select_date)
+        private val expectedTime: EditText = popupView.findViewById(R.id.et_time)
         private val send: Button = popupView.findViewById(R.id.btn_send)
 
         init {
@@ -216,9 +218,9 @@ class ContactFragment : BaseFragment(), OnClickListener {
                     contactViewModel?.makeSchedule(
                         ScheduleRequestModel(
                             callTopic = topic.text.toString(),
-                            expectedCallTime = time.text.toString(),
-                            callTime = "",
-                            recievedUserphoneNumber = ""
+                            callTime = selectedtime.text.toString()   ,
+                            expectedCallTime = expectedTime.text.toString(),
+                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
 
                         ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
                     )

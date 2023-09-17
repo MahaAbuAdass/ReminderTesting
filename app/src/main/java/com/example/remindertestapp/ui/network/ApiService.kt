@@ -2,6 +2,7 @@ package com.example.remindertestapp.ui.network
 
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
+import com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleResponse
 import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
 import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleResponse
 import com.example.remindertestapp.ui.Status.Accept.CancelScheduleResponse
@@ -93,5 +94,11 @@ interface ApiService {
         @Header("Authorization") auth: String?,
         @Query("Id") id: String
     ): CancelScheduleResponse
+
+
+    @GET("/api/Reminder/GetUserPendingCalls")
+    fun getUserPendingCalls(
+         @Header("Authorization") auth: String?,
+    ) : MeMyScheduleResponse
 
 }

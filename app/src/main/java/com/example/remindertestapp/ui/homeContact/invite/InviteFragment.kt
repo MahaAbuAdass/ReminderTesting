@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.InviteFragmentBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
+import com.example.remindertestapp.ui.homeContact.contacts.ContactFragment
 import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,13 +72,13 @@ class InviteFragment : BaseFragment(){
     }
 
     private fun notExistingUserAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = NotExistingUserAdapter(phoneNumbers, sendClicked = {phoneNumbers->
-
+        val adapter = NotExistingUserAdapter(phoneNumbers, sendClicked = {
+                phoneNumbers->
             val customPopup = CustomPopup(requireContext(),phoneNumbers)
             customPopup.show()
         }
-
         )
+
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }

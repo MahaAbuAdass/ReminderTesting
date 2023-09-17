@@ -33,10 +33,10 @@ data class PhoneNumbersResponse(
 
 
 data class ScheduleRequestModel(
-    @SerializedName("RecievedUserphoneNumber") val recievedUserphoneNumber: String,
-    @SerializedName("CallTime") val callTime: String,
-    @SerializedName("ExpectedCallTime") val expectedCallTime: String,
-    @SerializedName("CallTopic") val callTopic: String
+    @SerializedName("RecievedUserphoneNumber") val recievedUserphoneNumber: String?,
+    @SerializedName("CallTime") val callTime: String?,
+    @SerializedName("ExpectedCallTime") val expectedCallTime: String?,
+    @SerializedName("CallTopic") val callTopic: String?
 )
 
 data class ScheduleResponse(
