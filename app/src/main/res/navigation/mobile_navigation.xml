@@ -63,8 +63,23 @@
     <fragment
         android:id="@+id/contact"
         android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
-        tools:layout="@layout/contacts" />
+        tools:layout="@layout/contacts" >
+        <action
+            android:id="@+id/action_contact_to_schedule"
+            app:destination="@id/schedule" />
+    </fragment>
 
+
+
+    <fragment
+        android:id="@+id/schedule"
+        android:name="com.example.remindertestapp.ui.homeContact.contacts.ScheduleFragment"
+        tools:layout="@layout/schedule_fragment">
+    <argument
+        android:name="phonenumbers"
+        app:argType="com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse"/>
+
+</fragment>
 
 
     <fragment

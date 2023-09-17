@@ -13,12 +13,9 @@ import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -26,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ContactsBinding
@@ -143,8 +141,9 @@ class ContactFragment : BaseFragment() {
         val adapter = ContactAdapter(phoneNumbers, scheduleClicked = {
           PhoneNumbersResponse->
 
-            val customPopup = ScheduleCustomPopup(requireContext(),PhoneNumbersResponse)
-            customPopup.show()
+            findNavController().navigate(ContactFragmentDirections.actionContactToSchedule(PhoneNumbersResponse))
+//            val customPopup = ScheduleCustomPopup(requireContext(),PhoneNumbersResponse)
+//            customPopup.show()
         })
 
 
@@ -218,42 +217,42 @@ class ContactFragment : BaseFragment() {
     }
 
 
-    inner class ScheduleCustomPopup(context: Context, PhoneNumbersResponse: PhoneNumbersResponse?) : Dialog(context) {
-        private var contactViewModel: ContactViewModel? = null
-
-        private val popupView: View =
-            LayoutInflater.from(context).inflate(R.layout.schedule_popup, null)
-
-        private val topic: EditText = popupView.findViewById(R.id.et_topic)
-        private val selectedtime : TimePicker =popupView.findViewById(R.id.timePicker)
-        private val expectedTime: EditText = popupView.findViewById(R.id.et_time)
-        private val send: Button = popupView.findViewById(R.id.btn_send)
-
-        init {
-            selectedtime.setIs24HourView(true)
-            setContentView(popupView)
-
-            send.setOnClickListener {
-
-
-                Toast.makeText(mainActivity, "${selectedtime.hour} ${selectedtime.minute}", Toast.LENGTH_SHORT).show()
-                dismiss()
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    contactViewModel?.makeSchedule(
-//                        ScheduleRequestModel(
-//                            callTopic = topic.text.toString(),
-//                            callTime = "${selectedtime.hour} ${selectedtime.minute}" ,
-//                            expectedCallTime = expectedTime.text.toString(),
-//                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
+//    inner class ScheduleCustomPopup(context: Context, PhoneNumbersResponse: PhoneNumbersResponse?) : Dialog(context) {
+//        private var contactViewModel: ContactViewModel? = null
 //
-//                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
-//                    )
+//        private val popupView: View =
+//            LayoutInflater.from(context).inflate(R.layout.schedule_fragment, null)
 //
-//                }
-            }
-        }
-
-    }
+//        private val topic: EditText = popupView.findViewById(R.id.et_topic)
+//        private val selectedtime : TimePicker =popupView.findViewById(R.id.timePicker)
+//        private val expectedTime: EditText = popupView.findViewById(R.id.et_time)
+//        private val send: Button = popupView.findViewById(R.id.btn_send)
+//
+//        init {
+//            selectedtime.setIs24HourView(true)
+//            setContentView(popupView)
+//
+//            send.setOnClickListener {
+//
+//
+//                Toast.makeText(mainActivity, "${selectedtime.hour} ${selectedtime.minute}", Toast.LENGTH_SHORT).show()
+//                dismiss()
+////                CoroutineScope(Dispatchers.IO).launch {
+////                    contactViewModel?.makeSchedule(
+////                        ScheduleRequestModel(
+////                            callTopic = topic.text.toString(),
+////                            callTime = "${selectedtime.hour} ${selectedtime.minute}" ,
+////                            expectedCallTime = expectedTime.text.toString(),
+////                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
+////
+////                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
+////                    )
+////
+////                }
+//            }
+//        }
+//
+//    }
 }
 
 
