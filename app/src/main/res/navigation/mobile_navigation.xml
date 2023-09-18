@@ -112,17 +112,18 @@
                 <action
                     android:id="@+id/action_view_pager_contact_to_menu"
                     app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_navigation_home_to_schedule"
+            app:destination="@id/schedule" />
     </fragment>
 
 
     <fragment
         android:id="@+id/contact_fragment"
         android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
-        tools:layout="@layout/contacts" >
-        <action
-            android:id="@+id/action_contact_fragment_to_schedule"
-            app:destination="@id/schedule" />
-    </fragment>
+        tools:layout="@layout/contacts"/>
+
+
 
     <fragment
         android:id="@+id/navigation_dashboard"

@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
+import com.example.remindertestapp.ui.homeContact.ContactViewPagerDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -135,11 +136,7 @@ class ContactFragment : BaseFragment() {
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
         val adapter = ContactAdapter(phoneNumbers, scheduleClicked = { numbers ->
 
-            findNavController().navigate(
-                ContactFragmentDirections.actionContactFragmentToSchedule(
-                    numbers
-                )
-            )
+            findNavController().navigate(ContactViewPagerDirections.actionNavigationHomeToSchedule(numbers)            )
 //            val customPopup = ScheduleCustomPopup(requireContext(),PhoneNumbersResponse)
 //            customPopup.show()
         })
