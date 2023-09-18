@@ -7,13 +7,6 @@
 
 
     <fragment
-        android:id="@+id/ssssss"
-        android:name="com.example.remindertestapp.ui.homeContact.contacts.Schedule"
-        tools:layout="@layout/schedule_fragment" />
-
-
-
-    <fragment
         android:id="@+id/signin"
         android:name="com.example.remindertestapp.ui.account.login.LoginFragment"
         tools:layout="@layout/login_fragment" >
