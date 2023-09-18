@@ -47,10 +47,6 @@ class ContactFragment : BaseFragment() {
     private var sharedPreferences: SharedPreferences? = null
 
 
-
-
-
-
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -80,7 +76,7 @@ class ContactFragment : BaseFragment() {
 
     }
 
-    private fun requestContactsPermission(){
+    private fun requestContactsPermission() {
         // Check if permission is already granted
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -94,6 +90,7 @@ class ContactFragment : BaseFragment() {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
     }
+
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
@@ -116,8 +113,8 @@ class ContactFragment : BaseFragment() {
         contactViewModel?.getContactsResponse?.observe(viewLifecycleOwner) {
             it?.let {
 
-                binding?.noContactsTxt?.visibility=View.INVISIBLE
-                binding?.noContactsTxt?.isVisible=false
+                binding?.noContactsTxt?.visibility = View.INVISIBLE
+                binding?.noContactsTxt?.isVisible = false
                 contactAdapter(it)
             }
         }
@@ -128,7 +125,6 @@ class ContactFragment : BaseFragment() {
         contactViewModel?.scheduleResponse?.observe(viewLifecycleOwner) {
 
 
-
         }
         contactViewModel?.scheduleResponseError?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
@@ -136,17 +132,17 @@ class ContactFragment : BaseFragment() {
     }
 
 
-
     private fun contactAdapter(phoneNumbers: List<PhoneNumbersResponse?>?) {
-        val adapter = ContactAdapter(phoneNumbers, scheduleClicked = {
-          PhoneNumbersResponse->
+        val adapter = ContactAdapter(phoneNumbers, scheduleClicked = { numbers ->
 
-            findNavController().navigate(ContactFragmentDirections.actionContactToSchedule(PhoneNumbersResponse))
+            findNavController().navigate(
+                ContactFragmentDirections.actionContactFragmentToSchedule(
+                    numbers
+                )
+            )
 //            val customPopup = ScheduleCustomPopup(requireContext(),PhoneNumbersResponse)
 //            customPopup.show()
         })
-
-
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
@@ -215,7 +211,7 @@ class ContactFragment : BaseFragment() {
             Log.d("ContactUploader", "Uploading contact: Name=$name, Phone=$phoneNumber")
         }
     }
-
+}
 
 //    inner class ScheduleCustomPopup(context: Context, PhoneNumbersResponse: PhoneNumbersResponse?) : Dialog(context) {
 //        private var contactViewModel: ContactViewModel? = null
@@ -253,7 +249,7 @@ class ContactFragment : BaseFragment() {
 //        }
 //
 //    }
-}
+
 
 
 

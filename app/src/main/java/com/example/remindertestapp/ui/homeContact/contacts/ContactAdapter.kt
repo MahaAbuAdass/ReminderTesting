@@ -10,7 +10,7 @@ import com.example.remindertestapp.R
 
 class ContactAdapter(
     val phoneNumbers: List<PhoneNumbersResponse?>?,
-    val scheduleClicked: (phoneNumbersResponse: PhoneNumbersResponse? ) -> Unit,
+    val scheduleClicked: (phoneNumbersResponse: PhoneNumbersResponse) -> Unit,
     ) : RecyclerView.Adapter<ContactAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,7 +19,7 @@ class ContactAdapter(
         private val schedule : ImageView = itemView.findViewById(R.id.img_schedule)
 
 
-        fun setData(phoneNumbersResponse: PhoneNumbersResponse?) {
+        fun setData(phoneNumbersResponse: PhoneNumbersResponse) {
             firstName.text = phoneNumbersResponse?.firstName
 
             val phoneNumber = phoneNumbersResponse?.telephone
@@ -47,7 +47,7 @@ class ContactAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.setData(phoneNumbers?.get(position))
+        phoneNumbers?.get(position)?.let { holder.setData(it) }
     }
 
     override fun getItemCount() = phoneNumbers?.size ?: 0

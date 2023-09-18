@@ -7,6 +7,13 @@
 
 
     <fragment
+        android:id="@+id/ssssss"
+        android:name="com.example.remindertestapp.ui.homeContact.contacts.Schedule"
+        tools:layout="@layout/schedule_fragment" />
+
+
+
+    <fragment
         android:id="@+id/signin"
         android:name="com.example.remindertestapp.ui.account.login.LoginFragment"
         tools:layout="@layout/login_fragment" >
@@ -60,14 +67,7 @@
             app:destination="@id/menu" />
     </fragment>
 
-    <fragment
-        android:id="@+id/contact"
-        android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
-        tools:layout="@layout/contacts" >
-        <action
-            android:id="@+id/action_contact_to_schedule"
-            app:destination="@id/schedule" />
-    </fragment>
+
 
 
 
@@ -107,13 +107,21 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.remindertestapp.ui.homeContact.ContactViewPager"
-        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
 
                 <action
                     android:id="@+id/action_view_pager_contact_to_menu"
                     app:destination="@id/menu" />
+    </fragment>
 
+
+    <fragment
+        android:id="@+id/contact_fragment"
+        android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
+        tools:layout="@layout/contacts" >
+        <action
+            android:id="@+id/action_contact_fragment_to_schedule"
+            app:destination="@id/schedule" />
     </fragment>
 
     <fragment

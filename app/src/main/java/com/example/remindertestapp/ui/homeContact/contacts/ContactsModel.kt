@@ -1,7 +1,9 @@
 package com.example.remindertestapp.ui.homeContact.contacts
 
+import android.os.Parcelable
 import com.example.remindertestapp.ui.account.BaseError
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class ContactRequestModel(
     @SerializedName("PhoneNumbers") val phoneNumbers: List<GetExistUsersRequestModel?>?
@@ -23,13 +25,16 @@ data class GetExistUsersDataResponse(
 )
 
 data class PhoneNumbers(@SerializedName("phoneNumbers") val phoneNumbers:ArrayList<PhoneNumbersResponse?>?)
+
+
+@Parcelize
 data class PhoneNumbersResponse(
     @SerializedName("firstName") val firstName: String?,
     @SerializedName("lastName") val lastName: String?,
     @SerializedName("telephone") val telephone: String?,
     @SerializedName("isFavorite") val isFavorite: Boolean?,
     @SerializedName("isInMyCotacts") val isInMyCotacts: Boolean?
-)
+) : Parcelable
 
 
 data class ScheduleRequestModel(

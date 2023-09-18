@@ -26,18 +26,18 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class ScheduleFragment : BaseFragment(), OnClickListener {
+class ScheduleFragment : BaseFragment() , OnClickListener {
     private var binding: ScheduleFragmentBinding? = null
 
 
-    private val scheduleViewModel by viewModels<ContactViewModel>()
-    private val navargs by navArgs<ScheduleFragmentArgs>()
+   // private val scheduleViewModel by viewModels<ContactViewModel>()
+    //private val navargs by navArgs<ScheduleFragmentArgs>()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-    private var formattedDateTime: String? = null
+ //   private var formattedDateTime: String? = null
 
 
     override fun onCreateView(
@@ -53,7 +53,6 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         initiate()
         initiateDateAndTime()
         observeViewModel()
@@ -65,20 +64,14 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
 
        // Combine the selectedDate and selectedTime into a single datetime string
-        val dateTimeString = "$date $selectedTime"
+      //  val dateTimeString = "$date $selectedTime"
 
 // Parse the datetime string into a Date object
-        val date = dateFormat.parse(dateTimeString)
+    //    val date = dateFormat.parse(dateTimeString)
 
 // Format the Date object back into the desired format
-        val formattedDateTime = dateFormat.format(date)
+   //     val formattedDateTime = dateFormat.format(date)
     }
-
-
-
-
-
-
 
 
     val spinner = binding?.spinner
@@ -115,25 +108,22 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
     private fun callScheduleAPI() {
 
-
-
-
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-            scheduleViewModel.makeSchedule(
-                ScheduleRequestModel(
-                    callTime =  formattedDateTime    ,
-                    callTopic = binding?.etTopic?.text.toString(),
-                    expectedCallTime = binding?.tvTime?.text.toString(),
-                    recievedUserphoneNumber = navargs.phonenumbers.telephone
-
-                ),
-                sharedPreferences?.getString(KEY_NAME, "") ?: ""
-
-
-            )
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//
+//            scheduleViewModel.makeSchedule(
+//                ScheduleRequestModel(
+//                    callTime =  formattedDateTime    ,
+//                    callTopic = binding?.etTopic?.text.toString(),
+//                    expectedCallTime = binding?.tvTime?.text.toString(),
+//                    recievedUserphoneNumber = ""
+//                    //navargs.phonenumbers.telephone
+//
+//                ),
+//                sharedPreferences?.getString(KEY_NAME, "") ?: ""
+//
+//
+//            )
+//        }
     }
 
 
@@ -142,12 +132,12 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
     }
 
     private fun observeViewModel() {
-        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
-
-        }
-        scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
-            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-        }
+//        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
+//
+//        }
+//        scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
+//            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+//        }
     }
 
     private fun initiate() {
