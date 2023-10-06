@@ -30,9 +30,8 @@ import java.util.Locale
 class ScheduleFragment : BaseFragment(), OnClickListener {
     private var binding: ScheduleFragmentBinding? = null
 
-
-    // private val scheduleViewModel by viewModels<ContactViewModel>()
-    //private val navargs by navArgs<ScheduleFragmentArgs>()
+     private val scheduleViewModel by viewModels<ContactViewModel>()
+    private val navargs by navArgs<ScheduleFragmentArgs>()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
@@ -40,14 +39,14 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
     //   private var formattedDateTime: String? = null
 
-
     val date = binding?.tvDate
-    val spinner = binding?.spinner
     var tvSelectedTime = binding?.timePicker
-    val tvExpectedTime = binding?.tvExpectedTime
+    val tvExpectedTime = binding?.spinner
 
+    val formattedDateTime : String ?=null
     var selectedTime = ""
     var selectedDate =""
+  //  val spinner = binding?.spinner
 
 
     override fun onCreateView(
@@ -57,60 +56,28 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
     ): View? {
         binding = ScheduleFragmentBinding.inflate(inflater, container, false)
 
-
         return binding?.root
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        timeSpinner()
-
+        getTime()
         initiate()
-        initiateDateAndTime()
         observeViewModel()
         initiatSharedPreference()
+        timeSpinner()
     }
-
-    private fun initiateDateAndTime() {
-
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-
-        // Combine the selectedDate and selectedTime into a single datetime string
-        val dateTimeString = "$selectedDate $selectedTime"
-
-
-        try {
-            // Parse the datetime string into a Date object
-            val parseDate = dateFormat.parse(dateTimeString)
-
-            // Format the Date object back into the desired format
-            val formattedDateTime = dateFormat.format(parseDate)
-        } catch (e: ParseException) {
-            // Handle the exception, e.g., invalid date or time format
-            e.printStackTrace()
-        }
-    }
-
-
-
-
-
-
-
-
-
 
 
 
     private fun timeSpinner() {
-        val options = listOf("2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24")
+        val spinner = binding?.spinner
 
-
+        val options = listOf("2", "4", "6", "8", "10")
+//, "12", "14", "16", "18", "20", "22", "24"
         val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, options)
+     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner?.adapter = adapter
 
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -122,8 +89,7 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
             ) {
                 val selectedItem = options[position]
 
-               binding?.tvExpectedTime?.text = selectedItem
-                tvExpectedTime?.text=selectedItem
+            //   binding?.spinner = selectedItem
 
                 spinner?.visibility = View.GONE // Hide the Spinner after selection
             }
@@ -134,83 +100,74 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
         }
     }
 
-    fun showDropdown() {
-        spinner?.visibility = View.VISIBLE
 
+//    fun showDropdown() {
+//        spinner?.visibility = View.VISIBLE
+//        timeSpinner()
+//    }
 
-    }
 
     private fun callScheduleAPI() {
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//
-//            scheduleViewModel.makeSchedule(
-//                ScheduleRequestModel(
-//                    callTime =  formattedDateTime    ,
-//                    callTopic = binding?.etTopic?.text.toString(),
-//                    expectedCallTime = binding?.tvTime?.text.toString(),
-//                    recievedUserphoneNumber = ""
-//                    //navargs.phonenumbers.telephone
-//
-//                ),
-//                sharedPreferences?.getString(KEY_NAME, "") ?: ""
-//
-//
-//            )
-//        }
+
+
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            scheduleViewModel.makeSchedule(
+                ScheduleRequestModel(
+                    callTime =   getFormatDateTime()   ,
+                    callTopic = binding?.etTopic?.text.toString(),
+                    expectedCallTime = (binding?.spinner?.getSelectedItemPosition()
+                        ?.let { binding?.spinner?.getItemAtPosition(it).toString() })  ,
+
+                    //binding?.tvExpectedTime?.text.toString(),
+                    recievedUserphoneNumber =navargs.phonenumbers.telephone
+
+                ),
+                sharedPreferences?.getString(KEY_NAME, "") ?: ""
+
+
+            )
+        }
     }
 
 
     private fun initiatSharedPreference() {
         sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
     }
 
     private fun observeViewModel() {
-//        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
-//
-//        }
-//        scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
-//            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-//        }
-    }
+        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "sucess", Toast.LENGTH_SHORT).show()
 
-    private fun initiate() {
-        binding?.btnSend?.setOnClickListener(this)
-        binding?.tvExpectedTime?.setOnClickListener(this)
-        binding?.timePicker?.setOnClickListener(this)
-        binding?.tvDate?.setOnClickListener(this)
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-            binding?.btnSend?.id -> callScheduleAPI()
-            binding?.tvExpectedTime?.id -> showDropdown()
-            binding?.tvDate?.id -> onSelectDateClick()
-            binding?.timePicker?.id -> getTime()
+        }
+        scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
     private fun getTime() {
         binding?.timePicker?.setOnTimeChangedListener { _, hourOfDay, minute ->
             // Handle the selected time here
-            selectedTime = formatTime(hourOfDay, minute)
+            selectedTime = "$hourOfDay-$minute"
+            Toast.makeText(requireActivity(), selectedTime, Toast.LENGTH_LONG).show()
+         //   binding?.combination?.text = selectedTime
+
 
         }
+
     }
 
     // Helper function to format the selected time
-    private fun formatTime(hour: Int, minute: Int): String {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
-        val sdf = SimpleDateFormat("hh:mm a")
-        return sdf.format(calendar.time)
-    }
+
 
 
     fun onSelectDateClick() {
-
-
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -221,15 +178,49 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
             DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
                 // Handle the selected date
                 selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+
+                Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
                 binding?.tvDate?.text = selectedDate
                 date?.text = selectedDate
+
             },
             year,
             month,
             day
         )
         datePickerDialog.show()
+
+
+
     }
 
+
+    private fun initiate() {
+        binding?.btnSend?.setOnClickListener(this)
+      //  binding?.spinnertext?.setOnClickListener {
+        //    binding?.spinner?.performClick()  } //     binding?.timePicker?.setOnClickListener(this)
+        binding?.tvDate?.setOnClickListener(this)
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            binding?.btnSend?.id -> callScheduleAPI()
+           // binding?.spinnertext?.id -> showDropdown()
+            binding?.tvDate?.id -> onSelectDateClick()
+     //       binding?.timePicker?.id -> getTime()
+        }
+    }
+
+
+    fun getFormatDateTime(): String {
+        val time = selectedTime.split("-")
+        val date = selectedDate.split("-")
+        val calendar = Calendar.getInstance()
+
+        calendar.set(date[0].toInt(), date[1].toInt(), date[2].toInt(), time[0].toInt(), time[1].toInt())
+        return dateTimeFormatter.format(calendar.time)
+    }
+
+    val dateTimeFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
 
 }

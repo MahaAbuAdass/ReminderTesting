@@ -80,35 +80,54 @@
     />
 
 
-    <TextView
-        android:id="@+id/tv_expected_time"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toTopOf="@+id/tv_date"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_date"
-        app:hintEnabled="true"
-        android:background="@drawable/round2"
-        android:padding="10dp"
-        android:hint="Time Expected"
-        android:textAlignment="center"
-        android:drawableStart="@drawable/baseline_access_time_24"
-        android:clickable="true"
-        android:focusable="true"
+<!--    <TextView-->
+<!--        android:id="@+id/tv_expected_time"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--       app:layout_constraintTop_toTopOf="@+id/tv_date"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_date"-->
+<!--        app:hintEnabled="true"-->
+<!--        android:background="@drawable/round2"-->
+<!--        android:padding="10dp"-->
+<!--        android:hint="Time Expected"-->
+<!--        android:textAlignment="center"-->
+<!--        android:drawableStart="@drawable/baseline_access_time_24"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        />-->
 
-        />
+<TextView
+    android:id="@+id/spinnertext"
+    android:layout_width="150dp"
+    android:layout_height="40dp"
+    android:layout_marginEnd="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/tv_date"
+    app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+    android:background="@drawable/round2"
+    android:text="select"
+    android:padding="10dp"
+    android:textAlignment="center"
 
-
+/>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" /> <!-- Initially, set it to gone -->
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toTopOf="@+id/tv_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+            app:hintEnabled="true"
+
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:drawableStart="@drawable/baseline_access_time_24"
+
+
+        /> <!-- Initially, set it to gone -->
 
 
     <TimePicker
