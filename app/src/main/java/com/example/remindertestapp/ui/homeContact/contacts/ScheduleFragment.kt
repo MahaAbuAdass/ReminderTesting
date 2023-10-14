@@ -33,6 +33,8 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
      private val scheduleViewModel by viewModels<ContactViewModel>()
     private val navargs by navArgs<ScheduleFragmentArgs>()
 
+
+
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
@@ -66,7 +68,7 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
         initiate()
         observeViewModel()
         initiatSharedPreference()
-        timeSpinner()
+     //   timeSpinner()
     }
 
 
@@ -88,10 +90,12 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
                 id: Long
             ) {
                 val selectedItem = options[position]
+                binding?.spinnertext?.visibility = View.INVISIBLE
 
-            //   binding?.spinner = selectedItem
 
-                spinner?.visibility = View.GONE // Hide the Spinner after selection
+                //   binding?.spinner = selectedItem
+
+          //      spinner?.visibility = View.GONE // Hide the Spinner after selection
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -108,11 +112,6 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
 
     private fun callScheduleAPI() {
-
-
-
-
-
         CoroutineScope(Dispatchers.IO).launch {
 
             scheduleViewModel.makeSchedule(
@@ -141,22 +140,33 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
     private fun observeViewModel() {
         scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "sucess", Toast.LENGTH_SHORT).show()
+            mainActivity.onBackPressed()
 
         }
         scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+
         }
     }
 
 
 
     private fun getTime() {
-        binding?.timePicker?.setOnTimeChangedListener { _, hourOfDay, minute ->
+        val calendar = Calendar.getInstance()
+         val time = binding?.timePicker
+        time?.setIs24HourView(true)
+
+        time?.hour = calendar.get(Calendar.HOUR_OF_DAY)
+        time?.minute = calendar.get(Calendar.MINUTE)
+
+        val hourOfDay = time?.hour
+        val minute = time?.minute
+        selectedTime= "$hourOfDay-$minute"
+
+
+        time?.setOnTimeChangedListener { _, hourOfDay, minute ->
             // Handle the selected time here
             selectedTime = "$hourOfDay-$minute"
-            Toast.makeText(requireActivity(), selectedTime, Toast.LENGTH_LONG).show()
-         //   binding?.combination?.text = selectedTime
 
 
         }
@@ -177,7 +187,7 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
             requireContext(),
             DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
                 // Handle the selected date
-                selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                selectedDate = "$selectedYear-${selectedMonth }-$selectedDay"
 
                 Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
                 binding?.tvDate?.text = selectedDate
@@ -197,17 +207,17 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
     private fun initiate() {
         binding?.btnSend?.setOnClickListener(this)
-      //  binding?.spinnertext?.setOnClickListener {
-        //    binding?.spinner?.performClick()  } //     binding?.timePicker?.setOnClickListener(this)
+        binding?.spinnertext?.setOnClickListener(this)
+        binding?.imgBack?.setOnClickListener(this)
         binding?.tvDate?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
             binding?.btnSend?.id -> callScheduleAPI()
-           // binding?.spinnertext?.id -> showDropdown()
+           binding?.spinnertext?.id -> timeSpinner()
             binding?.tvDate?.id -> onSelectDateClick()
-     //       binding?.timePicker?.id -> getTime()
+            binding?.imgBack?.id -> mainActivity.onBackPressed()
         }
     }
 

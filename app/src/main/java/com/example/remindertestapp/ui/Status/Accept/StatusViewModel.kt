@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,8 +20,8 @@ class StatusViewModel : ViewModel() {
 
 
 
-    private val _cancelScheduleResponse = MutableLiveData<CancelScheduleResponse?>()
-    val cancelScheduleResponse: LiveData<CancelScheduleResponse?> = _cancelScheduleResponse
+    private val _cancelScheduleResponse = MutableLiveData<CancelSchedule?>()
+    val cancelScheduleResponse: LiveData<CancelSchedule?> = _cancelScheduleResponse
 
     private val _cancelScheduleResponseError = MutableLiveData<String?>()
     val cancelScheduleResponseError: LiveData<String?> = _cancelScheduleResponseError
@@ -30,7 +29,7 @@ class StatusViewModel : ViewModel() {
 
 
 
-    suspend fun acceptSchedule(auth: String?,acceptScheduleRequest: AcceptScheduleRequest) {
+    suspend fun acceptSchedule(auth: String, acceptScheduleRequest: AcceptScheduleRequest) {
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -49,7 +48,7 @@ class StatusViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = retrofitBuilder.cancelSchedule(auth,id)
-                _cancelScheduleResponse.postValue(response)
+                _cancelScheduleResponse.postValue(response.data)
             } catch (e: Exception) {
                 _cancelScheduleResponseError.postValue(e.message.toString())
             }

@@ -71,7 +71,7 @@ class MenuFragment : BaseFragment(), OnClickListener {
         logoutViewModel?.logoutResponse?.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
                 sharedPreferences?.edit()?.remove(KEY_NAME)?.apply()
-                findNavController().navigate(MenuFragmentDirections.actionMenuToNavigationHome())
+                findNavController().navigate(MenuFragmentDirections.actionMenuToSignin())
 
             }
         }

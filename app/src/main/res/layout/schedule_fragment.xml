@@ -12,11 +12,11 @@
         android:id="@+id/img_back"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginStart="336dp"
-        android:layout_marginTop="216dp"
         android:src="@drawable/back_white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -107,27 +107,24 @@
     app:layout_constraintTop_toTopOf="@+id/tv_date"
     app:layout_constraintBottom_toBottomOf="@+id/tv_date"
     android:background="@drawable/round2"
-    android:text="select"
+    android:text="Time"
     android:padding="10dp"
     android:textAlignment="center"
-
 />
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="@+id/spinnertext"
+
            app:layout_constraintTop_toTopOf="@+id/tv_date"
             app:layout_constraintBottom_toBottomOf="@+id/tv_date"
             app:hintEnabled="true"
 
-            android:padding="10dp"
             android:textAlignment="center"
-            android:drawableStart="@drawable/baseline_access_time_24"
-
-
         /> <!-- Initially, set it to gone -->
+
 
 
     <TimePicker
@@ -165,14 +162,6 @@
         android:text="Send"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/combination"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="ssssssssssssssssss"
-        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

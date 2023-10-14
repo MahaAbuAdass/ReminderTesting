@@ -124,11 +124,12 @@ class ContactFragment : BaseFragment() {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
         contactViewModel?.scheduleResponse?.observe(viewLifecycleOwner) {
-
+            mainActivity.onBackPressed()
 
         }
         contactViewModel?.scheduleResponseError?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -210,42 +211,7 @@ class ContactFragment : BaseFragment() {
     }
 }
 
-//    inner class ScheduleCustomPopup(context: Context, PhoneNumbersResponse: PhoneNumbersResponse?) : Dialog(context) {
-//        private var contactViewModel: ContactViewModel? = null
-//
-//        private val popupView: View =
-//            LayoutInflater.from(context).inflate(R.layout.schedule_fragment, null)
-//
-//        private val topic: EditText = popupView.findViewById(R.id.et_topic)
-//        private val selectedtime : TimePicker =popupView.findViewById(R.id.timePicker)
-//        private val expectedTime: EditText = popupView.findViewById(R.id.et_time)
-//        private val send: Button = popupView.findViewById(R.id.btn_send)
-//
-//        init {
-//            selectedtime.setIs24HourView(true)
-//            setContentView(popupView)
-//
-//            send.setOnClickListener {
-//
-//
-//                Toast.makeText(mainActivity, "${selectedtime.hour} ${selectedtime.minute}", Toast.LENGTH_SHORT).show()
-//                dismiss()
-////                CoroutineScope(Dispatchers.IO).launch {
-////                    contactViewModel?.makeSchedule(
-////                        ScheduleRequestModel(
-////                            callTopic = topic.text.toString(),
-////                            callTime = "${selectedtime.hour} ${selectedtime.minute}" ,
-////                            expectedCallTime = expectedTime.text.toString(),
-////                            recievedUserphoneNumber = PhoneNumbersResponse?.telephone
-////
-////                        ), sharedPreferences?.getString(KEY_NAME, "") ?: ""
-////                    )
-////
-////                }
-//            }
-//        }
-//
-//    }
+
 
 
 

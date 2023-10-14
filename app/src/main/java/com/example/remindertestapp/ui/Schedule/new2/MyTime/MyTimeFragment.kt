@@ -8,25 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.remindertestapp.databinding.BottomSheetBinding
 import com.example.remindertestapp.databinding.MyTimeFragmentBinding
-import com.example.remindertestapp.ui.Schedule.MyTime.MyNameFragment
-import com.example.remindertestapp.ui.Schedule.MyTime.MyStatusFragment
-import com.example.remindertestapp.ui.Schedule.MyTime.MyTimeTimeFragment
+import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
+import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
+import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
+import com.example.remindertestapp.ui.Status.Accept.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.homeContact.ContactViewPagesAdapter
 import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
-import com.example.remindertestapp.ui.homeContact.invite.CustomPopup
-import com.example.remindertestapp.ui.homeContact.invite.InviteViewModel
-import com.example.remindertestapp.ui.homeContact.invite.NotExistingUserAdapter
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyTimeFragment : BaseFragment() {
-    private var binding : MyTimeFragmentBinding?=null
+    private var binding: MyTimeFragmentBinding? = null
     private val myTimeViewModel by viewModels<MyTimeViewModel>()
+    private val statusViewModel by viewModels<StatusViewModel>()
+    private val reScheduleViewModel by viewModels<ReScheduleViewModel>()
+
+    private var adapter: MyTimeAdapter? = null
+
+    private var bottomSheetDialog: GeneralBottomSheetDialog<BottomSheetBinding>? = null
+
 
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -39,16 +45,16 @@ class MyTimeFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = MyTimeFragmentBinding.inflate(inflater,container,false)
+        binding = MyTimeFragmentBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+
         initiatSharedPreference()
         callgetUserPendingCallsAPI()
-
+        observeViewModel()
 
     }
 
@@ -64,8 +70,8 @@ class MyTimeFragment : BaseFragment() {
 
     private fun observeViewModel() {
         myTimeViewModel.getPendingCallsResponse.observe(viewLifecycleOwner) {
-            it?.let {
-      //          pendingCallsAdapter(it)
+            it?.let { //
+                pendingCallsAdapter(it)
             }
 
         }
@@ -73,12 +79,107 @@ class MyTimeFragment : BaseFragment() {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
 
+
+        statusViewModel.acceptScheduleResponse.observe(viewLifecycleOwner){
+
+        }
+        statusViewModel.acceptScheduleResponseError.observe(viewLifecycleOwner){
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+
+        statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
+            adapter?.scheduleData?.remove(it)
+            adapter?.notifyDataSetChanged()
+
+        }
+        statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner){
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+
+
+
     }
-//    private fun pendingCallsAdapter() {
-//   //     val adapter = MyTimeAdapter
-//
-//        binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-//        binding?.recyclerView?.adapter = adapter
-//    }
+
+    private fun pendingCallsAdapter(scheduleData: List<MeMyScheduleData?>?) {
+        val adapter = MyTimeAdapter(scheduleData, itemClicked = {
+            bottomSheet(it)
+        })
+        binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.recyclerView?.adapter = adapter
+    }
+
+
+    fun bottomSheet(meMyScheduleData: MeMyScheduleData) {
+        object : GeneralBottomSheetDialog<BottomSheetBinding>(mainActivity) {
+            override fun getViewBinding() = BottomSheetBinding.inflate(layoutInflater)
+
+            override fun onLayoutCreated(view: GeneralBottomSheetDialog<BottomSheetBinding>) {
+                binding?.tvUserName?.text = meMyScheduleData.userName
+                binding?.tvTopicText?.text=meMyScheduleData.callTopic
+                binding?.tvDateAndTime?.text=meMyScheduleData.callTime
+                binding?.tvDuration?.text = meMyScheduleData.callTime
+
+
+                binding.btnAccept.setOnClickListener {
+
+                    callAcceptAPI(meMyScheduleData)
+                    dismiss()
+
+                }
+                binding?.btnReject?.setOnClickListener {
+                    callCancelAPI(meMyScheduleData)
+                    dismiss()
+
+                }
+
+                binding?.btnReSchedule?.setOnClickListener { }
+                callRescheduleAPI(meMyScheduleData)
+                dismiss()
+
+            }
+
+
+        }.dismissible().show()
+
+
+
+    }
+
+    fun callAcceptAPI(meMyScheduleData: MeMyScheduleData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            statusViewModel.acceptSchedule(
+                sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                AcceptScheduleRequest(
+                    reminderId = meMyScheduleData.reminderID
+                )
+            )
+        }
+
+    }
+
+    fun  callCancelAPI(meMyScheduleData : MeMyScheduleData){
+        CoroutineScope(Dispatchers.IO).launch {
+            statusViewModel.cancelSchedule(sharedPreferences?.getString(KEY_NAME, "") ?: "",
+                meMyScheduleData.reminderID.toString()
+            )
+        }
+
+    }
+
+    fun callRescheduleAPI(meMyScheduleData : MeMyScheduleData) {
+        findNavController().navigate(MyTimeFragmentDirections.actionMyTimeFragmentToReScheduleFragment(meMyScheduleData))
+
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//     reScheduleViewModel.reSchedule(sharedPreferences?.getString(KEY_NAME, "") ?: "",
+//         ReScheduleRequestModel(
+//             callId = ,
+//             newCallTime = null
+//         )
+//     )
 //}
+    }
+
 }

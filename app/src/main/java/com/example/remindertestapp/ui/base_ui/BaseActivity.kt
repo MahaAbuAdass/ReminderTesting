@@ -33,10 +33,10 @@ open class BaseActivity : AppCompatActivity() {
 
     fun isMainFragments() =
  getCurrentFragment() is NotificationsFragment || getCurrentFragment() is DashboardFragment || getCurrentFragment() is ContactViewPager
-//
-//    override fun onBackPressed() {
-//        if (isMainFragments()) moveTaskToBack(true)
-//        else onBackPressedDispatcher.onBackPressed()
-//    }
+
+    override fun onBackPressed() {
+        if (isMainFragments()) moveTaskToBack(true)
+        else onBackPressedDispatcher.onBackPressed()
+    }
 
 }

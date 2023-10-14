@@ -3,9 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/new1">
+    app:startDestination="@+id/signin">
+
+    <fragment
+        android:id="@+id/myTimeFragment"
+        android:name="com.example.remindertestapp.ui.Schedule.new2.MyTime.MyTimeFragment"
+        tools:layout="@layout/my_time_fragment" >
+
+        <action
+            android:id="@+id/action_myTimeFragment_to_reScheduleFragment"
+            app:destination="@id/reScheduleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reScheduleFragment"
+        android:name="com.example.remindertestapp.ui.ReSchedule.ReScheduleFragment"
+        tools:layout="@layout/reschedule_fragment" >
+
+             <argument
+             android:name="myScheduleData"
+             app:argType="com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleData"/>
 
 
+
+    </fragment>
 
     <fragment
         android:id="@+id/new1"
@@ -79,7 +100,8 @@
         android:name="phonenumbers"
         app:argType="com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse"/>
 
-</fragment>
+
+    </fragment>
 
 
     <fragment

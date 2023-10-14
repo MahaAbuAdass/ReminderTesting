@@ -4,6 +4,7 @@ import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,7 +13,7 @@ import com.example.remindertestapp.databinding.New1Binding
 import com.example.remindertestapp.databinding.ScheduleFragmentBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 
-class New  : BaseFragment() {
+class New  : BaseFragment() , OnClickListener {
 
     private var binding: New1Binding? = null
     private var spinner: Spinner? = null
@@ -32,9 +33,15 @@ class New  : BaseFragment() {
         // Initialize the spinner after binding is set
         spinner = binding?.spinner
 
-        val options = listOf("2", "4", "6", "8", "10")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, options)
 
+    }
+
+    private fun timeSpinner() {
+        val spinner = binding?.spinner
+
+        val options = listOf("2", "4", "6", "8", "10")
+//, "12", "14", "16", "18", "20", "22", "24"
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner?.adapter = adapter
 
@@ -47,7 +54,7 @@ class New  : BaseFragment() {
             ) {
                 val selectedItem = options[position]
 
-                // Handle item selection here
+                //   binding?.spinner = selectedItem
 
                 spinner?.visibility = View.GONE // Hide the Spinner after selection
             }
@@ -55,6 +62,12 @@ class New  : BaseFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
             }
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            binding?.spinnertext?.id -> timeSpinner()
         }
     }
 }

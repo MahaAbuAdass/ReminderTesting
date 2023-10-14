@@ -83,21 +83,22 @@ interface ApiService {
         @Body reScheduleRequestModel: ReScheduleRequestModel
     ): RescheduleResponseModel
 
+
     @POST("/api/Reminder/AcceptSchedule")
-    fun acceptSchedule(
+    suspend fun acceptSchedule(
         @Header("Authorization") auth: String?,
         @Body acceptScheduleRequest: AcceptScheduleRequest
     ): AcceptScheduleResponse
 
     @GET("/api/Reminder/CancelScheduleCall")
-    fun cancelSchedule(
+    suspend fun cancelSchedule(
         @Header("Authorization") auth: String?,
         @Query("Id") id: String
     ): CancelScheduleResponse
 
 
     @GET("/api/Reminder/GetUserPendingCalls")
-    fun getUserPendingCalls(
+    suspend fun getUserPendingCalls(
          @Header("Authorization") auth: String?,
     ) : MeMyScheduleResponse
 

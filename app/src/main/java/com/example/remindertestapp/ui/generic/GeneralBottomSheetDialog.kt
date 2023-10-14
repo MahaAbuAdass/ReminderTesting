@@ -47,5 +47,7 @@ abstract class GeneralBottomSheetDialog<VBinding : ViewBinding>(activity: Fragme
 
     protected abstract fun getViewBinding(): VBinding
     protected abstract fun onLayoutCreated(view: GeneralBottomSheetDialog<VBinding>)
-
+    fun hideBottomSheet() {
+        dismiss()
+    }
 }
