@@ -39,16 +39,12 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-    //   private var formattedDateTime: String? = null
+
 
     val date = binding?.tvDate
-    var tvSelectedTime = binding?.timePicker
-    val tvExpectedTime = binding?.spinner
 
-    val formattedDateTime : String ?=null
     var selectedTime = ""
     var selectedDate =""
-  //  val spinner = binding?.spinner
 
 
     override fun onCreateView(
@@ -167,8 +163,6 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
         time?.setOnTimeChangedListener { _, hourOfDay, minute ->
             // Handle the selected time here
             selectedTime = "$hourOfDay-$minute"
-
-
         }
 
     }
@@ -199,9 +193,6 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
             day
         )
         datePickerDialog.show()
-
-
-
     }
 
 

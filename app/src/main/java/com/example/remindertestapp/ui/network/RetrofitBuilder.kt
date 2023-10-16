@@ -55,6 +55,8 @@ class RetrofitBuilder {
 
     suspend fun getUserPendingCalls (auth: String?)=apiService.getUserPendingCalls(auth)
 
+    suspend fun getReceivedCallPending(auth: String?)=apiService.getReceivedCallPending(auth)
+
 }
 
 

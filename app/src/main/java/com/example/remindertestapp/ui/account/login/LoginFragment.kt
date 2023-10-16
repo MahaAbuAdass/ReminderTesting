@@ -44,6 +44,9 @@ class LoginFragment : BaseFragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressBarLoader = ProgressBarLoader(requireContext())
+
         initiate()
         initSharedPreferences()
         observeViewModel()

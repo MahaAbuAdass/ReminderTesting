@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.R
@@ -53,6 +54,9 @@ class DashboardFragment : BaseFragment() {
 
         getDailyCallViewModel?.getCallResponse?.observe(viewLifecycleOwner) {
             it?.let {
+
+                binding?.noCallsTxt?.visibility = View.INVISIBLE
+                binding?.noCallsTxt?.isVisible = false
                 dailyCallsAdapter(it)
             }
         }

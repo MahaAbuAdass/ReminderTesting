@@ -1,13 +1,12 @@
 package com.example.remindertestapp.ui.Schedule.new2.MeTime
 
 import android.os.Parcelable
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleData
 import com.example.remindertestapp.ui.account.BaseError
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class MeMyScheduleResponse(
+data class MeScheduleResponse(
     @SerializedName("code") val code: Int,
     @SerializedName("data") val data: List<InformationReceiverResponseModel?>,
     @SerializedName("error") val baseError: BaseError

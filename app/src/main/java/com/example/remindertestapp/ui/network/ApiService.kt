@@ -2,7 +2,9 @@ package com.example.remindertestapp.ui.network
 
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleResponse
+import com.example.remindertestapp.ui.Schedule.new2.MeTime.InformationReceiverResponseModel
+import com.example.remindertestapp.ui.Schedule.new2.MeTime.MeScheduleResponse
+import com.example.remindertestapp.ui.Schedule.new2.MyTime.MyScheduleResponse
 import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
 import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleResponse
 import com.example.remindertestapp.ui.Status.Accept.CancelScheduleResponse
@@ -99,7 +101,12 @@ interface ApiService {
 
     @GET("/api/Reminder/GetUserPendingCalls")
     suspend fun getUserPendingCalls(
-         @Header("Authorization") auth: String?,
-    ) : MeMyScheduleResponse
+         @Header("Authorization") auth: String?
+    ) : MyScheduleResponse
+
+    @GET("/api/Reminder/GetUserReceiverCalls")
+    suspend fun getReceivedCallPending(
+        @Header("Authorization") auth: String?
+        ) : MeScheduleResponse
 
 }

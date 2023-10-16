@@ -2,6 +2,7 @@ package com.example.remindertestapp.ui.base_ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.remindertestapp.R
@@ -9,12 +10,15 @@ import com.example.remindertestapp.databinding.ActivityMainBinding
 import com.example.remindertestapp.ui.dashboardDailyCalls.DashboardFragment
 import com.example.remindertestapp.ui.homeContact.ContactViewPager
 import com.example.remindertestapp.ui.Schedule.NotificationsFragment
+import com.example.remindertestapp.ui.generic.ProgressBarLoader
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 open class BaseActivity : AppCompatActivity() {
     var mainBinding: ActivityMainBinding? = null
     lateinit var navController: NavController
     protected lateinit var navView: BottomNavigationView
+  //  private val progressBarLoading by lazy { ProgressBarLoader(requireContext()) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

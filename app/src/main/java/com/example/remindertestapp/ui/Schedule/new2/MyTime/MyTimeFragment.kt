@@ -89,7 +89,7 @@ class MyTimeFragment : BaseFragment() {
         }
 
         statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
-            adapter?.scheduleData?.remove(it)
+        //    adapter?.scheduleData?.remove(it)
             adapter?.notifyDataSetChanged()
 
         }
