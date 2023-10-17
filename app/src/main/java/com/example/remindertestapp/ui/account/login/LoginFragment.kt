@@ -98,9 +98,18 @@ class LoginFragment : BaseFragment(), OnClickListener {
 
     }
 
+    fun checkFields(){
+
+        if (binding?.number?.phoneNumberEtx?.text.toString().isEmpty())
+            Toast.makeText(requireContext(), "Please enter your phone number to login", Toast.LENGTH_SHORT).show()
+
+        else callSigninApi()
+
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding?.btnSignin?.id -> callSigninApi()
+            binding?.btnSignin?.id -> checkFields()
             binding?.tvSignUp?.id -> findNavController().navigate(LoginFragmentDirections.actionSigninToSignUp())
         }
     }

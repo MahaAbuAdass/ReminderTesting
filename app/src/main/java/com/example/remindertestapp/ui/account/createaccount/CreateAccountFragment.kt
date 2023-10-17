@@ -82,6 +82,18 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
         binding?.tvSignUp?.setOnClickListener(this)
     }
 
+
+    suspend fun checkFields(){
+
+        if (binding?.phoneNumber?.phoneNumberEtx?.text.toString().isEmpty())
+            Toast.makeText(requireContext(), "Please enter your phone number to sign up", Toast.LENGTH_SHORT).show()
+
+        else   if (binding?.fullName?.fullNameEtx?.text.toString().isEmpty())
+            Toast.makeText(requireContext(), "Please enter your name to sign up", Toast.LENGTH_SHORT).show()
+
+        else callSignUpAPI()
+
+    }
     private suspend fun callSignUpAPI() {
         createAccountViewModel.callSignUp(
             SignupRequestModel(
@@ -105,7 +117,7 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
                     ).show()
                 } else {
                     CoroutineScope(Dispatchers.Default).launch {
-                       callSignUpAPI()
+                        checkFields()
                     }
                 }}
             binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin())

@@ -119,7 +119,7 @@ class MyTimeFragment : BaseFragment() {
                 binding?.tvUserName?.text = meMyScheduleData.userName
                 binding?.tvTopicText?.text=meMyScheduleData.callTopic
                 binding?.tvDateAndTime?.text=meMyScheduleData.callTime
-                binding?.tvDuration?.text = meMyScheduleData.callTime
+                binding?.tvDuration?.text = meMyScheduleData.expectedCallTime
 
 
                 binding.btnAccept.setOnClickListener {

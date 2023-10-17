@@ -107,6 +107,17 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 //    }
 
 
+    fun checkFields(){
+        if (binding?.tvDate?.text.toString().isEmpty())
+            Toast.makeText(requireContext(), "Date is required", Toast.LENGTH_SHORT).show()
+
+        else if (binding?.spinner?.toString()?.isEmpty() == true)
+            Toast.makeText(requireContext(), "Expected Time is required", Toast.LENGTH_SHORT).show()
+
+           else callScheduleAPI()
+    }
+
+
     private fun callScheduleAPI() {
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -205,7 +216,8 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.btnSend?.id -> callScheduleAPI()
+            binding?.btnSend?.id ->checkFields()
+               // callScheduleAPI()
            binding?.spinnertext?.id -> timeSpinner()
             binding?.tvDate?.id -> onSelectDateClick()
             binding?.imgBack?.id -> mainActivity.onBackPressed()

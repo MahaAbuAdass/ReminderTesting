@@ -87,7 +87,7 @@ class MeTimeFragment : BaseFragment(){
                 binding?.tvUserName?.text = informationReceiverResponseModel.userName
                 binding?.tvTopicText?.text=informationReceiverResponseModel.callTopic
                 binding?.tvDateAndTime?.text=informationReceiverResponseModel.callTime
-                binding?.tvDuration?.text = informationReceiverResponseModel.callTime
+           //     binding?.tvDuration?.text = informationReceiverResponseModel
 
 
 //                binding.btnAccept.setOnClickListener {
