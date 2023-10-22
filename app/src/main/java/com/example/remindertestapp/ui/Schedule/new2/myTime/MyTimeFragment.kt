@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Schedule.new2.MyTime
+package com.example.remindertestapp.ui.Schedule.new2.myTime
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,12 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.BottomSheetBinding
 import com.example.remindertestapp.databinding.MyTimeFragmentBinding
-import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
-import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
-import com.example.remindertestapp.ui.Status.Accept.StatusViewModel
+import com.example.remindertestapp.ui.Schedule.ScheduleViewPagerDirections
+import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
+import com.example.remindertestapp.ui.Status.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +31,6 @@ class MyTimeFragment : BaseFragment() {
     private var adapter: MyTimeAdapter? = null
 
     private var bottomSheetDialog: GeneralBottomSheetDialog<BottomSheetBinding>? = null
-
 
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -82,6 +80,7 @@ class MyTimeFragment : BaseFragment() {
 
         statusViewModel.acceptScheduleResponse.observe(viewLifecycleOwner){
 
+
         }
         statusViewModel.acceptScheduleResponseError.observe(viewLifecycleOwner){
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
@@ -127,6 +126,8 @@ class MyTimeFragment : BaseFragment() {
                     callAcceptAPI(meMyScheduleData)
                     dismiss()
 
+
+
                 }
                 binding?.btnReject?.setOnClickListener {
                     callCancelAPI(meMyScheduleData)
@@ -134,14 +135,13 @@ class MyTimeFragment : BaseFragment() {
 
                 }
 
-                binding?.btnReSchedule?.setOnClickListener { }
-                callRescheduleAPI(meMyScheduleData)
-                dismiss()
-
+                binding?.btnReSchedule?.setOnClickListener {
+                    callRescheduleAPI(meMyScheduleData)
+                    dismiss()
+                }
             }
-
-
-        }.dismissible().show()
+        }
+            .dismissible().show()
 
 
 
@@ -169,17 +169,7 @@ class MyTimeFragment : BaseFragment() {
     }
 
     fun callRescheduleAPI(meMyScheduleData : MeMyScheduleData) {
-        findNavController().navigate(MyTimeFragmentDirections.actionMyTimeFragmentToReScheduleFragment(meMyScheduleData))
-
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//     reScheduleViewModel.reSchedule(sharedPreferences?.getString(KEY_NAME, "") ?: "",
-//         ReScheduleRequestModel(
-//             callId = ,
-//             newCallTime = null
-//         )
-//     )
-//}
+    //   findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(meMyScheduleData))
     }
 
 }

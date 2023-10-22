@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remindertestapp.R
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleData
 import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 
 class NotExistingUserAdapter(
@@ -41,7 +40,9 @@ class NotExistingUserAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        phoneNumbers?.get(position)?.let { holder.setData(it) }
+        phoneNumbers?.get(position)?.let {
+            holder.setData(it)
+        }
     }
 
     override fun getItemCount() = phoneNumbers?.size ?: 0

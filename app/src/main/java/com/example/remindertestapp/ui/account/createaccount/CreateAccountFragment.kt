@@ -11,14 +11,18 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.CreateAccountFragmentBinding
-import com.example.remindertestapp.ui.ProgressBarLoader
+import com.example.remindertestapp.ui.generic.ProgressBarLoader
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
+import com.example.remindertestapp.ui.generic.CustomDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateAccountFragment : BaseFragment(), OnClickListener {
+
+    private val customDialog: CustomDialog by lazy { CustomDialog(requireContext()) }
+
     private var binding: CreateAccountFragmentBinding? = null
     private val createAccountViewModel by viewModels<CreateAccountViewModel>()
     private var progressBarLoader: ProgressBarLoader? = null
@@ -67,7 +71,8 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
 
         }
         createAccountViewModel?.errorResponse?.observe(viewLifecycleOwner) {
-            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+            showDialog(it.toString())
+            //Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
 //        createAccountViewModel?.showProgress?.observe(viewLifecycleOwner) {
 //            if (it == true)
@@ -83,46 +88,45 @@ class CreateAccountFragment : BaseFragment(), OnClickListener {
     }
 
 
-    suspend fun checkFields(){
+     fun checkFields(){
 
-        if (binding?.phoneNumber?.phoneNumberEtx?.text.toString().isEmpty())
-            Toast.makeText(requireContext(), "Please enter your phone number to sign up", Toast.LENGTH_SHORT).show()
+         if (binding?.fullName?.fullNameEtx?.text.toString().isEmpty())
+             showDialog("FullName Field is empty")
 
-        else   if (binding?.fullName?.fullNameEtx?.text.toString().isEmpty())
-            Toast.makeText(requireContext(), "Please enter your name to sign up", Toast.LENGTH_SHORT).show()
+         //  Toast.makeText(requireContext(), "Please enter your name to sign up", Toast.LENGTH_SHORT).show()
+
+         else    if (binding?.phoneNumber?.phoneNumberEtx?.text.toString().isEmpty())
+            showDialog("Phone Number Field is empty")
+            //Toast.makeText(requireContext(), "Please enter your phone number to sign up", Toast.LENGTH_SHORT).show()
+
 
         else callSignUpAPI()
 
     }
-    private suspend fun callSignUpAPI() {
-        createAccountViewModel.callSignUp(
-            SignupRequestModel(
-                mobileNumber = binding?.phoneNumber?.countryCode?.text.toString() + binding?.phoneNumber?.phoneNumberEtx?.text.toString(),
-                userName = binding?.fullName?.fullNameEtx?.text.toString(), "",
-                notificationToken = ""
+    private  fun callSignUpAPI() {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            createAccountViewModel.callSignUp(
+                SignupRequestModel(
+                    mobileNumber = binding?.phoneNumber?.countryCode?.text.toString() + binding?.phoneNumber?.phoneNumberEtx?.text.toString(),
+                    userName = binding?.fullName?.fullNameEtx?.text.toString(), "",
+                    notificationToken = ""
+                )
             )
-        )
+        }
     }
 
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding?.btnSignUp?.id ->{
-                if (binding?.fullName?.fullNameEtx?.text.toString().isEmpty() || (binding?.phoneNumber?.phoneNumberEtx?.text.toString().isEmpty()))
-                {
-                    Toast.makeText(
-                        context,
-                        "please fill your Name and phone number",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    CoroutineScope(Dispatchers.Default).launch {
-                        checkFields()
-                    }
-                }}
+            binding?.btnSignUp?.id ->checkFields()
             binding?.tvSignUp?.id -> findNavController().navigate(CreateAccountFragmentDirections.actionSignUpToSignin())
 
         }
+    }
+
+    fun showDialog(text: String) {
+        customDialog.showCustomDialog("Registration Failed", text)
     }
 
 

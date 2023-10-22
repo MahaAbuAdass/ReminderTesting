@@ -1,10 +1,9 @@
-package com.example.remindertestapp.ui.Schedule.new2.MeTime
+package com.example.remindertestapp.ui.Schedule.new2.meTime
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MeMyScheduleData
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

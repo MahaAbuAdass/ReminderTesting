@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui
+package com.example.remindertestapp.ui.generic
 
 import android.app.Dialog
 import android.content.Context

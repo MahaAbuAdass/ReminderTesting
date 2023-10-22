@@ -1,10 +1,9 @@
 package com.example.remindertestapp.ui.base_ui
 
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.remindertestapp.MainActivity
-import com.example.remindertestapp.ui.ProgressBarLoader
+import com.example.remindertestapp.ui.generic.ProgressBarLoader
 
 open class BaseFragment : Fragment() {
     open val mainActivity: MainActivity get() = (activity as MainActivity)

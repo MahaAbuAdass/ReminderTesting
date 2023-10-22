@@ -45,9 +45,11 @@ class DashboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initiate()
+      //  initiate()
         initSharedPreferences()
+        callDailyCallsApi()
         observeViewModel()
+
     }
 
     private fun observeViewModel() {
@@ -66,11 +68,18 @@ class DashboardFragment : BaseFragment() {
         }
     }
 
+    fun callDailyCallsApi(){
+        CoroutineScope(Dispatchers.IO).launch {
+            getDailyCallViewModel.getDailyCalls(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+        }
+
+    }
+
     private fun dailyCallsAdapter(allCalls: List<DailyCalls>?) {
         val adapter = DailyCallsAdapter(allCalls, optionClicked = {DailyCalls->
 
-            val customPopup = OptionsPopup(requireContext(),DailyCalls)
-            customPopup.show()
+//            val customPopup = OptionsPopup(requireContext(),DailyCalls)
+//            customPopup.show()
         }
         )
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -84,8 +93,8 @@ class DashboardFragment : BaseFragment() {
         );
     }
 
-    private fun initiate() {
-    }
+//    private fun initiate() {
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -93,40 +102,40 @@ class DashboardFragment : BaseFragment() {
     }
 
 
-    inner class OptionsPopup(context: Context, DailyCalls: DailyCalls) : Dialog(context) {
-
-        private val popupView: View =
-            LayoutInflater.from(context).inflate(R.layout.daily_calls_popup, null)
-        private val reschedule: TextView = popupView.findViewById(R.id.tv_reschedule_d)
-        private val cancel: TextView = popupView.findViewById(R.id.tv_cancel_d)
-
-        init {
-            setContentView(popupView)
-            reschedule.setOnClickListener {
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    reScheduleViewModel.reSchedule(
-                        sharedPreferences?.getString(KEY_NAME, "") ?: "", ReScheduleRequestModel(
-                            callId = DailyCalls.callID,
-                            newCallTime = ""
-                        )
-                    )
-                }
-
-                reScheduleViewModel.reScheduleResponse.observe(viewLifecycleOwner) {
-                    dismiss()
-                }
-
-                reScheduleViewModel.reScheduleResponseError.observe(viewLifecycleOwner) {
-                    Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-
-                }
-            }
-            cancel.setOnClickListener {
-                dismiss()
-            }
-        }
-    }
+//    inner class OptionsPopup(context: Context, DailyCalls: DailyCalls) : Dialog(context) {
+//
+//        private val popupView: View =
+//            LayoutInflater.from(context).inflate(R.layout.daily_calls_popup, null)
+//        private val reschedule: TextView = popupView.findViewById(R.id.tv_reschedule_d)
+//        private val cancel: TextView = popupView.findViewById(R.id.tv_cancel_d)
+//
+//        init {
+//            setContentView(popupView)
+//            reschedule.setOnClickListener {
+//
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    reScheduleViewModel.reSchedule(
+//                        sharedPreferences?.getString(KEY_NAME, "") ?: "", ReScheduleRequestModel(
+//                            callId = DailyCalls.callID,
+//                            newCallTime = ""
+//                        )
+//                    )
+//                }
+//
+//                reScheduleViewModel.reScheduleResponse.observe(viewLifecycleOwner) {
+//                    dismiss()
+//                }
+//
+//                reScheduleViewModel.reScheduleResponseError.observe(viewLifecycleOwner) {
+//                    Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+//
+//                }
+//            }
+//            cancel.setOnClickListener {
+//                dismiss()
+//            }
+//        }
+//    }
 
 
 }

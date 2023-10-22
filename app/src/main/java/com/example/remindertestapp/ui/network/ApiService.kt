@@ -1,13 +1,14 @@
 package com.example.remindertestapp.ui.network
 
+import com.example.remindertestapp.ui.Norification.NotificationResponse
+import com.example.remindertestapp.ui.Norification.RemoveAllNotificationResponse
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
-import com.example.remindertestapp.ui.Schedule.new2.MeTime.InformationReceiverResponseModel
-import com.example.remindertestapp.ui.Schedule.new2.MeTime.MeScheduleResponse
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MyScheduleResponse
-import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
-import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleResponse
-import com.example.remindertestapp.ui.Status.Accept.CancelScheduleResponse
+import com.example.remindertestapp.ui.Schedule.new2.meTime.MeScheduleResponse
+import com.example.remindertestapp.ui.Schedule.new2.myTime.MyScheduleResponse
+import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
+import com.example.remindertestapp.ui.Status.AcceptScheduleResponse
+import com.example.remindertestapp.ui.Status.CancelScheduleResponse
 import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel
@@ -108,5 +109,22 @@ interface ApiService {
     suspend fun getReceivedCallPending(
         @Header("Authorization") auth: String?
         ) : MeScheduleResponse
+
+
+    @GET("/api/Reminder/InformReceiver")
+   suspend fun informReceiver(
+    )
+
+
+    @GET("/api/Notification/Get")
+    suspend fun getNotification(
+        @Header("Authorization") auth: String?
+    ): NotificationResponse
+
+
+    @POST("/api/Notification/HandleNotificationAndCalls")
+   suspend fun removeAllNotification(
+        @Header("Authorization") auth: String?
+    ): RemoveAllNotificationResponse
 
 }

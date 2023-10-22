@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Status.Accept
+package com.example.remindertestapp.ui.Status
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

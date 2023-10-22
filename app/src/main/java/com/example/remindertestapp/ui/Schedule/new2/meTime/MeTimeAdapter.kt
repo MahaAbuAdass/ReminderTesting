@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Schedule.new2.MeTime
+package com.example.remindertestapp.ui.Schedule.new2.meTime
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remindertestapp.R
-import com.example.remindertestapp.ui.Schedule.new2.MyTime.MyTimeAdapter
 
 class MeTimeAdapter (
     val Data: List<InformationReceiverResponseModel?>?,

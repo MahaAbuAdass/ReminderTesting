@@ -2,7 +2,7 @@ package com.example.remindertestapp.ui.network
 
 
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
-import com.example.remindertestapp.ui.Status.Accept.AcceptScheduleRequest
+import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.ContactRequestModel
@@ -56,6 +56,10 @@ class RetrofitBuilder {
     suspend fun getUserPendingCalls (auth: String?)=apiService.getUserPendingCalls(auth)
 
     suspend fun getReceivedCallPending(auth: String?)=apiService.getReceivedCallPending(auth)
+
+    suspend fun getNotification(auth: String?)=apiService.getNotification(auth)
+
+    suspend fun removeAllNotification(auth: String?)=apiService.removeAllNotification(auth)
 
 }
 

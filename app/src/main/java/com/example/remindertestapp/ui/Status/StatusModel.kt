@@ -1,7 +1,6 @@
-package com.example.remindertestapp.ui.Status.Accept
+package com.example.remindertestapp.ui.Status
 
 import com.example.remindertestapp.ui.account.BaseError
-import com.example.remindertestapp.ui.homeContact.contacts.SubmitScheduleResponse
 import com.google.gson.annotations.SerializedName
 
 data class AcceptScheduleRequest(

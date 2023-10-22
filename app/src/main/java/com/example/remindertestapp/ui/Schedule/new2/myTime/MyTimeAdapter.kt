@@ -1,4 +1,5 @@
-package com.example.remindertestapp.ui.Schedule.new2.MyTime
+package com.example.remindertestapp.ui.Schedule.new2.myTime
+
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +17,14 @@ class MyTimeAdapter (
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
        private val userName: TextView = itemView.findViewById(R.id.tv_name_m)
         private val s_time: TextView = itemView.findViewById(R.id.tv_time_m)
-        private val s_status: TextView = itemView.findViewById(R.id.tv_status_m)
+      //  private val s_status: TextView = itemView.findViewById(R.id.tv_status_m)
         private val img_click : ImageView = itemView.findViewById(R.id.img_schedule_m)
 
 
         fun setData(meMyScheduleData: MeMyScheduleData?) {
             userName.text = meMyScheduleData?.userName
             s_time.text =meMyScheduleData?.callTime
-            s_status.text= meMyScheduleData?.scheduleStatus.toString()
+     //       s_status.text= meMyScheduleData?.scheduleStatus.toString()
 
             img_click.setOnClickListener{
                 meMyScheduleData?.let {

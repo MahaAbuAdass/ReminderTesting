@@ -2,15 +2,13 @@ package com.example.remindertestapp.ui.base_ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ActivityMainBinding
 import com.example.remindertestapp.ui.dashboardDailyCalls.DashboardFragment
 import com.example.remindertestapp.ui.homeContact.ContactViewPager
-import com.example.remindertestapp.ui.Schedule.NotificationsFragment
-import com.example.remindertestapp.ui.generic.ProgressBarLoader
+import com.example.remindertestapp.ui.Schedule.ScheduleViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 open class BaseActivity : AppCompatActivity() {
@@ -36,7 +34,7 @@ open class BaseActivity : AppCompatActivity() {
         supportFragmentManager.fragments[0].childFragmentManager.fragments[0]
 
     fun isMainFragments() =
- getCurrentFragment() is NotificationsFragment || getCurrentFragment() is DashboardFragment || getCurrentFragment() is ContactViewPager
+ getCurrentFragment() is ScheduleViewPager || getCurrentFragment() is DashboardFragment || getCurrentFragment() is ContactViewPager
 
     override fun onBackPressed() {
         if (isMainFragments()) moveTaskToBack(true)

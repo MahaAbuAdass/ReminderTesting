@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Schedule.new2.MeTime
+package com.example.remindertestapp.ui.Schedule.new2.meTime
 
 import android.os.Parcelable
 import com.example.remindertestapp.ui.account.BaseError
