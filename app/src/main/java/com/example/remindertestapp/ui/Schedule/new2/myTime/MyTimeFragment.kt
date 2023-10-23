@@ -37,7 +37,7 @@ class MyTimeFragment : BaseFragment() {
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-
+     var meMyScheduleData : MeMyScheduleData ?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,10 +51,10 @@ class MyTimeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initiatSharedPreference()
-        callgetUserPendingCallsAPI()
         observeViewModel()
 
     }
+
 
     private fun callgetUserPendingCallsAPI() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -79,7 +79,9 @@ class MyTimeFragment : BaseFragment() {
 
 
         statusViewModel.acceptScheduleResponse.observe(viewLifecycleOwner){
-
+            meMyScheduleData?.let {
+                    it1 -> adapter?.removeItem(it1) }
+            adapter?.notifyDataSetChanged()
 
         }
         statusViewModel.acceptScheduleResponseError.observe(viewLifecycleOwner){
@@ -101,7 +103,7 @@ class MyTimeFragment : BaseFragment() {
 
     }
 
-    private fun pendingCallsAdapter(scheduleData: List<MeMyScheduleData?>?) {
+    private fun pendingCallsAdapter(scheduleData: ArrayList<MeMyScheduleData?>?) {
         val adapter = MyTimeAdapter(scheduleData, itemClicked = {
             bottomSheet(it)
         })
@@ -125,6 +127,9 @@ class MyTimeFragment : BaseFragment() {
 
                     callAcceptAPI(meMyScheduleData)
                     dismiss()
+                    meMyScheduleData?.let {
+                            it1 -> adapter?.removeItem(it1) }
+                    adapter?.notifyDataSetChanged()
 
 
 
@@ -171,5 +176,11 @@ class MyTimeFragment : BaseFragment() {
     fun callRescheduleAPI(meMyScheduleData : MeMyScheduleData) {
     //   findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(meMyScheduleData))
     }
+
+    override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit
+        //keep the user in same scrolling
+        super.onResume()
+        callgetUserPendingCallsAPI()
+        }
 
 }

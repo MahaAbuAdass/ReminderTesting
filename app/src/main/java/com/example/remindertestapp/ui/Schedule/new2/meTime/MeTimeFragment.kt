@@ -47,7 +47,6 @@ class MeTimeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initiatSharedPreference()
-        callgetCallsAPI()
         observeViewModel()
     }
 
@@ -71,6 +70,18 @@ class MeTimeFragment : BaseFragment() {
         meTimeViewModel.getCallsResponseError?.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         }
+
+        statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
+            //    adapter?.scheduleData?.remove(it)
+          //  adapter?.notifyDataSetChanged()
+
+        }
+        statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner){
+            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+
+
     }
 
     private fun meTimeAdapter(Data: List<InformationReceiverResponseModel?>?) {
@@ -96,7 +107,7 @@ class MeTimeFragment : BaseFragment() {
                 binding?.btnReject?.setOnClickListener {
                     callCancelAPI(informationReceiverResponseModel)
                     dismiss()
-
+fun removerow(informationReceiverResponseModel: InformationReceiverResponseModel) {}
                 }
 
                 binding?.btnReSchedule?.setOnClickListener { }
@@ -117,7 +128,13 @@ class MeTimeFragment : BaseFragment() {
     }
 
     fun callRescheduleAPI(informationReceiverResponseModel: InformationReceiverResponseModel) {
-     //findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(informationReceiverResponseModel))
+   //findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(informationReceiverResponseModel))
+    }
+
+    override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit
+        //keep the user in same scrolling
+        super.onResume()
+        callgetCallsAPI()
 
     }
 

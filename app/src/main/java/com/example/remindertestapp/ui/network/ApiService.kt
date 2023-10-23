@@ -105,7 +105,7 @@ interface ApiService {
          @Header("Authorization") auth: String?
     ) : MyScheduleResponse
 
-    @GET("/api/Reminder/GetUserReceiverCalls")
+    @GET("/api/Reminder/GetCallsAndStatus")
     suspend fun getReceivedCallPending(
         @Header("Authorization") auth: String?
         ) : MeScheduleResponse

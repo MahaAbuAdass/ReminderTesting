@@ -6,8 +6,12 @@ import com.google.gson.annotations.SerializedName
 
 data class CallsTodayResponseModel(
     @SerializedName("code") val code: Int?,
-    @SerializedName("allCalls") val allCalls: List<DailyCalls>?,
+    @SerializedName("data") val data: CallsData?,
     @SerializedName("error") val error: BaseError?
+)
+
+    data class CallsData(
+    @SerializedName("allCalls") val allCalls: List<DailyCalls>?
 )
 
 data class DailyCalls(

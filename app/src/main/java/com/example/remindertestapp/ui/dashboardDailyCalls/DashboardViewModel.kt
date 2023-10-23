@@ -28,7 +28,7 @@ class DashboardViewModel : ViewModel() {
             val response = retrofitBuilder.getCallsToday(auth)
 
             try {
-                _getCallResponse.postValue(response.allCalls)
+                _getCallResponse.postValue(response.data?.allCalls)
             } catch (e: Exception) {
                 _getCallResponseError.postValue(response.error)
             }

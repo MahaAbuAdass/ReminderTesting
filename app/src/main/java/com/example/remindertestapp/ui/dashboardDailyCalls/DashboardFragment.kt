@@ -47,8 +47,8 @@ class DashboardFragment : BaseFragment() {
 
       //  initiate()
         initSharedPreferences()
-        callDailyCallsApi()
         observeViewModel()
+        callDailyCallsApi()
 
     }
 

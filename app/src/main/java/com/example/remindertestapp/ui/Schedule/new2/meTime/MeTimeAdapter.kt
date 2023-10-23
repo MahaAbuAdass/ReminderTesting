@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.remindertestapp.R
+import com.example.remindertestapp.enums.OrderStatusEnum
 
 class MeTimeAdapter (
     val Data: List<InformationReceiverResponseModel?>?,
@@ -17,11 +18,19 @@ class MeTimeAdapter (
         private val userName: TextView = itemView.findViewById(R.id.tv_name_m)
         private val s_time: TextView = itemView.findViewById(R.id.tv_time_m)
         private val img_click : ImageView = itemView.findViewById(R.id.img_schedule_m)
+        private val status : TextView = itemView.findViewById(R.id.tv_status_m)
 
 
         fun setData(informationReceiverResponseModel: InformationReceiverResponseModel?) {
             userName.text = informationReceiverResponseModel?.userName
             s_time.text =informationReceiverResponseModel?.callTime
+            status.text = when (informationReceiverResponseModel?.scheduleStatus){
+                OrderStatusEnum.PENDING.status -> "Pending"
+                OrderStatusEnum.ACCEPTED.status -> "Accept"
+                OrderStatusEnum.CANCELED.status ->"Cancell"
+                else ->""
+            }
+
 
             img_click.setOnClickListener{
                 informationReceiverResponseModel?.let {

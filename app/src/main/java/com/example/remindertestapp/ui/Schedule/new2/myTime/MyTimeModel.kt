@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MyScheduleResponse(
     @SerializedName("code") val code: Int,
-    @SerializedName("data") val data: List<MeMyScheduleData?>? = null,
+    @SerializedName("data") val data: ArrayList<MeMyScheduleData?>? = null,
     @SerializedName("error") val baseError: BaseError
 ) : Parcelable
 
