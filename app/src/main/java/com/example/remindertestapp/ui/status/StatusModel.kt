@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Status
+package com.example.remindertestapp.ui.status
 
 import com.example.remindertestapp.ui.account.BaseError
 import com.google.gson.annotations.SerializedName
@@ -24,11 +24,11 @@ data class AcceptSchedule(
 data class CancelScheduleResponse(
 
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data: CancelSchedule?,
+    @SerializedName("data") val data: String?,
     @SerializedName("error") val error: BaseError?
 )
 
-data class CancelSchedule(
-    @SerializedName("msg") val msg: String?
-
-)
+//data class CancelSchedule(
+//    @SerializedName("msg") val msg: String?
+//
+//)

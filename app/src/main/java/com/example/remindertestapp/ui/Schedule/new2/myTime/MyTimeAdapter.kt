@@ -55,13 +55,11 @@ class MyTimeAdapter (
 
 
 
-    fun removeItem(scheduleDataToRemove: MeMyScheduleData) {
-        val position = scheduleData?.indexOf(scheduleDataToRemove)
+    fun removeItem(meMyScheduleData: MeMyScheduleData) {
+        val position = scheduleData?.indexOf(meMyScheduleData)
         if (position != -1) {
-            scheduleData?.remove(scheduleDataToRemove)
+            scheduleData?.remove(meMyScheduleData)
             position?.let { notifyItemRemoved(it) }
         }
     }
-
-
 }

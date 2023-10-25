@@ -1,4 +1,4 @@
-package com.example.remindertestapp.ui.Status
+package com.example.remindertestapp.ui.status
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +20,8 @@ class StatusViewModel : ViewModel() {
 
 
 
-    private val _cancelScheduleResponse = MutableLiveData<CancelSchedule?>()
-    val cancelScheduleResponse: LiveData<CancelSchedule?> = _cancelScheduleResponse
+    private val _cancelScheduleResponse = MutableLiveData<CancelScheduleResponse?>()
+    val cancelScheduleResponse: LiveData<CancelScheduleResponse?> = _cancelScheduleResponse
 
     private val _cancelScheduleResponseError = MutableLiveData<String?>()
     val cancelScheduleResponseError: LiveData<String?> = _cancelScheduleResponseError
@@ -48,7 +48,7 @@ class StatusViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = retrofitBuilder.cancelSchedule(auth,id)
-                _cancelScheduleResponse.postValue(response.data)
+                _cancelScheduleResponse.postValue(response)
             } catch (e: Exception) {
                 _cancelScheduleResponseError.postValue(e.message.toString())
             }

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/img_send"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/baseline_send_24"
+            android:src="@drawable/baseline_double_arrow_24_yellow"
             app:layout_constraintTop_toTopOf="@id/tv_i_phone_number" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

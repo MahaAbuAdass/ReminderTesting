@@ -16,7 +16,7 @@ data class GetExistUsersRequestModel(
 
 data class GetExistUsersDataResponse(
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data:PhoneNumbers,
+    @SerializedName("data") val data:phoneNumbers,
     @SerializedName("error") val error: BaseError?
 
 
@@ -24,7 +24,9 @@ data class GetExistUsersDataResponse(
 //    @SerializedName("phoneNumbers") val phoneNumbers: List<PhoneNumbersResponse?>?
 )
 
-data class PhoneNumbers(@SerializedName("phoneNumbers") val phoneNumbers:ArrayList<PhoneNumbersResponse?>?)
+data class phoneNumbers(
+    @SerializedName("phoneNumbers") val phoneNumbers:ArrayList<PhoneNumbersResponse?>?
+    )
 
 
 @Parcelize

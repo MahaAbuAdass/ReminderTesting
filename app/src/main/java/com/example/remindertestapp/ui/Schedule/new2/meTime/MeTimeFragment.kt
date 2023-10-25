@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.remindertestapp.databinding.BottomSheetBinding
 import com.example.remindertestapp.databinding.BottomSheetMeBinding
 import com.example.remindertestapp.databinding.MeTimeFragmentBinding
-import com.example.remindertestapp.ui.Schedule.ScheduleViewPagerDirections
-import com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData
-import com.example.remindertestapp.ui.Status.StatusViewModel
+import com.example.remindertestapp.ui.status.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -26,8 +22,12 @@ class MeTimeFragment : BaseFragment() {
 
     private var binding: MeTimeFragmentBinding? = null
 
+    private var adapter: MeTimeAdapter? = null
+
     private val meTimeViewModel by viewModels<MeTimeViewModel>()
     private val statusViewModel by viewModels<StatusViewModel>()
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -72,8 +72,8 @@ class MeTimeFragment : BaseFragment() {
         }
 
         statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
-            //    adapter?.scheduleData?.remove(it)
-          //  adapter?.notifyDataSetChanged()
+            callgetCallsAPI()
+            adapter?.notifyDataSetChanged()
 
         }
         statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner){
@@ -107,7 +107,7 @@ class MeTimeFragment : BaseFragment() {
                 binding?.btnReject?.setOnClickListener {
                     callCancelAPI(informationReceiverResponseModel)
                     dismiss()
-fun removerow(informationReceiverResponseModel: InformationReceiverResponseModel) {}
+
                 }
 
                 binding?.btnReSchedule?.setOnClickListener { }

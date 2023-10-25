@@ -2,7 +2,7 @@ package com.example.remindertestapp.ui.network
 
 
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
-import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
+import com.example.remindertestapp.ui.status.AcceptScheduleRequest
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SignupRequestModel
 import com.example.remindertestapp.ui.homeContact.contacts.ContactRequestModel

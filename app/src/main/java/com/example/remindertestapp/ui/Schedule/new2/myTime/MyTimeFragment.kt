@@ -8,18 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.BottomSheetBinding
 import com.example.remindertestapp.databinding.MyTimeFragmentBinding
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
-import com.example.remindertestapp.ui.Schedule.ScheduleViewPagerDirections
-import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
-import com.example.remindertestapp.ui.Status.StatusViewModel
+import com.example.remindertestapp.ui.status.AcceptScheduleRequest
+import com.example.remindertestapp.ui.status.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MyTimeFragment : BaseFragment() {
@@ -29,6 +28,8 @@ class MyTimeFragment : BaseFragment() {
     private val reScheduleViewModel by viewModels<ReScheduleViewModel>()
 
     private var adapter: MyTimeAdapter? = null
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     private var bottomSheetDialog: GeneralBottomSheetDialog<BottomSheetBinding>? = null
 
@@ -79,9 +80,14 @@ class MyTimeFragment : BaseFragment() {
 
 
         statusViewModel.acceptScheduleResponse.observe(viewLifecycleOwner){
-            meMyScheduleData?.let {
-                    it1 -> adapter?.removeItem(it1) }
+
+            callgetUserPendingCallsAPI()
             adapter?.notifyDataSetChanged()
+//            meMyScheduleData?.let {
+//                // Remove the item from the list
+//                adapter?.removeItem(it)
+//            }
+
 
         }
         statusViewModel.acceptScheduleResponseError.observe(viewLifecycleOwner){
@@ -90,29 +96,34 @@ class MyTimeFragment : BaseFragment() {
         }
 
         statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
-        //    adapter?.scheduleData?.remove(it)
+            callgetUserPendingCallsAPI()
             adapter?.notifyDataSetChanged()
+
+
+//            meMyScheduleData?.let {
+//                // Remove the item from the list
+//                adapter?.removeItem(it)
+//            }
+
 
         }
         statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner){
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
 
         }
-
-
-
+        
     }
 
     private fun pendingCallsAdapter(scheduleData: ArrayList<MeMyScheduleData?>?) {
         val adapter = MyTimeAdapter(scheduleData, itemClicked = {
-            bottomSheet(it)
+            bottomSheet(it, scheduleData)
         })
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
 
 
-    fun bottomSheet(meMyScheduleData: MeMyScheduleData) {
+    fun bottomSheet(meMyScheduleData: MeMyScheduleData, scheduleData: ArrayList<MeMyScheduleData?>?) {
         object : GeneralBottomSheetDialog<BottomSheetBinding>(mainActivity) {
             override fun getViewBinding() = BottomSheetBinding.inflate(layoutInflater)
 
@@ -126,16 +137,19 @@ class MyTimeFragment : BaseFragment() {
                 binding.btnAccept.setOnClickListener {
 
                     callAcceptAPI(meMyScheduleData)
+                    coroutineScope.cancel()
+
                     dismiss()
-                    meMyScheduleData?.let {
-                            it1 -> adapter?.removeItem(it1) }
-                    adapter?.notifyDataSetChanged()
+//                    meMyScheduleData?.let {
+//                            it1 -> adapter?.removeItem(it1) }
+//                    adapter?.notifyDataSetChanged()
 
 
 
                 }
                 binding?.btnReject?.setOnClickListener {
                     callCancelAPI(meMyScheduleData)
+                    coroutineScope.cancel()
                     dismiss()
 
                 }

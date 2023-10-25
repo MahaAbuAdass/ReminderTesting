@@ -6,9 +6,9 @@ import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
 import com.example.remindertestapp.ui.Schedule.new2.meTime.MeScheduleResponse
 import com.example.remindertestapp.ui.Schedule.new2.myTime.MyScheduleResponse
-import com.example.remindertestapp.ui.Status.AcceptScheduleRequest
-import com.example.remindertestapp.ui.Status.AcceptScheduleResponse
-import com.example.remindertestapp.ui.Status.CancelScheduleResponse
+import com.example.remindertestapp.ui.status.AcceptScheduleRequest
+import com.example.remindertestapp.ui.status.AcceptScheduleResponse
+import com.example.remindertestapp.ui.status.CancelScheduleResponse
 import com.example.remindertestapp.ui.account.BooleanDataResponse
 import com.example.remindertestapp.ui.account.SigninRequestModel
 import com.example.remindertestapp.ui.account.SigninResponseModel
