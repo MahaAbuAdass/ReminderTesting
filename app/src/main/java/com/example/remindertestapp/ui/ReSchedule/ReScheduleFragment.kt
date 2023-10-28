@@ -1,25 +1,23 @@
 package com.example.remindertestapp.ui.ReSchedule
 
-import android.R
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.remindertestapp.databinding.RescheduleFragmentBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
-import com.example.remindertestapp.ui.homeContact.contacts.ContactViewModel
-import com.example.remindertestapp.ui.homeContact.contacts.ScheduleRequestModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,14 +27,14 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
     private var binding :RescheduleFragmentBinding ?=null
 
     private val navArgs by navArgs <ReScheduleFragmentArgs>()
-    private val reScheduleViewModel by viewModels<ReScheduleViewModel>()
 
+    private val reScheduleViewModel by viewModels<ReScheduleViewModel>()
 
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
 
-
+lateinit var timePicker : String
 
     val date = binding?.tvDate
     var selectedTime = ""
@@ -52,12 +50,13 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getTime()
         initiate()
         observeViewModel()
         initiatSharedPreference()
+
     }
 
     private fun initiatSharedPreference() {
@@ -76,42 +75,54 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
         }
     }
 
+
     private fun initiate() {
         binding?.btnSend?.setOnClickListener(this)
-//        binding?.spinnertext?.setOnClickListener(this)
         binding?.imgBack?.setOnClickListener(this)
         binding?.tvDate?.setOnClickListener(this)
+        binding?.tvTimePicker?.setOnClickListener(this)
 
-        binding?.etTopic?.setText(navArgs.myScheduleData.callTopic)
-        binding?.tvDate?.text = getDateFormat()
-//        binding?.spinnertext?.text =navArgs.myScheduleData.expectedCallTime
 
-    }
-
-    fun getDateFormat(): String {
         val selectedDate = navArgs.myScheduleData.callTime
-        val dateParts = selectedDate?.split("-")
-        val calendar = Calendar.getInstance()
 
-        dateParts?.get(2)?.let { calendar.set(
-            (dateParts?.get(0)?.toInt() ?: "") as Int
-        , (("dateParts?.get(1)?.toInt() ?:  - 1" )as Int)
-            , it.toInt()) } // Adjust month by -1
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        return dateFormat.format(calendar.time)
+        val dateParts = selectedDate?.split("T")
+        val date = dateParts?.get(0)
+        val time = dateParts?.get(1)
+        binding?.tvDate?.text = date
+        binding?.tvTimePicker?.text=time
     }
-
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
             binding?.btnSend?.id -> callReScheduleAPI()
             binding?.tvDate?.id -> onSelectDateClick()
             binding?.imgBack?.id -> mainActivity.onBackPressed()
+            binding?.tvTimePicker?.id -> showTimePicker()
         }
     }
 
 
+        fun showTimePicker() {
+            val calendar = Calendar.getInstance()
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
 
+            val timePickerDialog = TimePickerDialog(
+                requireContext(),
+                TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
+                    val selectedTime = "$selectedHour:$selectedMinute"
+                 //   binding?.tvTtttttttttttttime?.text = selectedTime
+                    binding?.tvTimePicker?.text =  "$selectedHour-$selectedMinute"
+                    timePicker = "$selectedHour-$selectedMinute"
+
+                },
+                hour,
+                minute,
+                true
+            )
+
+            timePickerDialog.show()
+        }
 
 
 
@@ -127,18 +138,6 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
         }
     }
 
-
-    fun getFormatDateTime(): String {
-        val time = selectedTime.split("-")
-        val date = selectedDate.split("-")
-        val calendar = Calendar.getInstance()
-
-        calendar.set(date[0].toInt(), date[1].toInt(), date[2].toInt(), time[0].toInt(), time[1].toInt())
-        return dateTimeFormatter.format(calendar.time)
-    }
-
-    val dateTimeFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
-
     fun onSelectDateClick() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -151,9 +150,9 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
                 // Handle the selected date
                 selectedDate = "$selectedYear-${selectedMonth }-$selectedDay"
 
-                Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
-                binding?.tvDate?.text = selectedDate
-                date?.text = selectedDate
+         //       Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
+                binding?.tvDate?.text = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+        //        date?.text = selectedDate
 
             },
             year,
@@ -163,23 +162,16 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
         datePickerDialog.show()
     }
 
-    private fun getTime() {
+
+    fun getFormatDateTime(): String {
+        val time = timePicker.split("-")
+        val date = selectedDate.split("-")
         val calendar = Calendar.getInstance()
-        val time = binding?.timePicker
-        time?.setIs24HourView(true)
 
-        time?.hour = calendar.get(Calendar.HOUR_OF_DAY)
-        time?.minute = calendar.get(Calendar.MINUTE)
-
-        val hourOfDay = time?.hour
-        val minute = time?.minute
-        selectedTime= "$hourOfDay-$minute"
-
-
-        time?.setOnTimeChangedListener { _, hourOfDay, minute ->
-            // Handle the selected time here
-            selectedTime = "$hourOfDay-$minute"
-        }
-
+        calendar.set(date[0].toInt(), date[1].toInt(), date[2].toInt(), time[0].toInt(), time[1].toInt())
+        return dateTimeFormatter.format(calendar.time)
     }
+
+    val dateTimeFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+
 }

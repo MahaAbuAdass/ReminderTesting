@@ -21,45 +21,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_topic"
+        android:id="@+id/tv_reschedule"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/white"
-        android:text="Topic"
+        android:text="Re-schedule"
         android:textSize="20sp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_topic"
-        app:hintEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_topic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Optional" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <TextView
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_add_time"
-        android:text="Select the date and time for your following meeting"
-        android:textSize="15sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayout"/>
 
 
     <TextView
@@ -67,10 +36,10 @@
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_time"
+        app:layout_constraintTop_toBottomOf="@+id/tv_reschedule"
         app:hintEnabled="true"
         android:background="@drawable/round2"
         android:padding="10dp"
@@ -79,65 +48,24 @@
         android:drawableStart="@drawable/baseline_calendar_month_24"
         />
 
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_expected_time"-->
-    <!--        android:layout_width="150dp"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--       app:layout_constraintTop_toTopOf="@+id/tv_date"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/tv_date"-->
-    <!--        app:hintEnabled="true"-->
-    <!--        android:background="@drawable/round2"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:hint="Time Expected"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:drawableStart="@drawable/baseline_access_time_24"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/spinnertext"-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/tv_date"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_date"-->
-<!--        android:background="@drawable/round2"-->
-<!--        android:text="Time"-->
-<!--        android:padding="10dp"-->
-<!--        android:textAlignment="center"-->
-<!--        />-->
-<!--    <Spinner-->
-<!--        android:id="@+id/spinner"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-
-<!--        app:layout_constraintEnd_toEndOf="@+id/spinnertext"-->
-
-<!--        app:layout_constraintTop_toTopOf="@+id/tv_date"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_date"-->
-<!--        app:hintEnabled="true"-->
-
-<!--        android:textAlignment="center"-->
-<!--        /> &lt;!&ndash; Initially, set it to gone &ndash;&gt;-->
+<TextView
+    android:id="@+id/tv_time_picker"
+    android:layout_width="150dp"
+    android:layout_height="40dp"
+    android:textColor="@color/black"
+    app:hintEnabled="true"
+    android:background="@drawable/round2"
+    android:padding="10dp"
+    android:hint="Time "
+    android:textAlignment="center"
+    android:drawableStart="@drawable/baseline_access_time_24"
+    app:layout_constraintTop_toTopOf="@id/tv_date"
+    app:layout_constraintBottom_toBottomOf="@id/tv_date"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginEnd="16dp"
+    />
 
 
-
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:timePickerMode="spinner"
-        android:background="@drawable/round"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
     <TextView
         android:layout_width="match_parent"
@@ -145,8 +73,8 @@
         android:id="@+id/tv_text"
         android:text="We will send you a reminder 15 minutes before your booked call"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/timePicker"
-        android:layout_marginTop="90dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_date"
+        android:layout_marginTop="150dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
@@ -161,7 +89,6 @@
         app:cornerRadius="15dp"
         android:text="Re-Schedule"
         />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

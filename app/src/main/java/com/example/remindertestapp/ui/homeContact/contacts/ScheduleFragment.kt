@@ -194,9 +194,9 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
                 // Handle the selected date
                 selectedDate = "$selectedYear-${selectedMonth }-$selectedDay"
 
-                Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
-                binding?.tvDate?.text = selectedDate
-                date?.text = selectedDate
+           //     Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_LONG).show()
+                binding?.tvDate?.text = "$selectedYear-${selectedMonth +1 }-$selectedDay"
+             //   date?.text = selectedDate
 
             },
             year,

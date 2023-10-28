@@ -8,14 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.BottomSheetMeBinding
 import com.example.remindertestapp.databinding.MeTimeFragmentBinding
+import com.example.remindertestapp.ui.Schedule.ScheduleViewPagerDirections
+import com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData
 import com.example.remindertestapp.ui.status.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MeTimeFragment : BaseFragment() {
@@ -23,6 +27,7 @@ class MeTimeFragment : BaseFragment() {
     private var binding: MeTimeFragmentBinding? = null
 
     private var adapter: MeTimeAdapter? = null
+lateinit var  meMyScheduleData : MeMyScheduleData
 
     private val meTimeViewModel by viewModels<MeTimeViewModel>()
     private val statusViewModel by viewModels<StatusViewModel>()
@@ -84,8 +89,8 @@ class MeTimeFragment : BaseFragment() {
 
     }
 
-    private fun meTimeAdapter(Data: List<InformationReceiverResponseModel?>?) {
-        val adapter = MeTimeAdapter(Data, itemClicked = {
+    private fun meTimeAdapter(data: List<InformationReceiverResponseModel?>?) {
+        val adapter = MeTimeAdapter(data, itemClicked2 = {
             bottomSheet(it)
         })
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -110,11 +115,14 @@ class MeTimeFragment : BaseFragment() {
 
                 }
 
-                binding?.btnReSchedule?.setOnClickListener { }
-                callRescheduleAPI(informationReceiverResponseModel)
-                dismiss()
+                binding?.btnReSchedule?.setOnClickListener {
+                     callRescheduleAPI(informationReceiverResponseModel)
+                 //   Toast.makeText(requireContext(), "2333333333333", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }
             }
-        }.dismissible().show()
+        }
+            .dismissible().show()
     }
 
 
@@ -128,8 +136,19 @@ class MeTimeFragment : BaseFragment() {
     }
 
     fun callRescheduleAPI(informationReceiverResponseModel: InformationReceiverResponseModel) {
-   //findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(informationReceiverResponseModel))
+findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(getMeMyScheduleDataModel(informationReceiverResponseModel)))
+
     }
+
+    private fun getMeMyScheduleDataModel(informationReceiverResponseModel: InformationReceiverResponseModel?) =
+            MeMyScheduleData(
+                callTopic = informationReceiverResponseModel?.callTopic ,
+                phoneNumber = informationReceiverResponseModel?.phoneNumber,
+                callTime = informationReceiverResponseModel?.callTime,
+                expectedCallTime = informationReceiverResponseModel?.callTime ,
+                reminderID = informationReceiverResponseModel?.reminderID
+            )
+
 
     override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit
         //keep the user in same scrolling

@@ -38,7 +38,7 @@ class DashboardFragment : BaseFragment() {
     private val reScheduleViewModel by viewModels<ReScheduleViewModel>()
     private val statusViewModel by viewModels<StatusViewModel>()
 
-    private var adapter: DailyCallsAdapter ? = null
+    private var adapter: DailyCallsAdapter? = null
 
 
     private val PREFS_NAME = "MyPrefsFile"
@@ -58,12 +58,42 @@ class DashboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      //  initiate()
+        //  initiate()
         initSharedPreferences()
         observeViewModel()
         callDailyCallsApi()
 
-    }
+
+                val itemTouchCallback = object : ItemTouchHelper.Callback() {
+                    override fun getMovementFlags(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder
+                    ): Int {
+                        // Enable swiping only from left to right
+                        return makeMovementFlags(0, ItemTouchHelper.RIGHT)
+                    }
+
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        // When an item is swiped, show the buttons
+                        val position = viewHolder.adapterPosition
+                        swipedPositions.add(position)
+                        adapter?.notifyItemChanged(position)
+                    }
+                }
+
+                val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+                itemTouchHelper.attachToRecyclerView(binding?.recyclerView)
+            }
+
+
 
     private fun observeViewModel() {
 
@@ -82,21 +112,20 @@ class DashboardFragment : BaseFragment() {
 
 
 
-        statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner){
+        statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner) {
 //            callDailyCallsApi()
 //            adapter?.notifyDataSetChanged()
 
         }
-        statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner){
+        statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
 
         }
 
 
-
     }
 
-    fun callDailyCallsApi(){
+    fun callDailyCallsApi() {
         CoroutineScope(Dispatchers.IO).launch {
             getDailyCallViewModel.getDailyCalls(sharedPreferences?.getString(KEY_NAME, "") ?: "")
         }
@@ -104,32 +133,16 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun dailyCallsAdapter(allCalls: List<DailyCalls>?) {
-        val adapter = DailyCallsAdapter(allCalls, optionClicked = {dailyCalls->
+        val adapter = DailyCallsAdapter(allCalls, optionClicked = { dailyCalls ->
 
 //            val customPopup = OptionsPopup(requireContext(),dailyCalls)
 //            customPopup.show()
         },
-            cancelClicked = {dailyCalls-> callCancelAPI(dailyCalls)} ,
-            reScheduleClicked = {dailyCalls-> callRescheduleAPI(dailyCalls)}
+            cancelClicked = { dailyCalls -> callCancelAPI(dailyCalls) },
+            reScheduleClicked = { dailyCalls -> callRescheduleAPI(dailyCalls) }
         )
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
-
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-
-            val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
-            itemTouchHelper.attachToRecyclerView(binding?.recyclerView)
-
-
-        }
 
     }
 
@@ -149,11 +162,11 @@ class DashboardFragment : BaseFragment() {
     }
 
 
-    fun callRescheduleAPI(dailyCalls : DailyCalls) {
+    fun callRescheduleAPI(dailyCalls: DailyCalls) {
 
     }
 
-    fun callCancelAPI(dailyCalls : DailyCalls) {
+    fun callCancelAPI(dailyCalls: DailyCalls) {
         CoroutineScope(Dispatchers.IO).launch {
             statusViewModel.cancelSchedule(
                 sharedPreferences?.getString(KEY_NAME, "") ?: "",
@@ -161,6 +174,12 @@ class DashboardFragment : BaseFragment() {
             )
         }
     }
+
+
+
+
+}
+
 
 
 //    inner class OptionsPopup(context: Context, DailyCalls: DailyCalls) : Dialog(context) {
@@ -199,4 +218,3 @@ class DashboardFragment : BaseFragment() {
 //    }
 
 
-}

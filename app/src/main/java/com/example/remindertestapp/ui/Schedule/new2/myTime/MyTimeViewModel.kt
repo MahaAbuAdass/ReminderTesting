@@ -12,8 +12,8 @@ class MyTimeViewModel : ViewModel() {
 
     private var retrofitBuilder = RetrofitBuilder()
 
-    private val _getPendingCallsResponse = MutableLiveData<ArrayList<MeMyScheduleData?>??>()
-    val getPendingCallsResponse: LiveData< ArrayList<MeMyScheduleData?>?> = _getPendingCallsResponse
+    private val _getPendingCallsResponse = MutableLiveData<List<MeMyScheduleData?>??>()
+    val getPendingCallsResponse: LiveData< List<MeMyScheduleData?>?> = _getPendingCallsResponse
 
     private val _getPendingCallsResponseError = MutableLiveData<String?>()
     val getPendingCallsResponseError: LiveData<String?> = _getPendingCallsResponseError

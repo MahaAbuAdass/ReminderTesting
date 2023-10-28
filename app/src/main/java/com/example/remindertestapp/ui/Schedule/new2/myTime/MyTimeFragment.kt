@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.BottomSheetBinding
 import com.example.remindertestapp.databinding.MyTimeFragmentBinding
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
+import com.example.remindertestapp.ui.Schedule.ScheduleViewPagerDirections
 import com.example.remindertestapp.ui.status.AcceptScheduleRequest
 import com.example.remindertestapp.ui.status.StatusViewModel
 import com.example.remindertestapp.ui.base_ui.BaseFragment
@@ -114,16 +116,16 @@ class MyTimeFragment : BaseFragment() {
         
     }
 
-    private fun pendingCallsAdapter(scheduleData: ArrayList<MeMyScheduleData?>?) {
+    private fun pendingCallsAdapter(scheduleData: List<MeMyScheduleData?>?) {
         val adapter = MyTimeAdapter(scheduleData, itemClicked = {
-            bottomSheet(it, scheduleData)
+            bottomSheet(it)
         })
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
     }
 
 
-    fun bottomSheet(meMyScheduleData: MeMyScheduleData, scheduleData: ArrayList<MeMyScheduleData?>?) {
+    fun bottomSheet(meMyScheduleData: MeMyScheduleData) {
         object : GeneralBottomSheetDialog<BottomSheetBinding>(mainActivity) {
             override fun getViewBinding() = BottomSheetBinding.inflate(layoutInflater)
 
@@ -188,8 +190,9 @@ class MyTimeFragment : BaseFragment() {
     }
 
     fun callRescheduleAPI(meMyScheduleData : MeMyScheduleData) {
-    //   findNavController().navigate(ScheduleViewPagerDirections.actionScheduleViewPagerToReScheduleFragment(meMyScheduleData))
-    }
+   findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(meMyScheduleData))
+
+   }
 
     override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit
         //keep the user in same scrolling

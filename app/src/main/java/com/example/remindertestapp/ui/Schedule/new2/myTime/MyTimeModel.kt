@@ -1,6 +1,7 @@
 package com.example.remindertestapp.ui.Schedule.new2.myTime
 
 import android.os.Parcelable
+import com.example.remindertestapp.ui.Schedule.new2.meTime.InformationReceiverResponseModel
 import com.example.remindertestapp.ui.account.BaseError
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -9,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MyScheduleResponse(
     @SerializedName("code") val code: Int,
-    @SerializedName("data") val data: ArrayList<MeMyScheduleData?>? = null,
+    @SerializedName("data") val data: List<MeMyScheduleData?>? = null,
     @SerializedName("error") val baseError: BaseError
 ) : Parcelable
 
@@ -27,6 +28,5 @@ data class MeMyScheduleData(
     @SerializedName("reminderID") var reminderID: Int? = null,
     @SerializedName("isReScheduleByMe") var isReScheduledByMe: Int? = null
 ) : Parcelable
-
 
 

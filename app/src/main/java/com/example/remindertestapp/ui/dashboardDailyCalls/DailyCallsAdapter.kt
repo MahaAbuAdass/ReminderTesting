@@ -47,6 +47,15 @@ class DailyCallsAdapter (
             }
 
 
+            if (isItemSwiped(adapterPosition)) {
+                // The item is swiped, so show the buttons
+                showButtons()
+            } else {
+                // The item is not swiped, so hide the buttons
+                hideButtons()
+            }
+
+
         }
 
         fun showButtons() {

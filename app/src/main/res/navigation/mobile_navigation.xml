@@ -13,26 +13,21 @@
     <fragment
         android:id="@+id/reScheduleFragment"
         android:name="com.example.remindertestapp.ui.ReSchedule.ReScheduleFragment"
-        tools:layout="@layout/reschedule_fragment" >
+        tools:layout="@layout/reschedule_fragment">
 
-             <argument
-             android:name="myScheduleData"
-             app:argType="com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData"/>
-
+        <argument
+            android:name="myScheduleData"
+            app:argType="com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData" />
 
 
     </fragment>
 
-    <fragment
-        android:id="@+id/new1"
-        android:name="com.example.remindertestapp.ui.homeContact.contacts.New"
-        tools:layout="@layout/new1" />
 
 
     <fragment
         android:id="@+id/signin"
         android:name="com.example.remindertestapp.ui.account.login.LoginFragment"
-        tools:layout="@layout/login_fragment" >
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_signin_to_verification_screen"
             app:destination="@id/verification_screen" />
@@ -49,7 +44,7 @@
     <fragment
         android:id="@+id/signUp"
         android:name="com.example.remindertestapp.ui.account.createaccount.CreateAccountFragment"
-        tools:layout="@layout/create_account_fragment" >
+        tools:layout="@layout/create_account_fragment">
         <action
             android:id="@+id/action_signUp_to_verification_screen"
             app:destination="@id/verification_screen" />
@@ -65,10 +60,10 @@
     <fragment
         android:id="@+id/verification_screen"
         android:name="com.example.remindertestapp.ui.account.VerificationFragment"
-        tools:layout="@layout/verification" >
+        tools:layout="@layout/verification">
         <argument
             android:name="phone_number"
-            app:argType="string"/>
+            app:argType="string" />
         <action
             android:id="@+id/action_verification_screen_to_navigation_home"
             app:destination="@id/navigation_home" />
@@ -78,16 +73,13 @@
     </fragment>
 
 
-
-
-
     <fragment
         android:id="@+id/schedule"
         android:name="com.example.remindertestapp.ui.homeContact.contacts.ScheduleFragment"
         tools:layout="@layout/schedule_fragment">
-    <argument
-        android:name="phonenumbers"
-        app:argType="com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse"/>
+        <argument
+            android:name="phonenumbers"
+            app:argType="com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse" />
 
 
     </fragment>
@@ -96,7 +88,7 @@
     <fragment
         android:id="@+id/menu"
         android:name="com.example.remindertestapp.ui.menu.MenuFragment"
-        tools:layout="@layout/menu" >
+        tools:layout="@layout/menu">
         <action
             android:id="@+id/action_menu_to_signin"
             app:destination="@id/signin" />
@@ -105,24 +97,24 @@
             app:destination="@id/navigation_home" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/view_pager_contact"-->
-<!--        android:name="com.example.remindertestapp.ui.menu.contacts.ContactViewPager"-->
-<!--        tools:layout="@layout/contact_view_pager" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_view_pager_contact_to_menu"-->
-<!--            app:destination="@id/menu" />-->
-<!--    </fragment>-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/view_pager_contact"-->
+    <!--        android:name="com.example.remindertestapp.ui.menu.contacts.ContactViewPager"-->
+    <!--        tools:layout="@layout/contact_view_pager" >-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_view_pager_contact_to_menu"-->
+    <!--            app:destination="@id/menu" />-->
+    <!--    </fragment>-->
 
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.remindertestapp.ui.homeContact.ContactViewPager"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/contact_view_pager">
 
-                <action
-                    android:id="@+id/action_view_pager_contact_to_menu"
-                    app:destination="@id/menu" />
+        <action
+            android:id="@+id/action_view_pager_contact_to_menu"
+            app:destination="@id/menu" />
         <action
             android:id="@+id/action_navigation_home_to_schedule"
             app:destination="@id/schedule" />
@@ -132,20 +124,19 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/schedule_view_pager"
-        android:name="com.example.remindertestapp.ui.Schedule.ScheduleViewPager"
-        tools:layout="@layout/schedule_view_pager">
-        <action
-            android:id="@+id/action_schedule_view_pager_to_reScheduleFragment"
-            app:destination="@id/reScheduleFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/schedule_view_pager"-->
+<!--        android:name="com.example.remindertestapp.ui.Schedule.ScheduleViewPager"-->
+<!--        tools:layout="@layout/schedule_view_pager">-->
+<!--        <action-->
+<!--            android:id="@+id/action_schedule_view_pager_to_reScheduleFragment"-->
+<!--            app:destination="@id/reScheduleFragment" />-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/contact_fragment"
         android:name="com.example.remindertestapp.ui.homeContact.contacts.ContactFragment"
-        tools:layout="@layout/contacts"/>
-
+        tools:layout="@layout/contacts" />
 
 
     <fragment
@@ -158,7 +149,13 @@
         android:id="@+id/navigation_notifications"
         android:name="com.example.remindertestapp.ui.Schedule.ScheduleViewPager"
         android:label="@string/title_notifications"
-        tools:layout="@layout/schedule_view_pager" />
+        tools:layout="@layout/schedule_view_pager" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_reScheduleFragment"
+            app:destination="@id/reScheduleFragment" />
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/notifications"

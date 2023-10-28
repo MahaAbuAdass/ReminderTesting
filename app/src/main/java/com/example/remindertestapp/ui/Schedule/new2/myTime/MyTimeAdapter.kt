@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.remindertestapp.R
 
 class MyTimeAdapter (
-    val scheduleData: ArrayList<MeMyScheduleData?>?,
+    val scheduleData: List<MeMyScheduleData?>?,
     val itemClicked: (meMyScheduleData: MeMyScheduleData) -> Unit,
     ) : RecyclerView.Adapter<MyTimeAdapter.ItemViewHolder>() {
 
@@ -55,11 +55,4 @@ class MyTimeAdapter (
 
 
 
-    fun removeItem(meMyScheduleData: MeMyScheduleData) {
-        val position = scheduleData?.indexOf(meMyScheduleData)
-        if (position != -1) {
-            scheduleData?.remove(meMyScheduleData)
-            position?.let { notifyItemRemoved(it) }
-        }
-    }
 }
