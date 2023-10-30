@@ -122,9 +122,19 @@ interface ApiService {
     ): NotificationResponse
 
 
+    @POST("/api/Notification/RemoveSingleNotification")
+  suspend  fun removeSingleNotification(
+        @Query("notificationID") notificationID: Int?,
+        @Header("Authorization") auth: String?
+        ): RemoveAllNotificationResponse
+
+
+
     @POST("/api/Notification/HandleNotificationAndCalls")
    suspend fun removeAllNotification(
         @Header("Authorization") auth: String?
     ): RemoveAllNotificationResponse
+
+
 
 }

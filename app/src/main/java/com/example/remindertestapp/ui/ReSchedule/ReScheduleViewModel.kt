@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class ReScheduleViewModel : ViewModel() {
     private var retrofitBuilder = RetrofitBuilder()
 
-    private val _reScheduleResponse = MutableLiveData<MyInfoData?>()
-    val reScheduleResponse: LiveData<MyInfoData?> = _reScheduleResponse
+    private val _reScheduleResponse = MutableLiveData<MyResheduleInfoData?>()
+    val reScheduleResponse: LiveData<MyResheduleInfoData?> = _reScheduleResponse
 
     private val _reScheduleResponseError = MutableLiveData<String?>()
     val reScheduleResponseError: LiveData<String?> = _reScheduleResponseError

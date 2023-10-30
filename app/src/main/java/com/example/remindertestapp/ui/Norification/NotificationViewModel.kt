@@ -9,6 +9,7 @@ import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
+import retrofit2.http.Header
 
 class NotificationViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
@@ -30,13 +31,22 @@ class NotificationViewModel : ViewModel() {
     val clearAllNotificationResponseError: LiveData<BaseError?> = _clearAllNotificationResponseError
 
 
+
+    private val _removeSingleNotificationResponse = MutableLiveData<RemoveAllNotificationResponseModel?>()
+    val removeSingleNotificationResponse : LiveData<RemoveAllNotificationResponseModel?> = _removeSingleNotificationResponse
+
+
+    private val _clearSingleNotificationResponseError = MutableLiveData<BaseError?>()
+    val clearSingleNotificationResponseError: LiveData<BaseError?> = _clearSingleNotificationResponseError
+
+
     fun getNotification(auth: String?) {
         viewModelScope.launch(Dispatchers.IO) {
 
             val response = retrofitBuilder.getNotification(auth)
 
             try {
-                _notificationResponse.postValue(response.notifications)
+                _notificationResponse.postValue(response.data?.notifications)
             } catch (e: Exception) {
                 _notificationResponseError.postValue(response.error)
             }
@@ -50,9 +60,21 @@ class NotificationViewModel : ViewModel() {
             val response = retrofitBuilder.removeAllNotification(auth)
 
             try {
-                _clearAllNotificationResponse.postValue(response.removeAllNotificationResponseModel)
+                _clearAllNotificationResponse.postValue(response.data)
             } catch (e: Exception) {
                 _clearAllNotificationResponseError.postValue(response.error)
+            }
+        }
+    }
+
+    fun removeSignleNotification(notificationID: Int,  auth: String ) {
+        viewModelScope.launch(Dispatchers.IO){
+            val response = retrofitBuilder.removeSignleNotification(notificationID,auth)
+
+            try {
+                _removeSingleNotificationResponse.postValue(response.data)
+            } catch (e:Exception) {
+                _clearSingleNotificationResponseError.postValue(response.error)
             }
         }
     }

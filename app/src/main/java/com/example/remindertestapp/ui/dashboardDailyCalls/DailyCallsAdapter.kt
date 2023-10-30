@@ -18,12 +18,6 @@ class DailyCallsAdapter (
 
 ) : RecyclerView.Adapter<DailyCallsAdapter.ItemViewHolder>() {
 
-
-    private val swipedPositions = HashSet<Int>()
-    fun isItemSwiped(position: Int): Boolean {
-        return swipedPositions.contains(position)
-    }
-
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val userName: TextView = itemView.findViewById(R.id.tv_name_d)
         private val time: TextView = itemView.findViewById(R.id.tv_time_d)
@@ -36,9 +30,10 @@ class DailyCallsAdapter (
             userName.text = allCalls.userName
             time.text = allCalls.expectedCallTime
 
+    //        hideButtons()
 
 
-            cancelBtn.setOnClickListener{
+            cancelBtn.setOnClickListener {
                 cancelClicked.invoke(allCalls)
             }
 
@@ -46,18 +41,7 @@ class DailyCallsAdapter (
                 reScheduleClicked.invoke(allCalls)
             }
 
-
-            if (isItemSwiped(adapterPosition)) {
-                // The item is swiped, so show the buttons
-                showButtons()
-            } else {
-                // The item is not swiped, so hide the buttons
-                hideButtons()
-            }
-
-
         }
-
         fun showButtons() {
             cancelBtn.visibility = View.VISIBLE
             reScheduleBtn.visibility = View.VISIBLE
@@ -67,7 +51,31 @@ class DailyCallsAdapter (
             cancelBtn.visibility = View.GONE
             reScheduleBtn.visibility = View.GONE
         }
-    }
+
+
+        }
+
+//            if (isItemSwiped(adapterPosition)) {
+//                // The item is swiped, so show the buttons
+//                showButtons()
+//            } else {
+//                // The item is not swiped, so hide the buttons
+//                hideButtons()
+//            }
+
+
+
+
+//        fun showButtons() {
+//            cancelBtn.visibility = View.VISIBLE
+//            reScheduleBtn.visibility = View.VISIBLE
+//        }
+//
+//        fun hideButtons() {
+//            cancelBtn.visibility = View.GONE
+//            reScheduleBtn.visibility = View.GONE
+//        }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -79,20 +87,8 @@ class DailyCallsAdapter (
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val dailyCalls = allCalls?.get(position)
-        dailyCalls?.let {
-            holder.setData(it)
-            if (isItemSwiped(position)) {
-                // The item is swiped, so show the buttons
-                holder.showButtons()
-            } else {
-                // The item is not swiped, so hide the buttons
-                holder.hideButtons()
-            }
-        }
-
-
         allCalls?.get(position)?.let { holder.setData(it) }
+
 
     }
 

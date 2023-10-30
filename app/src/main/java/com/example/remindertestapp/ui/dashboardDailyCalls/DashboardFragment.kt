@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
 import com.example.remindertestapp.ui.Schedule.new2.meTime.InformationReceiverResponseModel
 import com.example.remindertestapp.ui.Schedule.new2.meTime.MeTimeAdapter
+import com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.status.StatusViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -64,34 +66,9 @@ class DashboardFragment : BaseFragment() {
         callDailyCallsApi()
 
 
-                val itemTouchCallback = object : ItemTouchHelper.Callback() {
-                    override fun getMovementFlags(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder
-                    ): Int {
-                        // Enable swiping only from left to right
-                        return makeMovementFlags(0, ItemTouchHelper.RIGHT)
-                    }
 
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
-                        return false
-                    }
+    }
 
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        // When an item is swiped, show the buttons
-                        val position = viewHolder.adapterPosition
-                        swipedPositions.add(position)
-                        adapter?.notifyItemChanged(position)
-                    }
-                }
-
-                val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
-                itemTouchHelper.attachToRecyclerView(binding?.recyclerView)
-            }
 
 
 
@@ -113,8 +90,8 @@ class DashboardFragment : BaseFragment() {
 
 
         statusViewModel.cancelScheduleResponse.observe(viewLifecycleOwner) {
-//            callDailyCallsApi()
-//            adapter?.notifyDataSetChanged()
+            callDailyCallsApi()
+            adapter?.notifyDataSetChanged()
 
         }
         statusViewModel.cancelScheduleResponseError.observe(viewLifecycleOwner) {
@@ -144,6 +121,27 @@ class DashboardFragment : BaseFragment() {
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
 
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val itemViewHolder = viewHolder as DailyCallsAdapter.ItemViewHolder
+                if (direction == ItemTouchHelper.LEFT) {
+                    // Swipe left, show both buttons
+                    itemViewHolder.showButtons()
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding?.recyclerView)
+
+
+
+
     }
 
     private fun initSharedPreferences() {
@@ -163,7 +161,7 @@ class DashboardFragment : BaseFragment() {
 
 
     fun callRescheduleAPI(dailyCalls: DailyCalls) {
-
+         findNavController().navigate(DashboardFragmentDirections.actionNavigationDashboardToReScheduleFragment(getMeMyScheduleDataModel(dailyCalls)) )
     }
 
     fun callCancelAPI(dailyCalls: DailyCalls) {
@@ -175,7 +173,14 @@ class DashboardFragment : BaseFragment() {
         }
     }
 
-
+    private fun getMeMyScheduleDataModel(dailyCalls: DailyCalls) =
+        MeMyScheduleData(
+            callTopic = dailyCalls.callTopic ,
+            phoneNumber = dailyCalls?.userPhoneNumber,
+            callTime = dailyCalls.callTime,
+            expectedCallTime = dailyCalls.expectedCallTime ,
+            reminderID = dailyCalls.callID
+        )
 
 
 }

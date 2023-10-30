@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.DialogNotificationBinding
 import com.example.remindertestapp.databinding.NotificaitonFragmentBinding
+import com.example.remindertestapp.ui.Schedule.new2.myTime.MyTimeAdapter
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,8 @@ class NotificationFragment : BaseFragment(), OnClickListener {
     private val PREFS_NAME = "MyPrefsFile"
     private val KEY_NAME = "name"
     private var sharedPreferences: SharedPreferences? = null
+
+    private var adapter: NotificationAdapter? = null
 
 
     override fun onCreateView(
@@ -64,7 +67,7 @@ class NotificationFragment : BaseFragment(), OnClickListener {
         }
 
 
-        notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner){
+
             notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) { response ->
 
                 if (response == null) {
@@ -77,10 +80,21 @@ class NotificationFragment : BaseFragment(), OnClickListener {
                 }
             }
 
+
+        notificationViewModel.clearAllNotificationResponseError.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
 
 
-        notificationViewModel.clearAllNotificationResponseError.observe(viewLifecycleOwner){
+
+
+        notificationViewModel.removeSingleNotificationResponse.observe(viewLifecycleOwner) {
+            callGetNotificationApi()
+            adapter?.notifyDataSetChanged()
+
+        }
+
+        notificationViewModel.clearSingleNotificationResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
 
@@ -88,8 +102,16 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
 
     private fun notificationAdapter(notifications: List<NotificationModel>?) {
-        val adapter = NotificationAdapter(notifications, shareClicked = { notification ->
-        })
+        val adapter = NotificationAdapter(notifications, deleteNotificationRow = {notificationModelResponse ->
+
+            CoroutineScope(Dispatchers.IO).launch {
+                notificationViewModel.removeSignleNotification(
+                    notificationModelResponse.notificationId,
+                    sharedPreferences?.getString(KEY_NAME, "") ?: ""
+                )
+
+            }  })
+
 
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter

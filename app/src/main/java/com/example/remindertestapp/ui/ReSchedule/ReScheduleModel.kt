@@ -13,11 +13,11 @@ data class ReScheduleRequestModel(
 
 data class RescheduleResponseModel(
     @SerializedName("code") val code: Int?,
-    @SerializedName("data") val data: MyInfoData?,
+    @SerializedName("data") val data: MyResheduleInfoData?,
     @SerializedName("error") val baseError: BaseError?
 )
 
-data class MyInfoData(
+data class MyResheduleInfoData(
     @SerializedName("isSuccess") val isSuccess: Boolean?,
     @SerializedName("msg") val msg: String?
 )

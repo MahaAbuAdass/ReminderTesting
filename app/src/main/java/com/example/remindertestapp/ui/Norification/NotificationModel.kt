@@ -6,13 +6,16 @@ import com.google.gson.annotations.SerializedName
 
 data class NotificationResponse(
     @SerializedName("code") val code: Int?,
-    @SerializedName("notifications") val notifications: List<NotificationModel>?,
+    @SerializedName("data") val data: NotificationData?,
     @SerializedName("error") val error: BaseError?
 )
 
+data class NotificationData (
+    @SerializedName("notifications") val notifications: List<NotificationModel>?,
+    )
 
 data class NotificationModel(
-    @SerializedName("notificationId") val notificationId: Int?,
+    @SerializedName("notificationId") val notificationId: Int,
     @SerializedName("userId") val userId: Int?,
     @SerializedName("userPhoneNumber") val userPhoneNumber: String?,
     @SerializedName("userName") val userName: String?,
@@ -40,7 +43,7 @@ data class NotificationModel(
 
 data class RemoveAllNotificationResponse(
     @SerializedName("code") val code: Int?,
-    @SerializedName("notifications") val removeAllNotificationResponseModel: RemoveAllNotificationResponseModel?,
+    @SerializedName("notifications") val data: RemoveAllNotificationResponseModel?,
     @SerializedName("error") val error: BaseError?
 )
 

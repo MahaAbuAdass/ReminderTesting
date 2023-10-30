@@ -61,6 +61,8 @@ class RetrofitBuilder {
 
     suspend fun removeAllNotification(auth: String?)=apiService.removeAllNotification(auth)
 
+    suspend fun removeSignleNotification(notificationID: Int,auth: String?)=apiService.removeSingleNotification(notificationID,auth)
+
 }
 
 

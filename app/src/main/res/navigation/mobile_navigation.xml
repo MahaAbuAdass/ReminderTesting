@@ -143,7 +143,12 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.remindertestapp.ui.dashboardDailyCalls.DashboardFragment"
         android:label="Daily Calls"
-        tools:layout="@layout/fragment_daily_calls" />
+        tools:layout="@layout/fragment_daily_calls" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_reScheduleFragment"
+            app:destination="@id/reScheduleFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
