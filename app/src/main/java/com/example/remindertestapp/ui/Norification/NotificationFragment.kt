@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.remindertestapp.databinding.DialogNotificationBinding
@@ -59,16 +60,19 @@ class NotificationFragment : BaseFragment(), OnClickListener {
     private fun observeViewModel() {
 
         notificationViewModel.notificationResponse.observe(viewLifecycleOwner) {
-            notificationAdapter(it)
+            it?.let {
+                binding?.tvNoNotification?.visibility = View.INVISIBLE
+                binding?.tvNoNotification?.isVisible = false
+                notificationAdapter(it)
+            }
         }
-
         notificationViewModel.notificationResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
 
 
 
-            notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) { response ->
+        notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) { response ->
 
 //                if (response == null) {
 //                    Toast.makeText(requireContext(), "No Notifications found", Toast.LENGTH_SHORT)
@@ -78,12 +82,12 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 //                        requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 //                    notificationManager.cancelAll()
 //                }
-                callGetNotificationApi()
-                adapter?.notifyDataSetChanged()
-            }
+            callGetNotificationApi()
+            adapter?.notifyDataSetChanged()
+        }
 
 
-        notificationViewModel.clearAllNotificationResponseError.observe(viewLifecycleOwner){
+        notificationViewModel.clearAllNotificationResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
 
@@ -104,15 +108,18 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
 
     private fun notificationAdapter(notifications: List<NotificationModel>?) {
-        val adapter = NotificationAdapter(notifications, deleteNotificationRow = {notificationModelResponse ->
+        val adapter = NotificationAdapter(
+            notifications,
+            deleteNotificationRow = { notificationModelResponse ->
 
-            CoroutineScope(Dispatchers.IO).launch {
-                notificationViewModel.removeSignleNotification(
-                    notificationModelResponse.notificationId,
-                    sharedPreferences?.getString(KEY_NAME, "") ?: ""
-                )
+                CoroutineScope(Dispatchers.IO).launch {
+                    notificationViewModel.removeSignleNotification(
+                        notificationModelResponse.notificationId,
+                        sharedPreferences?.getString(KEY_NAME, "") ?: ""
+                    )
 
-            }  })
+                }
+            })
 
 
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -126,25 +133,28 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.tvClearAll?.id -> showCustomDialog("Notification" , "Are you sure you want to clear all Notifications")
+            binding?.tvClearAll?.id -> showCustomDialog(
+                "Notification",
+                "Are you sure you want to clear all Notifications"
+            )
+
             binding?.btnBack?.id -> mainActivity.onBackPressed()
         }
 
 
     }
-
-
-    private fun initiate() {
+        private fun initiate() {
         binding?.tvClearAll?.setOnClickListener(this)
         binding?.btnBack?.setOnClickListener(this)
     }
 
     fun callClearNotificationApi() {
-            CoroutineScope(Dispatchers.IO).launch{
-     notificationViewModel.removeAllNotification(sharedPreferences?.getString(KEY_NAME, "") ?: "",2)
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            notificationViewModel.removeAllNotification(
+                sharedPreferences?.getString(KEY_NAME, "") ?: "", 1
+            )
+        }
     }
-
 
 
     fun showCustomDialog(title: String, message: String) {
@@ -164,6 +174,7 @@ class NotificationFragment : BaseFragment(), OnClickListener {
             callClearNotificationApi()
             dialog.dismiss()
         }
+
         dialogBinding?.dialogCancelButton?.setOnClickListener {
 
             dialog.dismiss()

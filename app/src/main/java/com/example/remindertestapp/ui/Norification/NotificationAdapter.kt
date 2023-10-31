@@ -26,7 +26,10 @@ class NotificationAdapter (
 
         fun setData(notificationModel: NotificationModel) {
            title.text = notificationModel.title
-            date.text = notificationModel.notificationDate
+            var oldDate = notificationModel.notificationDate
+
+            val dateParts = oldDate?.split(".")
+           date.text = dateParts?.get(0)
            body.text = notificationModel.body
 
             deleteNotification.setOnClickListener {

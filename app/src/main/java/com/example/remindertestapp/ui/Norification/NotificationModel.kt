@@ -41,9 +41,14 @@ data class NotificationModel(
     @SerializedName("user") val user: String?
 )
 
-
-
 data class RemoveAllNotificationResponse(
+    @SerializedName("code") val code: Int?,
+    @SerializedName("notifications") val data: RemoveAllNotificationResponseModel?,
+    @SerializedName("error") val error: BaseError2?
+)
+
+
+data class RemoveSingleNotificationResponse(
     @SerializedName("code") val code: Int?,
     @SerializedName("notifications") val data: RemoveAllNotificationResponseModel?,
     @SerializedName("error") val error: BaseError2?
@@ -59,5 +64,4 @@ data class RemoveAllNotificationResponseModel(
 data class BaseError2(
     @SerializedName("errors") val errors: List<String?>,
     @SerializedName("message") val message: String?,
-
     ): Parcelable

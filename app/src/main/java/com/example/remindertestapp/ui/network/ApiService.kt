@@ -2,6 +2,7 @@ package com.example.remindertestapp.ui.network
 
 import com.example.remindertestapp.ui.Norification.NotificationResponse
 import com.example.remindertestapp.ui.Norification.RemoveAllNotificationResponse
+import com.example.remindertestapp.ui.Norification.RemoveSingleNotificationResponse
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.RescheduleResponseModel
 import com.example.remindertestapp.ui.Schedule.new2.meTime.MeScheduleResponse
@@ -126,15 +127,14 @@ interface ApiService {
   suspend  fun removeSingleNotification(
         @Query("notificationID") notificationID: Int?,
         @Header("Authorization") auth: String?
-        ): RemoveAllNotificationResponse
+        ): RemoveSingleNotificationResponse
 
 
 
     @POST("/api/Notification/HandleNotificationAndCalls")
    suspend fun removeAllNotification(
-
         @Header("Authorization") auth: String?,
-        @Query("?from=") source: Int?
+        @Query("from") from: Int?
 
     ): RemoveAllNotificationResponse
 
