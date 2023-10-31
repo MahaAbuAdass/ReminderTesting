@@ -70,14 +70,16 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
             notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) { response ->
 
-                if (response == null) {
-                    Toast.makeText(requireContext(), "No Notifications found", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    val notificationManager =
-                        requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                    notificationManager.cancelAll()
-                }
+//                if (response == null) {
+//                    Toast.makeText(requireContext(), "No Notifications found", Toast.LENGTH_SHORT)
+//                        .show()
+//                } else {
+//                    val notificationManager =
+//                        requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//                    notificationManager.cancelAll()
+//                }
+                callGetNotificationApi()
+                adapter?.notifyDataSetChanged()
             }
 
 
@@ -139,7 +141,7 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
     fun callClearNotificationApi() {
             CoroutineScope(Dispatchers.IO).launch{
-                notificationViewModel.removeAllNotification(sharedPreferences?.getString(KEY_NAME, "") ?: "")
+     notificationViewModel.removeAllNotification(sharedPreferences?.getString(KEY_NAME, "") ?: "",2)
             }
     }
 

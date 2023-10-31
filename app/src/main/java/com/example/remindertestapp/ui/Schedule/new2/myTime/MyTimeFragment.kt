@@ -190,8 +190,7 @@ class MyTimeFragment : BaseFragment() {
     }
 
     fun callRescheduleAPI(meMyScheduleData : MeMyScheduleData) {
-   findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(meMyScheduleData))
-
+        findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(meMyScheduleData))
    }
 
     override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit

@@ -35,6 +35,14 @@ data class BaseError(
     @SerializedName("innerException") val innerException: String?
 ): Parcelable
 
+
+
+
+
+
+
+
+
 @Parcelize
 data class SignupRequestModel(
     @SerializedName("MobileNumber") val mobileNumber: String?,

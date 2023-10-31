@@ -36,8 +36,8 @@ class NotificationViewModel : ViewModel() {
     val removeSingleNotificationResponse : LiveData<RemoveAllNotificationResponseModel?> = _removeSingleNotificationResponse
 
 
-    private val _clearSingleNotificationResponseError = MutableLiveData<BaseError?>()
-    val clearSingleNotificationResponseError: LiveData<BaseError?> = _clearSingleNotificationResponseError
+    private val _clearSingleNotificationResponseError = MutableLiveData<BaseError2?>()
+    val clearSingleNotificationResponseError: LiveData<BaseError2?> = _clearSingleNotificationResponseError
 
 
     fun getNotification(auth: String?) {
@@ -55,14 +55,14 @@ class NotificationViewModel : ViewModel() {
         }
     }
 
-    fun removeAllNotification(auth: String) {
+    fun removeAllNotification(auth: String , source : Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = retrofitBuilder.removeAllNotification(auth)
+            val response = retrofitBuilder.removeAllNotification(auth,source)
 
             try {
                 _clearAllNotificationResponse.postValue(response.data)
             } catch (e: Exception) {
-                _clearAllNotificationResponseError.postValue(response.error)
+              //  _clearAllNotificationResponseError.postValue(response.error)
             }
         }
     }

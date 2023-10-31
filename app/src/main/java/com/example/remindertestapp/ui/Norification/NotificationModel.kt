@@ -1,7 +1,9 @@
 package com.example.remindertestapp.ui.Norification
 
+import android.os.Parcelable
 import com.example.remindertestapp.ui.account.BaseError
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 data class NotificationResponse(
@@ -44,9 +46,18 @@ data class NotificationModel(
 data class RemoveAllNotificationResponse(
     @SerializedName("code") val code: Int?,
     @SerializedName("notifications") val data: RemoveAllNotificationResponseModel?,
-    @SerializedName("error") val error: BaseError?
+    @SerializedName("error") val error: BaseError2?
 )
 
 data class RemoveAllNotificationResponseModel(
     @SerializedName("isDelete") val isDelete: Boolean?
 )
+
+
+
+@Parcelize
+data class BaseError2(
+    @SerializedName("errors") val errors: List<String?>,
+    @SerializedName("message") val message: String?,
+
+    ): Parcelable
