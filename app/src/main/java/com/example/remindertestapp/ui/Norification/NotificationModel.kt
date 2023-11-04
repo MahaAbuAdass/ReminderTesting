@@ -13,7 +13,7 @@ data class NotificationResponse(
 )
 
 data class NotificationData (
-    @SerializedName("notifications") val notifications: List<NotificationModel>?,
+    @SerializedName("notifications") val notifications: MutableList<NotificationModel>?,
     )
 
 data class NotificationModel(

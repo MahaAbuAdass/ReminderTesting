@@ -1,16 +1,12 @@
 package com.example.remindertestapp.ui.homeContact
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.pm.PackageManager
-import android.database.Cursor
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 
@@ -55,6 +51,9 @@ class ContactViewPager : BaseFragment(), View.OnClickListener {
         }.attach()
 
     }
+
+
+
 
     private fun initiate() {
         binding?.imgMenu?.setOnClickListener(this)

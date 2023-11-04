@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.remindertestapp.ui.account.BaseError
 
 import com.example.remindertestapp.ui.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -22,11 +23,11 @@ class ContactViewModel : ViewModel() {
 
 
 
-    private val _scheduleResponse = MutableLiveData<SubmitScheduleResponse?>()
-    val scheduleResponse: LiveData<SubmitScheduleResponse?> = _scheduleResponse
+    private val _scheduleResponse = MutableLiveData<ScheduleResponse?>()
+    val scheduleResponse: LiveData<ScheduleResponse?> = _scheduleResponse
 
-    private val _scheduleResponseError = MutableLiveData<String?>()
-    val scheduleResponseError: LiveData<String?> = _scheduleResponseError
+    private val _scheduleResponseError = MutableLiveData<BaseError?>()
+    val scheduleResponseError: LiveData<BaseError?> = _scheduleResponseError
 
     suspend fun getContacts(auth: String?, getExistUsersRequestModel: ContactRequestModel) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,11 +44,12 @@ class ContactViewModel : ViewModel() {
 
     suspend fun makeSchedule(scheduleRequestModel: ScheduleRequestModel, auth: String? ) {
         viewModelScope.launch(Dispatchers.IO) {
+            val response = retrofitBuilder.makeSchedule(scheduleRequestModel,auth)
+
             try {
-                val response = retrofitBuilder.makeSchedule(scheduleRequestModel,auth)
-                _scheduleResponse.postValue(response.data)
+                _scheduleResponse.postValue(response)
             } catch (e: Exception) {
-                _scheduleResponseError.postValue(e.message.toString())
+                _scheduleResponseError.postValue(response.error)
             }
         }
     }

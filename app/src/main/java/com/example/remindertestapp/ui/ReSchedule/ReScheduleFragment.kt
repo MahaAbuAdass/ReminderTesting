@@ -36,7 +36,8 @@ class ReScheduleFragment : BaseFragment() , OnClickListener {
 
 lateinit var timePicker : String
 
-    val date = binding?.tvDate
+    var date : String ?=null
+    var time : String ?=null
     var selectedTime = ""
     var selectedDate =""
 
@@ -86,21 +87,31 @@ lateinit var timePicker : String
         val selectedDate = navArgs.myScheduleData.callTime
 
         val dateParts = selectedDate?.split("T")
-        val date = dateParts?.get(0)
-        val time = dateParts?.get(1)
+        date = dateParts?.get(0)
+        time = dateParts?.get(1)
         binding?.tvDate?.text = date
         binding?.tvTimePicker?.text=time
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            binding?.btnSend?.id -> callReScheduleAPI()
+            binding?.btnSend?.id -> checkFields()
             binding?.tvDate?.id -> onSelectDateClick()
             binding?.imgBack?.id -> mainActivity.onBackPressed()
             binding?.tvTimePicker?.id -> showTimePicker()
         }
     }
 
+    fun checkFields(){
+        if (date.toString() == binding?.tvDate?.text.toString())
+        {    Toast.makeText(requireContext(), "The Date is not changed", Toast.LENGTH_SHORT).show()}
+
+        if (time.toString() == binding?.tvTimePicker?.text.toString())
+        {
+            Toast.makeText(requireContext(), "The Time is not changed", Toast.LENGTH_SHORT).show()}
+
+        else { callReScheduleAPI() }
+    }
 
         fun showTimePicker() {
             val calendar = Calendar.getInstance()

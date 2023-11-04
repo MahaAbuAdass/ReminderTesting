@@ -1,31 +1,27 @@
 package com.example.remindertestapp.ui.dashboardDailyCalls
 
-import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.remindertestapp.R
-import com.example.remindertestapp.databinding.DailyCallCellBinding
+import com.example.remindertestapp.databinding.CallUserBinding
 import com.example.remindertestapp.databinding.FragmentDailyCallsBinding
-import com.example.remindertestapp.ui.ReSchedule.ReScheduleRequestModel
 import com.example.remindertestapp.ui.ReSchedule.ReScheduleViewModel
-import com.example.remindertestapp.ui.Schedule.new2.meTime.InformationReceiverResponseModel
-import com.example.remindertestapp.ui.Schedule.new2.meTime.MeTimeAdapter
 import com.example.remindertestapp.ui.Schedule.new2.myTime.MeMyScheduleData
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.status.StatusViewModel
+import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,10 +62,7 @@ class DashboardFragment : BaseFragment() {
         callDailyCallsApi()
 
 
-
     }
-
-
 
 
     private fun observeViewModel() {
@@ -116,30 +109,37 @@ class DashboardFragment : BaseFragment() {
 //            customPopup.show()
         },
             cancelClicked = { dailyCalls -> callCancelAPI(dailyCalls) },
-            reScheduleClicked = { dailyCalls -> callRescheduleAPI(dailyCalls) }
+            reScheduleClicked = { dailyCalls -> callRescheduleAPI(dailyCalls) },
+            userCall = { dailyCallsInfo ->
+                bottomSheet(dailyCallsInfo)
+
+            }
         )
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
 
 
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
+        val itemTouchHelperCallback =
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val itemViewHolder = viewHolder as DailyCallsAdapter.ItemViewHolder
-                if (direction == ItemTouchHelper.LEFT) {
-                    // Swipe left, show both buttons
-                    itemViewHolder.showButtons()
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val itemViewHolder = viewHolder as DailyCallsAdapter.ItemViewHolder
+                    if (direction == ItemTouchHelper.LEFT) {
+                        // Swipe left, show both buttons
+                        itemViewHolder.showButtons()
+                    }
                 }
             }
-        }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding?.recyclerView)
-
-
 
 
     }
@@ -161,7 +161,11 @@ class DashboardFragment : BaseFragment() {
 
 
     fun callRescheduleAPI(dailyCalls: DailyCalls) {
-         findNavController().navigate(DashboardFragmentDirections.actionNavigationDashboardToReScheduleFragment(getMeMyScheduleDataModel(dailyCalls)) )
+        findNavController().navigate(
+            DashboardFragmentDirections.actionNavigationDashboardToReScheduleFragment(
+                getMeMyScheduleDataModel(dailyCalls)
+            )
+        )
     }
 
     fun callCancelAPI(dailyCalls: DailyCalls) {
@@ -175,51 +179,42 @@ class DashboardFragment : BaseFragment() {
 
     private fun getMeMyScheduleDataModel(dailyCalls: DailyCalls) =
         MeMyScheduleData(
-            callTopic = dailyCalls.callTopic ,
+            callTopic = dailyCalls.callTopic,
             phoneNumber = dailyCalls?.userPhoneNumber,
             callTime = dailyCalls.callTime,
-            expectedCallTime = dailyCalls.expectedCallTime ,
+            expectedCallTime = dailyCalls.expectedCallTime,
             reminderID = dailyCalls.callID
         )
 
 
+    fun bottomSheet(dailyCalls: DailyCalls) {
+        object : GeneralBottomSheetDialog<CallUserBinding>(mainActivity) {
+            override fun getViewBinding() = CallUserBinding.inflate(layoutInflater)
+
+            override fun onLayoutCreated(view: GeneralBottomSheetDialog<CallUserBinding>) {
+                binding?.callUser?.text = "Call  ${dailyCalls.userPhoneNumber}"
+
+                binding?.callUser?.setOnClickListener {
+
+                val callIntent = Intent(Intent.ACTION_DIAL)
+                callIntent.data = Uri.parse("tel:${dailyCalls?.userPhoneNumber}")
+                // Start the phone call intent
+                startActivity(callIntent)
+
+
+                }
+
+                binding.tvCancelCall.setOnClickListener {
+                    dismiss()
+                }
+                binding?.imgClose?.setOnClickListener {
+                    dismiss()
+                }
+            }
+        }
+            .dismissible(true).show()
+
+
+    }
+
 }
-
-
-
-//    inner class OptionsPopup(context: Context, DailyCalls: DailyCalls) : Dialog(context) {
-//
-//        private val popupView: View =
-//            LayoutInflater.from(context).inflate(R.layout.daily_calls_popup, null)
-//        private val reschedule: TextView = popupView.findViewById(R.id.tv_reschedule_d)
-//        private val cancel: TextView = popupView.findViewById(R.id.tv_cancel_d)
-//
-//        init {
-//            setContentView(popupView)
-//            reschedule.setOnClickListener {
-//
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    reScheduleViewModel.reSchedule(
-//                        sharedPreferences?.getString(KEY_NAME, "") ?: "", ReScheduleRequestModel(
-//                            callId = DailyCalls.callID,
-//                            newCallTime = ""
-//                        )
-//                    )
-//                }
-//
-//                reScheduleViewModel.reScheduleResponse.observe(viewLifecycleOwner) {
-//                    dismiss()
-//                }
-//
-//                reScheduleViewModel.reScheduleResponseError.observe(viewLifecycleOwner) {
-//                    Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
-//
-//                }
-//            }
-//            cancel.setOnClickListener {
-//                dismiss()
-//            }
-//        }
-//    }
-
-

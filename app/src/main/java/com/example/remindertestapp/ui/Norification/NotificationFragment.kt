@@ -72,7 +72,10 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 
 
 
-        notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) { response ->
+        notificationViewModel.clearAllNotificationResponse.observe(viewLifecycleOwner) {
+
+ //           adapter?.notifyDataSetChanged()
+            adapter?.clearAllNotifications()
 
 //                if (response == null) {
 //                    Toast.makeText(requireContext(), "No Notifications found", Toast.LENGTH_SHORT)
@@ -82,32 +85,23 @@ class NotificationFragment : BaseFragment(), OnClickListener {
 //                        requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 //                    notificationManager.cancelAll()
 //                }
-            callGetNotificationApi()
-            adapter?.notifyDataSetChanged()
+        //    callGetNotificationApi()
+
+
         }
-
-
         notificationViewModel.clearAllNotificationResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
-
-
-
-
-        notificationViewModel.removeSingleNotificationResponse.observe(viewLifecycleOwner) {
+       notificationViewModel.removeSingleNotificationResponse.observe(viewLifecycleOwner) {
             callGetNotificationApi()
             adapter?.notifyDataSetChanged()
-
         }
-
         notificationViewModel.clearSingleNotificationResponseError.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
-
     }
 
-
-    private fun notificationAdapter(notifications: List<NotificationModel>?) {
+    private fun notificationAdapter(notifications: MutableList<NotificationModel>?) {
         val adapter = NotificationAdapter(
             notifications,
             deleteNotificationRow = { notificationModelResponse ->
@@ -117,11 +111,8 @@ class NotificationFragment : BaseFragment(), OnClickListener {
                         notificationModelResponse.notificationId,
                         sharedPreferences?.getString(KEY_NAME, "") ?: ""
                     )
-
                 }
             })
-
-
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.recyclerView?.adapter = adapter
 

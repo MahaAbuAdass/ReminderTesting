@@ -209,6 +209,10 @@ class ContactFragment : BaseFragment() {
             Log.d("ContactUploader", "Uploading contact: Name=$name, Phone=$phoneNumber")
         }
     }
+
+
+
+
 }
 
 

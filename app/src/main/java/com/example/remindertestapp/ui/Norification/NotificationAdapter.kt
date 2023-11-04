@@ -12,7 +12,7 @@ import com.example.remindertestapp.ui.homeContact.contacts.PhoneNumbersResponse
 
 
 class NotificationAdapter (
-    val notifications: List<NotificationModel>?,
+    var notifications: MutableList<NotificationModel>?,
     val deleteNotificationRow: (notificationModel: NotificationModel) -> Unit,
 
     ) : RecyclerView.Adapter<NotificationAdapter.ItemViewHolder>() {
@@ -37,6 +37,7 @@ class NotificationAdapter (
             }
 
 
+
         }
     }
 
@@ -56,4 +57,9 @@ class NotificationAdapter (
     }
 
     override fun getItemCount()= notifications?.size ?:0
+
+    fun clearAllNotifications() {
+        notifications?.clear()
+        notifyDataSetChanged()
+    }
 }

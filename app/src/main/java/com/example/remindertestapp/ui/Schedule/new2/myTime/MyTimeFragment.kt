@@ -160,9 +160,12 @@ class MyTimeFragment : BaseFragment() {
                     callRescheduleAPI(meMyScheduleData)
                     dismiss()
                 }
+                binding?.imgClose?.setOnClickListener {
+                    dismiss()
+                }
             }
         }
-            .dismissible().show()
+            .dismissible(true).show()
 
 
 

@@ -61,18 +61,17 @@ android:id="@+id/tv_general"
        app:layout_constraintTop_toBottomOf="@id/tv_name_d"
        app:layout_constraintStart_toStartOf="@id/tv_name_d"/>
 
-       <TextView
-           android:id="@+id/tv_today"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Today"
-           android:textColor="@color/black"
-           android:textSize="15dp"
-           app:layout_constraintTop_toTopOf="@id/tv_name_d"
-           app:layout_constraintBottom_toBottomOf="@id/tv_name_d"
-           app:layout_constraintStart_toEndOf="@id/tv_name_d"
-           android:layout_marginStart="170dp"
-           />
+            <TextView
+                android:id="@+id/tv_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:text="Today"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name_d"
+                app:layout_constraintStart_toEndOf="@id/tv_name_d"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_time_d"
@@ -88,45 +87,38 @@ android:id="@+id/tv_general"
             <!-- Add more views as needed -->
 
 
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:text="Re-Schedule"
+                android:textSize="7sp"
+                android:layout_marginStart="5dp"
+                android:padding="0dp"
+                android:id="@+id/btn_reSchedule_dc"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
-
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Re-Schedule"
-        android:id="@+id/btn_reSchedule_dc"
-        android:backgroundTint="@color/blue"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/btn_reject_dc"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/red"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginRight="100dp"
-        />
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="40dp"
+                android:padding="0dp"
+                android:layout_height="30dp"
+                android:text="Cancel"
+                android:textSize="7sp"
+                android:id="@+id/btn_reject_dc"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/red"
+                app:layout_constraintEnd_toStartOf="@id/btn_reSchedule_dc"
+                app:layout_constraintTop_toTopOf="@id/btn_reSchedule_dc"
+                app:layout_constraintBottom_toBottomOf="@id/btn_reSchedule_dc"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!-- Card Content -->
 
 
 

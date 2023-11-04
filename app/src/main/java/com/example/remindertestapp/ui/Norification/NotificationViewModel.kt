@@ -15,17 +15,15 @@ class NotificationViewModel : ViewModel() {
     private val retrofitBuilder = RetrofitBuilder()
 
 
-    private val _notificationResponse = MutableLiveData<List<NotificationModel>?>()
-    val notificationResponse: LiveData<List<NotificationModel>?> = _notificationResponse
+    private val _notificationResponse = MutableLiveData<MutableList<NotificationModel>?>()
+    val notificationResponse: LiveData<MutableList<NotificationModel>?> = _notificationResponse
 
     private val _notificationResponseError = MutableLiveData<BaseError?>()
     val notificationResponseError: LiveData<BaseError?> = _notificationResponseError
 
 
-    private val _clearAllNotificationResponse =
-        MutableLiveData<RemoveAllNotificationResponseModel?>()
-    val clearAllNotificationResponse: LiveData<RemoveAllNotificationResponseModel?> =
-        _clearAllNotificationResponse
+    private val _clearAllNotificationResponse =MutableLiveData<RemoveAllNotificationResponseModel?>()
+    val clearAllNotificationResponse: LiveData<RemoveAllNotificationResponseModel?> = _clearAllNotificationResponse
 
     private val _clearAllNotificationResponseError = MutableLiveData<BaseError2?>()
     val clearAllNotificationResponseError: LiveData<BaseError2?> = _clearAllNotificationResponseError

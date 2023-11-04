@@ -146,12 +146,18 @@ class ScheduleFragment : BaseFragment(), OnClickListener {
     }
 
     private fun observeViewModel() {
-        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner) {
-            mainActivity.onBackPressed()
-
+        scheduleViewModel.scheduleResponse.observe(viewLifecycleOwner){
+            if (it?.code.toString() != "200"  ){
+                Toast.makeText(activity, it?.error?.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(requireContext(), "Scheduled successfully", Toast.LENGTH_SHORT).show()
+                mainActivity.onBackPressed() }
         }
+
+
         scheduleViewModel.scheduleResponseError.observe(viewLifecycleOwner) {
-            Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, it?.message, Toast.LENGTH_SHORT).show()
 
         }
     }

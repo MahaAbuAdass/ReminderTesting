@@ -19,7 +19,6 @@ import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.second.generic.GeneralBottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MeTimeFragment : BaseFragment() {
@@ -27,7 +26,7 @@ class MeTimeFragment : BaseFragment() {
     private var binding: MeTimeFragmentBinding? = null
 
     private var adapter: MeTimeAdapter? = null
-lateinit var  meMyScheduleData : MeMyScheduleData
+    lateinit var  meMyScheduleData : MeMyScheduleData
 
     private val meTimeViewModel by viewModels<MeTimeViewModel>()
     private val statusViewModel by viewModels<StatusViewModel>()
@@ -99,7 +98,7 @@ lateinit var  meMyScheduleData : MeMyScheduleData
 
 
     fun bottomSheet(informationReceiverResponseModel: InformationReceiverResponseModel) {
-        object : GeneralBottomSheetDialog<BottomSheetMeBinding>(mainActivity) {
+        val bottomSheetDialog= object : GeneralBottomSheetDialog<BottomSheetMeBinding>(mainActivity) {
             override fun getViewBinding() = BottomSheetMeBinding.inflate(layoutInflater)
 
             override fun onLayoutCreated(view: GeneralBottomSheetDialog<BottomSheetMeBinding>) {
@@ -116,14 +115,21 @@ lateinit var  meMyScheduleData : MeMyScheduleData
                 }
 
                 binding?.btnReSchedule?.setOnClickListener {
-                     callRescheduleAPI(informationReceiverResponseModel)
-                 //   Toast.makeText(requireContext(), "2333333333333", Toast.LENGTH_SHORT).show()
+                    callRescheduleAPI(informationReceiverResponseModel)
+                    //   Toast.makeText(requireContext(), "2333333333333", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }
+                binding?.imgClose?.setOnClickListener {
                     dismiss()
                 }
             }
         }
-            .dismissible().show()
+
+            .dismissible(true) // Enable dismissal by clicking outside of the bottom sheet
+
+        bottomSheetDialog.show()
     }
+
 
 
     fun callCancelAPI(informationReceiverResponseModel: InformationReceiverResponseModel) {
@@ -136,18 +142,18 @@ lateinit var  meMyScheduleData : MeMyScheduleData
     }
 
     fun callRescheduleAPI(informationReceiverResponseModel: InformationReceiverResponseModel) {
-findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(getMeMyScheduleDataModel(informationReceiverResponseModel)))
+        findNavController().navigate(ScheduleViewPagerDirections.actionNavigationNotificationsToReScheduleFragment(getMeMyScheduleDataModel(informationReceiverResponseModel)))
 
     }
 
     private fun getMeMyScheduleDataModel(informationReceiverResponseModel: InformationReceiverResponseModel?) =
-            MeMyScheduleData(
-                callTopic = informationReceiverResponseModel?.callTopic ,
-                phoneNumber = informationReceiverResponseModel?.phoneNumber,
-                callTime = informationReceiverResponseModel?.callTime,
-                expectedCallTime = informationReceiverResponseModel?.callTime ,
-                reminderID = informationReceiverResponseModel?.reminderID
-            )
+        MeMyScheduleData(
+            callTopic = informationReceiverResponseModel?.callTopic ,
+            phoneNumber = informationReceiverResponseModel?.phoneNumber,
+            callTime = informationReceiverResponseModel?.callTime,
+            expectedCallTime = informationReceiverResponseModel?.callTime ,
+            reminderID = informationReceiverResponseModel?.reminderID
+        )
 
 
     override fun onResume() { // used to prevent hit api every open the screen; only first time access it "if delete or edit

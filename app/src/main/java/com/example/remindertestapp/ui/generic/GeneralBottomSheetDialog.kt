@@ -35,13 +35,13 @@ abstract class GeneralBottomSheetDialog<VBinding : ViewBinding>(activity: Fragme
         return this
     }
 
-    fun dismissible(): GeneralBottomSheetDialog<VBinding> {
-        isDismissible = true
+    fun dismissible(b: Boolean): GeneralBottomSheetDialog<VBinding> {
+        isDismissible = b
         return this
     }
 
-    fun cancellable(): GeneralBottomSheetDialog<VBinding> {
-        isCancellable = true
+    fun cancellable(b: Boolean): GeneralBottomSheetDialog<VBinding> {
+        isCancellable = b
         return this
     }
 

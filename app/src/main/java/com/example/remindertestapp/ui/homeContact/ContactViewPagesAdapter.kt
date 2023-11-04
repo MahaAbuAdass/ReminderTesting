@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ContactViewPagesAdapter (fragmentActivity: FragmentActivity, private vararg val fragments: Fragment) :
+class ContactViewPagesAdapter (fragmentActivity: FragmentActivity, vararg val fragments: Fragment) :
     FragmentStateAdapter(fragmentActivity) {
 
 
@@ -18,4 +18,5 @@ class ContactViewPagesAdapter (fragmentActivity: FragmentActivity, private varar
         return fragments[position]
 
     }
+
 }
