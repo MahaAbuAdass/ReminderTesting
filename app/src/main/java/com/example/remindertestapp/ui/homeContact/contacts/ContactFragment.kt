@@ -2,7 +2,6 @@ package com.example.remindertestapp.ui.homeContact.contacts
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.SharedPreferences
@@ -14,9 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +21,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.remindertestapp.R
 import com.example.remindertestapp.databinding.ContactsBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
 import com.example.remindertestapp.ui.homeContact.ContactViewPagerDirections
@@ -187,7 +182,8 @@ class ContactFragment : BaseFragment() {
                     phoneNumbersList.add(
                         GetExistUsersRequestModel(
                             firstName = name,
-                            telephone = phoneNumber
+                            telephone =
+                            phoneNumber.replace("\\s+".toRegex(), "\t")
                         )
                     )
 
