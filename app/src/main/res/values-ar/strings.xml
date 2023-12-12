@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">تطبيق التذكيرات</string>
+    <string name="title_home">السجلات</string>
+    <string name="title_dashboard">المكالمات اليومية</string>
+    <string name="title_notifications">جدولة</string>
+
+    <string name="contact">السجلات</string>
+    <string name="invite">دعوة</string>
+    <string name="more">المزيد</string>
+    <string name="Share_the_app">مشاركة البرنامج</string>
+    <string name="support">المساعدة</string>
+    <string name="about">حول البرنامج</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="account">الحساب</string>
+    <string name="setting">الضبط</string>
+    <string name="save">حفظ</string>
+    <string name="change_language">تغير اللغة</string>
+
+</resources>

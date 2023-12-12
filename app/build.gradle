@@ -65,6 +65,9 @@ dependencies {
     'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.firebase:firebase-core:21.1.1'
+
+
+    implementation 'com.akexorcist:localization:1.2.11'
 }
 // Apply the Google Services plugin outside the plugins block
 apply plugin: 'com.google.gms.google-services'

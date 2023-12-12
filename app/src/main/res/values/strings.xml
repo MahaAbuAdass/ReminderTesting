@@ -3,4 +3,23 @@
     <string name="title_home">Contacts</string>
     <string name="title_dashboard">Daily Calls</string>
     <string name="title_notifications">Schedule</string>
+
+    <string name="contact">Contacts</string>
+    <string name="invite">Invite</string>
+
+    <string name="more">More</string>
+    <string name="Share_the_app">Share the app</string>
+
+    <string name="support">Support</string>
+    <string name="about">About</string>
+
+    <string name="logout">Logout</string>
+
+    <string name="account">Account</string>
+    <string name="setting">Setting</string>
+    <string name="save">Save</string>
+    <string name="change_language">Change Language</string>
+
+
+
 </resources>

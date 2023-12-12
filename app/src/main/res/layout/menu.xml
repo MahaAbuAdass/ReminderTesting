@@ -25,10 +25,10 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Setting"
-            android:textStyle="bold"
             android:layout_centerInParent="true"
-            android:textSize="20sp" />
+            android:text="@string/setting"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_save"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/yellow"
             android:layout_alignParentRight="true"
-            android:text="Save"
+            android:text="@string/save"
             android:textSize="20sp"
             />
     </RelativeLayout>
@@ -45,7 +45,7 @@
         android:id="@+id/tv_acc"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="Account"
+        android:text="@string/account"
         android:textStyle="bold"
         android:background="@drawable/round_yellow"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -115,7 +115,7 @@
         android:id="@+id/tv_more"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="More"
+        android:text="@string/more"
         android:textStyle="bold"
         android:background="@drawable/round_yellow"
         app:layout_constraintTop_toBottomOf="@id/et_gender"
@@ -125,7 +125,7 @@
 
     <TextView
         android:id="@+id/tv_share"
-        android:text="Share the app"
+        android:text="@string/Share_the_app"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -140,7 +140,7 @@
         />
     <TextView
         android:id="@+id/tv_support"
-        android:text="Support"
+        android:text="@string/support"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -156,7 +156,7 @@
 
     <TextView
         android:id="@+id/tv_about"
-        android:text="About"
+        android:text="@string/about"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -171,14 +171,29 @@
 
 
     <TextView
-        android:id="@+id/tv_logout"
-        android:text="Logout"
+        android:id="@+id/tv_change_language"
+        android:text="@string/change_language"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:background="@drawable/round_silver"
         app:layout_constraintTop_toBottomOf="@id/tv_about"
+        app:layout_constraintStart_toStartOf="@id/tv_about"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/baseline_logout_24"
+        />
+
+    <TextView
+        android:id="@+id/tv_logout"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/round_silver"
+        app:layout_constraintTop_toBottomOf="@id/tv_change_language"
         app:layout_constraintStart_toStartOf="@id/tv_about"
         android:layout_marginTop="5dp"
         android:paddingLeft="10dp"

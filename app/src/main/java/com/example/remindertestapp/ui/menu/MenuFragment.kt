@@ -1,5 +1,6 @@
 package com.example.remindertestapp.ui.menu
 
+import LanguageUtils.setLocale
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.remindertestapp.databinding.MenuBinding
@@ -98,6 +100,7 @@ class MenuFragment : BaseFragment(), OnClickListener {
     private fun initiate() {
         binding?.tvLogout?.setOnClickListener(this)
         binding?.back?.setOnClickListener(this)
+        binding?.tvChangeLanguage?.setOnClickListener(this)
 
     }
 
@@ -106,6 +109,10 @@ class MenuFragment : BaseFragment(), OnClickListener {
             binding?.tvLogout?.id -> callLogout()
             binding?.back?.id -> mainActivity.onBackPressed()
             binding?.tvSave?.id -> saveUserInfo()
+            binding?.tvChangeLanguage?.id -> {
+                setLocale("ar", requireContext())
+                recreate(mainActivity)
+            }
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 
 import androidx.navigation.fragment.findNavController
+import com.example.remindertestapp.R
 //import com.example.remindertestapp.Manifest
 import com.example.remindertestapp.databinding.ContactViewPagerBinding
 import com.example.remindertestapp.ui.base_ui.BaseFragment
@@ -24,7 +25,10 @@ class ContactViewPager : BaseFragment(), View.OnClickListener {
     private lateinit var binding: ContactViewPagerBinding
 
     private val tabTitles by lazy {
-        arrayOf("Contacts", "Invite")
+        val contact = resources.getString(R.string.contact)
+        val invite = resources.getString(R.string.invite)
+
+        arrayOf(contact, invite)
     }
 
     override fun onCreateView(
