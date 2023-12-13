@@ -1,8 +1,10 @@
 package com.example.remindertestapp.ui.menu
 
-import LanguageUtils.setLocale
+
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import com.example.remindertestapp.ui.base_ui.BaseFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class MenuFragment : BaseFragment(), OnClickListener {
 
@@ -94,7 +97,7 @@ class MenuFragment : BaseFragment(), OnClickListener {
     }
 
     private fun initiatSharedPreference() {
-        sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        sharedPreferences = activity?.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
     }
 
     private fun initiate() {
@@ -110,8 +113,9 @@ class MenuFragment : BaseFragment(), OnClickListener {
             binding?.back?.id -> mainActivity.onBackPressed()
             binding?.tvSave?.id -> saveUserInfo()
             binding?.tvChangeLanguage?.id -> {
-                setLocale("ar", requireContext())
-                recreate(mainActivity)
+                changeLanguage()
+//                setLocale("ar", requireContext())
+//                recreate(mainActivity)
             }
         }
     }
@@ -120,5 +124,42 @@ class MenuFragment : BaseFragment(), OnClickListener {
 
     }
 
+    private fun changeLanguage(){
+        val currentLanguage = getCurrentLanguage()
 
+        if (currentLanguage == "en") {
+            setLocale("ar") //
+        } else {
+            setLocale("en") // Switch to English
+        }
+
+        recreate(mainActivity) // Recreate the activity to apply changes
+
+    }
+
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val configuration = Configuration()
+        configuration.setLocale(locale)
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+
+        // Save selected language to preferences if needed
+
+        val sharedPrefs = activity?.getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
+        val editor = sharedPrefs?.edit()
+        editor?.putString("Language", languageCode)
+        editor?.apply()
+    }
+
+    private fun getCurrentLanguage(): String {
+        val sharedPrefs = activity?.getSharedPreferences(
+            PREFS_NAME,
+            Context.MODE_PRIVATE
+        );
+        return sharedPrefs?.getString("Language", "en") ?: "en"
+    }
 }
+
+
+
